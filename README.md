@@ -11,7 +11,7 @@ For detailed information please visit [Wiki](https://github.com/swe-ms-boun/2018
 ## Change Log
 **06.10.18**
 > **Requirements Page created under Wiki:**\
-https://github.com/swe-ms-boun/2018fall-swe574-g1/wiki/5.-Requirements \
+https://github.com/swe-ms-boun/2018fall-swe574-g1/wiki/5.-Requirements
 
 **07.10.18**
 > **Mock-up's Page created under Wiki:**\
