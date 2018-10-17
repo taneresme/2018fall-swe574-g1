@@ -1,19 +1,18 @@
 package com.boun.swe.mnemosyne.model;
 
+import com.boun.swe.mnemosyne.enums.Role;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Email;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -35,9 +34,9 @@ public class User {
     @Column(name = "email", nullable = false, unique = true)
     private String email;
 
-    @ManyToMany
-    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role")
+    private Role role;
 
     @Override
     public String toString() {
