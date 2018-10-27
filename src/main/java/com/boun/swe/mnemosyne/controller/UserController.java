@@ -36,11 +36,6 @@ public class UserController {
         return "register";
     }
 
-    @GetMapping(value = "/logout")
-    public String logout(final Model model) {
-        return "register";
-    }
-
     @PostMapping(value = "/register")
     public String postRegister(@ModelAttribute("userForm") final User userForm,
                                final BindingResult bindingResult, final Model model) {
