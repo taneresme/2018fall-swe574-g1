@@ -8,7 +8,7 @@ Brief project description
 
 For detailed information please visit [Wiki](https://github.com/swe-ms-boun/2018fall-swe574-g1/wiki)
 
-## Running Postgre as Docker
+## Running Postgre as a Docker container
 List of terminal commands to running docker postgre container and creating project database
 
 > $docker run --name postgres -p 5432:5432 -e POSTGRES_PASSWORD=admin -d postgres \
