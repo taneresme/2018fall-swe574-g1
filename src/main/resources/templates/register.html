@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Registration</title>
-</head>
+<head th:replace="fragments/commons :: head" />
 <body>
 <h1>Registration page</h1>
 <form th:action="@{/register}" th:object="${userForm}" method="post">
