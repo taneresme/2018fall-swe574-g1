@@ -3,6 +3,9 @@
 <head th:replace="fragments/commons :: head" />
 <body>
 <p>Welcome <td th:text="${username}"></td></p>
+<form th:action="@{/logout}" method="post">
+    <input type="submit" value="Sign Out"/>
+</form>
 </body>
 
 <th:block th:include="fragments/footer :: footer" />
