@@ -38,4 +38,18 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), grantedAuthorities);
     }
+
+    @Transactional(readOnly = true)
+    public UserDetails loadUserByEmail(String email) throws UsernameNotFoundException {
+        User user = userRepository.findByEmail(email);
+
+        if (user == null) {
+            return null;
+        }
+
+        Set<GrantedAuthority> grantedAuthorities =
+                Collections.singleton(new SimpleGrantedAuthority(user.getRole().name()));
+
+        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), grantedAuthorities);
+    }
 }
