@@ -62,7 +62,7 @@ public class UserController {
     public String postLogin(@ModelAttribute("form") final User userForm, final Model model) {
         LOGGER.info("Login request received for user: {}", userForm.toString());
         boolean isAuthenticated = securityService
-                .authenticate(userForm.getEmail(), userForm.getPassword());
+                .authenticate(userForm.getUsername(), userForm.getPassword());
 
         if (!isAuthenticated) {
             model.addAttribute("loginError", "Username or password incorrect!");
