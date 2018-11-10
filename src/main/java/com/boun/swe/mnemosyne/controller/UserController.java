@@ -59,13 +59,14 @@ public class UserController {
     }
 
     @PostMapping(value = "/login")
-    public String postLogin(@ModelAttribute("userForm") final User userForm, final Model model) {
-        LOGGER.info("Login request received for user: {}", userForm.getUsername());
+    public String postLogin(@ModelAttribute("form") final User userForm, final Model model) {
+        LOGGER.info("Login request received for user: {}", userForm.toString());
         boolean isAuthenticated = securityService
-                .authenticate(userForm.getUsername(), userForm.getPassword());
+                .authenticate(userForm.getEmail(), userForm.getPassword());
 
         if (!isAuthenticated) {
-            return "register";
+            model.addAttribute("loginError", "Username or password incorrect!");
+            return "login";
         }
 
         model.addAttribute("username", userForm.getUsername());

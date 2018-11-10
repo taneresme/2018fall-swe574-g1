@@ -23,8 +23,8 @@ public class SecurityService {
         this.userDetailsServiceImpl = userDetailsServiceImpl;
     }
 
-    public boolean authenticate(String username, String password) {
-        final UserDetails userDetails = userDetailsServiceImpl.loadUserByUsername(username);
+    public boolean authenticate(String email, String password) {
+        final UserDetails userDetails = userDetailsServiceImpl.loadUserByEmail(email);
 
         if (userDetails == null) {
             return false;
@@ -37,7 +37,7 @@ public class SecurityService {
 
         if (authenticationToken.isAuthenticated()) {
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-            log.info("User: {} successfully authenticated!", username);
+            log.info("User: {} successfully authenticated!", email);
         }
         return true;
     }
