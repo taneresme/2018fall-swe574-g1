@@ -1,126 +1,59 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/commons :: head"/>
+<link rel="stylesheet" type="text/css" th:href="@{/css/memory.css}"/>
 <body>
-<div class="container" style="margin-bottom: 150px; margin-top: 100px;">
-
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card">
-                <header class="card-header">
-                    <div class="row">
-                        <div class="col-md-3"></div>
-                        <div class="col-md-6">
-                            <h2>Sign up</h2>
-                        </div>
-                    </div>
-                </header>
-                <article class="card-body">
-                    <form class="form-horizontal" role="form" method="POST" action="/register">
-                        <div class="form-row">
-                            <div class="col form-group">
-                                <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="fa fa-user"></i></span>
-                                    </div>
-                                    <input type="text" name="firstName" class="form-control" id="firstName"
-                                           placeholder="First name" required="" autofocus="autofocus"/>
-                                </div>
-                            </div>
-                            <div class="col form-group">
-                                <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="fa fa-user"></i></span>
-                                    </div>
-                                    <input type="text" name="lastName" class="form-control" id="lastName"
-                                           placeholder="Last name" required=""/>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text"><i class="fa fa-user"></i></span>
-                                </div>
-                                <input type="text" name="username" class="form-control" id="username"
-                                       placeholder="Username" required=""/>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text"><i class="fa fa-at"></i></span>
-                                </div>
-                                <input type="email" name="email" class="form-control" id="email"
-                                       placeholder="Email address" required=""/>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text"><i class="fa fa-birthday-cake"></i></span>
-                                </div>
-                                <input type="date" name="birthDate" class="form-control" id="birthDate"
-                                       placeholder="Birth Date" required=""/>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="fa fa-building"></i></span>
-                                    </div>
-                                    <input type="text" name="city" class="form-control" id="city"
-                                           placeholder="City" required=""/>
-                                </div>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="fa fa-flag"></i></span>
-                                    </div>
-                                    <select id="countries" class="form-control">
-                                        <option> Choose...</option>
-                                        <option selected="">Turkey</option>
-                                        <option>Uzbekistan</option>
-                                        <option>Russia</option>
-                                        <option>United States</option>
-                                        <option>India</option>
-                                        <option>Afganistan</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text"><i class="fa fa-key"></i></span>
-                                </div>
-                                <input type="password" name="password" class="form-control" id="password"
-                                       placeholder="Password" required=""/>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group  col-md-12">
-                                <div th:if="${errors}" class="alert alert-danger mb-2" role="alert">
-                                    <i class="fa fa-close"> </i> <span th:text="${errors}"></span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-success btn-block"><i class="fa fa-user-plus"></i> Sign up
-                            </button>
-                        </div>
-                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                    </form>
-                </article>
-                <div class="border-top card-body text-center">Have an account? <a href="/login">Log In</a></div>
-            </div>
+<form id="regForm" class="form-horizontal" role="form" method="POST" action="/register">
+    <div class="tab">
+        <input type="text" name="firstName" class="form-control" id="firstName"
+               placeholder="First name" required="" autofocus="autofocus"/>
+        <input type="text" name="lastName" class="form-control" id="lastName"
+               placeholder="Last name" required=""/>
+    </div>
+    <div class="tab">
+        <input type="text" name="username" class="form-control" id="username"
+               placeholder="Username" required=""/>
+        <input type="email" name="email" class="form-control" id="email"
+               placeholder="Email address" required=""/>
+        <input type="password" name="password" class="form-control" id="password"
+               placeholder="Password" required=""/>
+    </div>
+    <div class="tab">
+        <input type="date" name="birthDate" class="form-control" id="birthDate"
+               placeholder="Birth Date" required=""/>
+        <input type="text" name="city" class="form-control" id="city"
+               placeholder="City" required=""/>
+        <select id="countries" class="form-control">
+            <option> Choose...</option>
+            <option selected="">Turkey</option>
+            <option>Uzbekistan</option>
+            <option>Russia</option>
+            <option>United States</option>
+            <option>India</option>
+            <option>Afganistan</option>
+        </select>
+    </div>
+    <div style="overflow:auto;">
+        <br />
+    </div>
+    <div style="overflow:auto;">
+        <div style="float:left;">
+            <button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
+        </div>
+        <div style="float:right;">
+            <button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
         </div>
     </div>
-</div>
 
-<th:block th:include="fragments/footer :: footer"/>
+    <!-- Circles which indicates the steps of the form: -->
+    <div style="text-align:center;margin-top:40px;">
+        <span class="step"></span>
+        <span class="step"></span>
+        <span class="step"></span>
+        <span class="step"></span>
+    </div>
+    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+</form>
 
 </body>
+<script th:src="@{/js/iterative.js}"></script>
 </html>
