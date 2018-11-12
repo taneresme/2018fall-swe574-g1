@@ -74,4 +74,10 @@ public class UserController {
         return "welcome";
     }
 
+    @GetMapping(value = "/addmemory")
+    public String addmemory(final Model model) {
+        return "addmemory";
+    }
+
+
 }
