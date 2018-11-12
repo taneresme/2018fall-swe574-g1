@@ -32,7 +32,6 @@ public class UserController {
 
     @GetMapping(value = "/register")
     public String registration(final Model model) {
-        model.addAttribute("userForm", new User());
         return "register";
     }
 
@@ -50,7 +49,7 @@ public class UserController {
         userService.save(userForm);
 
         model.addAttribute("username", userForm.getUsername());
-        return "welcome";
+        return "home";
     }
 
     @GetMapping(value = {"/", "/login"})
