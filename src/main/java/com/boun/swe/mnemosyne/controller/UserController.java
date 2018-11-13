@@ -73,11 +73,4 @@ public class UserController {
         LOGGER.info("User: {} successfully logged in", userForm.getUsername());
         return "welcome";
     }
-
-    @GetMapping(value = "/addmemory")
-    public String addmemory(final Model model) {
-        return "addmemory";
-    }
-
-
 }
