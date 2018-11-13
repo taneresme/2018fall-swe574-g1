@@ -5,6 +5,7 @@ import com.boun.swe.mnemosyne.service.MemoryService;
 import com.boun.swe.mnemosyne.validator.MemoryValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,6 +25,7 @@ public class MemoryController {
 
     private MemoryService memoryService;
 
+    @Autowired
     public MemoryController(MemoryService memoryService) {
         this.memoryService = memoryService;
     }
