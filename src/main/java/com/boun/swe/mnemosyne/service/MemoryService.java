@@ -1,5 +1,6 @@
 package com.boun.swe.mnemosyne.service;
 
+import com.boun.swe.mnemosyne.exception.MemoryNotFoundException;
 import com.boun.swe.mnemosyne.model.Memory;
 import com.boun.swe.mnemosyne.repository.MemoryRepository;
 import org.slf4j.Logger;
@@ -24,7 +25,7 @@ public class MemoryService {
     }
 
     public Memory createMemory(Memory memory) {
-        Memory storedMemory = memoryRepository.save(memory);
+        final Memory storedMemory = memoryRepository.save(memory);
         LOGGER.info("Memory with title: {} created successfully", title);
         return storedMemory;
     }
@@ -35,7 +36,12 @@ public class MemoryService {
     }
 
     public Memory updateMemory(Memory memory) {
-        Memory storedMemory = memoryRepository.save(memory);
+        if (!memoryRepository.exists(memory.getId())) {
+            LOGGER.warn("Unable to update memory with id: {} and title: {}",
+                    memory.getId(), memory.getTitle());
+            throw new MemoryNotFoundException("Unable to find memory with id: " + memory.getId());
+        }
+        final Memory storedMemory = memoryRepository.save(memory);
         LOGGER.info("Memory with title: {} updated successfully", title);
         return storedMemory;
     }
