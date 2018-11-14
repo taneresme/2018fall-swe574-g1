@@ -21,7 +21,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.Set;
 
@@ -41,11 +40,9 @@ public class Memory {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @Size(max = 300)
     @NotNull
     private String title;
 
-    @Size(max = 12000)
     private String text;
 
     @Temporal(TemporalType.DATE)
