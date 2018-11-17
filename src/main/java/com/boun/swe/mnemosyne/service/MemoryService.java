@@ -1,5 +1,6 @@
 package com.boun.swe.mnemosyne.service;
 
+import com.boun.swe.mnemosyne.enums.MemoryType;
 import com.boun.swe.mnemosyne.exception.MemoryNotFoundException;
 import com.boun.swe.mnemosyne.model.Memory;
 import com.boun.swe.mnemosyne.repository.MemoryRepository;
@@ -32,7 +33,7 @@ public class MemoryService {
 
     public List<Memory> getAllPublicMemories() {
         LOGGER.info("Retrieving all published public memories");
-        return memoryRepository.findByIsPublishedTrueAndIsPublicTrue();
+        return memoryRepository.findByTypeAndIsPublishedTrue(MemoryType.PUBLIC);
     }
 
     public Memory updateMemory(Memory memory) {

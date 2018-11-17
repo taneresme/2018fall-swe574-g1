@@ -1,6 +1,7 @@
 package com.boun.swe.mnemosyne.model;
 
 
+import com.boun.swe.mnemosyne.enums.MemoryType;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -9,6 +10,8 @@ import lombok.Setter;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -56,8 +59,9 @@ public class Memory {
     @Column(name = "is_published")
     private boolean isPublished;
 
-    @Column(name = "is_public")
-    private boolean isPublic;
+    @Column(name = "type")
+    @Enumerated(value = EnumType.STRING)
+    private MemoryType type;
 
     @ManyToMany(cascade = {
             CascadeType.PERSIST,
@@ -78,7 +82,7 @@ public class Memory {
         sb.append(", dateFrom=").append(dateFrom);
         sb.append(", dateTo=").append(dateTo);
         sb.append(", isPublished=").append(isPublished);
-        sb.append(", isPublic=").append(isPublic);
+        sb.append(", type=").append(type.name());
         sb.append('}');
         return sb.toString();
     }
