@@ -6,9 +6,9 @@
     <groupId>com.boun.swe.mnemosyne</groupId>
     <artifactId>mnemosyne</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>war</packaging>
+    <packaging>pom</packaging>
 
-    <name>2018fall-swe574-g1</name>
+    <name>mnemosyne</name>
     <description>Mnemosyne is the goddess of memory in Greek mythology</description>
 
     <parent>
@@ -17,6 +17,10 @@
         <version>1.5.16.RELEASE</version>
         <relativePath/>
     </parent>
+    <modules>
+	<module>mnemosyne</module>
+	<module>annotation-service</module>
+    </modules>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
