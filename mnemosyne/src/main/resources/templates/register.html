@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" type="text/css" th:href="@{/css/memory.css}"/>
+<body>
+<form id="regForm" class="form-horizontal" role="form" method="POST" action="/register">
+    <div class="tab">
+        <input type="text" name="firstName" class="form-control" id="firstName"
+               placeholder="First name" required="" autofocus="autofocus"/>
+        <input type="text" name="lastName" class="form-control" id="lastName"
+               placeholder="Last name" required=""/>
+    </div>
+    <div class="tab">
+        <input type="text" name="username" class="form-control" id="username"
+               placeholder="Username" required=""/>
+        <input type="email" name="email" class="form-control" id="email"
+               placeholder="Email address" required=""/>
+        <input type="password" name="password" class="form-control" id="password"
+               placeholder="Password" required=""/>
+    </div>
+    <div class="tab">
+        <input type="date" name="birthDate" class="form-control" id="birthDate"
+               placeholder="Birth Date" required=""/>
+        <input type="text" name="city" class="form-control" id="city"
+               placeholder="City" required=""/>
+        <select id="countries" class="form-control">
+            <option> Choose...</option>
+            <option selected="">Turkey</option>
+            <option>Uzbekistan</option>
+            <option>Russia</option>
+            <option>United States</option>
+            <option>India</option>
+            <option>Afganistan</option>
+        </select>
+    </div>
+    <div style="overflow:auto;">
+        <br />
+    </div>
+    <div style="overflow:auto;">
+        <div style="float:left;">
+            <button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
+        </div>
+        <div style="float:right;">
+            <button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
+        </div>
+    </div>
+
+    <!-- Circles which indicates the steps of the form: -->
+    <div style="text-align:center;margin-top:40px;">
+        <span class="step"></span>
+        <span class="step"></span>
+        <span class="step"></span>
+        <span class="step"></span>
+    </div>
+    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+</form>
+
+</body>
+<script th:src="@{/js/iterative.js}"></script>
+</html>

@@ -1,0 +1,65 @@
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<div th:fragment="header">
+
+	<div class="fixed-top mb-4">
+		<nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
+			<div class="container">
+				<a class="navbar-brand mb-0" href="/dashboard">wolower</a>
+				<button class="navbar-toggler" type="button" data-toggle="collapse"
+					data-target="#navbarNavAltMarkup"
+					aria-controls="navbarNavAltMarkup" aria-expanded="false"
+					aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+					<ul class="nav navbar-nav">
+						<li id="nav-dashboard" class="nav-item" onclick="activate()"><a
+							class="nav-item nav-link" href="/dashboard">dashboard</a></li>
+						<li id="nav-report" class="nav-item" onclick="activate()"><a
+							class="nav-item nav-link" href="/report">report</a></li>
+						<li id="nav-what-we-do" class="nav-item" onclick="activate()"><a
+							class="nav-item nav-link" href="what-we-do">what we do</a></li>
+					</ul>
+				</div>
+				<div class="nav navbar-right" th:if="${header != null}">
+					<span class="navbar-brand">(<span th:text="${header.balance}" />)
+					</span> <span class="navbar-brand">Hey, <span
+						th:text="${header.name}" />
+					</span>
+					<div class="dropdown show">
+						<img th:src="${header.profilePictureUrl}"
+							class="rounded float-left" /> <a class="btn dropdown-toggle"
+							id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+							aria-expanded="false"> </a>
+						<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+							<a class="dropdown-item" href="/profile"><i
+								class="fa fa-user" /> Profile</a> <a class="dropdown-item"
+								href="/logout"><i class="fa fa-sign-out"> </i> Logout</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</nav>
+	</div>
+
+	<script>
+		// 		$(document).ready(function() {
+		// 			var uri = new URI();
+		// 			activate(uri.pathname().replace('/'));
+		// 		});
+
+		// 		function activate(id) {
+		// 			$('#nav-dashboard').removeClass('active');
+		// 			$('#nav-report').removeClass('active');
+		// 			$('#nav-what-we-do').removeClass('active');
+		// 			$('#nav-' + id).addClass('active');
+		// 		}
+
+		function activate() {
+
+		}
+	</script>
+
+</div>
+</html>

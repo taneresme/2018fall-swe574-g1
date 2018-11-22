@@ -1,0 +1,17 @@
+/Users/geyik/Documents/SWE/2019.1/574 group project/proj_dev_effort/mnemosyne/src/main/java/com/boun/swe/mnemosyne/service/SecurityService.java
+/Users/geyik/Documents/SWE/2019.1/574 group project/proj_dev_effort/mnemosyne/src/main/java/com/boun/swe/mnemosyne/controller/UserController.java
+/Users/geyik/Documents/SWE/2019.1/574 group project/proj_dev_effort/mnemosyne/src/main/java/com/boun/swe/mnemosyne/service/UserDetailsServiceImpl.java
+/Users/geyik/Documents/SWE/2019.1/574 group project/proj_dev_effort/mnemosyne/src/main/java/com/boun/swe/mnemosyne/enums/Role.java
+/Users/geyik/Documents/SWE/2019.1/574 group project/proj_dev_effort/mnemosyne/src/main/java/com/boun/swe/mnemosyne/controller/MemoryController.java
+/Users/geyik/Documents/SWE/2019.1/574 group project/proj_dev_effort/mnemosyne/src/main/java/com/boun/swe/mnemosyne/model/Location.java
+/Users/geyik/Documents/SWE/2019.1/574 group project/proj_dev_effort/mnemosyne/src/main/java/com/boun/swe/mnemosyne/validator/MemoryValidator.java
+/Users/geyik/Documents/SWE/2019.1/574 group project/proj_dev_effort/mnemosyne/src/main/java/com/boun/swe/mnemosyne/service/MemoryService.java
+/Users/geyik/Documents/SWE/2019.1/574 group project/proj_dev_effort/mnemosyne/src/main/java/com/boun/swe/mnemosyne/repository/UserRepository.java
+/Users/geyik/Documents/SWE/2019.1/574 group project/proj_dev_effort/mnemosyne/src/main/java/com/boun/swe/mnemosyne/Application.java
+/Users/geyik/Documents/SWE/2019.1/574 group project/proj_dev_effort/mnemosyne/src/main/java/com/boun/swe/mnemosyne/model/User.java
+/Users/geyik/Documents/SWE/2019.1/574 group project/proj_dev_effort/mnemosyne/src/main/java/com/boun/swe/mnemosyne/model/Memory.java
+/Users/geyik/Documents/SWE/2019.1/574 group project/proj_dev_effort/mnemosyne/src/main/java/com/boun/swe/mnemosyne/exception/MemoryNotFoundException.java
+/Users/geyik/Documents/SWE/2019.1/574 group project/proj_dev_effort/mnemosyne/src/main/java/com/boun/swe/mnemosyne/repository/MemoryRepository.java
+/Users/geyik/Documents/SWE/2019.1/574 group project/proj_dev_effort/mnemosyne/src/main/java/com/boun/swe/mnemosyne/service/UserService.java
+/Users/geyik/Documents/SWE/2019.1/574 group project/proj_dev_effort/mnemosyne/src/main/java/com/boun/swe/mnemosyne/validator/UserValidator.java
+/Users/geyik/Documents/SWE/2019.1/574 group project/proj_dev_effort/mnemosyne/src/main/java/com/boun/swe/mnemosyne/config/WebSecurityConfig.java
