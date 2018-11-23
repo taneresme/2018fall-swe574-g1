@@ -1,5 +1,0 @@
-com/boun/swe/mnemosyne/annotation/annotationservice/model/Annotation.class
-com/boun/swe/mnemosyne/annotation/annotationservice/service/AnnotationService.class
-com/boun/swe/mnemosyne/annotation/annotationservice/repository/AnnotationRepository.class
-com/boun/swe/mnemosyne/annotation/annotationservice/controller/AnnotationController.class
-com/boun/swe/mnemosyne/annotation/annotationservice/AnnotationServiceApplication.class

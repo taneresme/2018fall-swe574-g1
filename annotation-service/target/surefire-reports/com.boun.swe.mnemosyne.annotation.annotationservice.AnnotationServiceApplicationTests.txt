@@ -1,4 +1,0 @@
--------------------------------------------------------------------------------
-Test set: com.boun.swe.mnemosyne.annotation.annotationservice.AnnotationServiceApplicationTests
--------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 9.539 sec - in com.boun.swe.mnemosyne.annotation.annotationservice.AnnotationServiceApplicationTests

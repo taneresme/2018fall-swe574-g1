@@ -31,3 +31,4 @@ mvnw.cmd
 
 /*.txt
 .DS_Store
+*/target/**
