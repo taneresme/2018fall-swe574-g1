@@ -3,24 +3,18 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.boun.swe.mnemosyne</groupId>
-    <artifactId>mnemosyne</artifactId>
+    <artifactId>mnemosyne.app</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>pom</packaging>
-
-    <name>mnemosyne</name>
-    <description>Mnemosyne is the goddess of memory in Greek mythology</description>
 
     <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.5.16.RELEASE</version>
-        <relativePath/>
+        <groupId>com.boun.swe.mnemosyne</groupId>
+        <artifactId>mnemosyne</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
     </parent>
-    <modules>
-	<module>mnemosyne</module>
-	<module>annotation-service</module>
-    </modules>
+    <packaging>war</packaging>
+
+    <name>mnemosyne.app</name>
+    <description>Mnemosyne is the goddess of memory in Greek mythology</description>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
