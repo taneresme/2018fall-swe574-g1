@@ -31,15 +31,23 @@ onePageScroll(".main", {
                                      // you want the responsive fallback to be triggered. For example, set this to 600 and whenever
                                      // the browser's width is less than 600, the fallback will kick in.
 });
+
 let title = '';
-function down() {
+function titleDown() {
     title = document.getElementById('nme').value;
-    console.log(title);
-    document.getElementById('titleSpan').innerHTML = title;
-    moveDown(".main");
+    if (title !== null && title !== '') {
+        console.log('Title is ', title);
+        document.getElementById('titleSpan').innerHTML = title;
+        moveTo(".main", 4);
+    }   else {
+        console.log('Title is empty. Title is required.');
+    }
 }
 function up() {
     moveUp(".main");
+}
+function goTo(index) {
+    moveTo(".main", index);
 }
 // prevent from from doing what it normally does
 document.forms.myForm.onsubmit = function(e) {
@@ -47,6 +55,199 @@ document.forms.myForm.onsubmit = function(e) {
     e.preventDefault();
 }
 
-document.forms.myForm.button.onclick = function () {
-    return false;
+var slider = document.getElementById("myRange");
+var output = document.getElementById("km");
+output.innerHTML = slider.value + ' km'; // Display the default slider value
+
+// Update the current slider value (each time you drag the slider handle)
+slider.oninput = function() {
+    output.innerHTML = this.value + ' km';
+} 
+
+function makeVisible(index) {
+    var zero = document.getElementById('location-0');
+    var one = document.getElementById('location-1');
+    var two = document.getElementById('location-2');
+    zero.style.display = 'none';
+    one.style.display = 'none';
+    two.style.display = 'none';
+    switch (index) {
+        case 0:
+            zero.style.display = 'block';
+            return;
+        case 1:
+            one.style.display = 'block';
+            return;
+        case 2:
+            two.style.display = 'block';
+            return;
+        default:
+            one.style.display = 'block';
+            return;
+    }
 }
+
+var locationPoints = [];
+var locationRoutes = [];
+var locationRadius = [];
+var lat = 0;
+var lon = 0;
+var address = '';
+let map = null;
+function writeLat() {
+    console.log('lat, lon ', lat, lon, address);
+}
+
+function showLocations() {
+    var locations = [];
+    var div = document.getElementById("location-list");
+    div.style.display = 'block';
+    div.innerHTML = '';
+    var h2 = document.createElement("h2");
+    var textnode = document.createTextNode("MY LOCATIONS");         // Create a text node
+    div.appendChild(h2);
+    h1.appendChild(textnode);
+    locationPoints.forEach(loc => locations.push(loc.address));
+    locationRadius.forEach(loc => locations.push(loc.address));
+    locationRoutes.forEach(loc => locations.push(loc.address));
+    locations.forEach(loc => {
+        var node = document.createElement("LI");                 // Create a <li> node
+        var textnode = document.createTextNode(loc);         // Create a text node
+        node.appendChild(textnode);
+        div.appendChild(node);
+    });
+}
+
+function saveLocPoint() {
+    locationPoints.push({
+        lat: lat,
+        lon: lon,
+        address: address
+    });
+    console.log('The point is saved');
+    showLocations();
+}
+function saveLocRoute() {
+    locationRoutes.push({
+        lat: lat,
+        lon: lon,
+        address: address
+    });
+    showLocations();
+}
+function saveLocRadius() {
+    var slider = document.getElementById("myRange");
+    var radius = slider.value * 1000;
+    locationRadius.push({
+        lat: lat,
+        lon: lon,
+        address: address,
+        radius: radius
+    });
+    showLocations();
+}
+
+function writeLocations() {
+    console.log(locationPoints);
+    console.log(locationRoutes);
+    console.log(locationRadius);
+}
+    
+function initAutocomplete() {
+    map = new google.maps.Map(document.getElementById('map'), {
+        center: {lat: 39.397, lng: 34.644},
+        zoom: 5,
+        mapTypeId: 'roadmap'
+    });
+
+    var input = document.getElementById('pac-input');
+    var searchBox = new google.maps.places.SearchBox(input);
+    // map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+    map.addListener('bounds_changed', function() {
+        searchBox.setBounds(map.getBounds());
+    });
+
+    var markers = [];
+    searchBox.addListener('places_changed', function() {
+        var places = searchBox.getPlaces();
+
+        if (places.length == 0) {
+        return;
+        }
+        console.log('places ', places);
+        lat = places[0].geometry.location.lat();
+        lon = places[0].geometry.location.lng();
+        address = places[0].formatted_address;
+        var locationWarning = document.getElementById('location-no');
+        locationWarning.style.display = 'none';
+        var locationNames = document.getElementsByName('location-name');
+        locationNames.forEach(loc => {
+            loc.innerHTML = 'Selected location: ' + address;
+        });
+        var locationSaveButtons = document.getElementsByName('location-save');
+        locationSaveButtons.forEach(loc => {
+            loc.style.display = 'block';
+        });
+
+        markers.forEach(function(marker) {
+        marker.setMap(null);
+        });
+        markers = [];
+
+        var bounds = new google.maps.LatLngBounds();
+        places.forEach(function(place) {
+        if (!place.geometry) {
+            console.log("Returned place contains no geometry");
+            return;
+        }
+        var icon = {
+            url: place.icon,
+            size: new google.maps.Size(71, 71),
+            origin: new google.maps.Point(0, 0),
+            anchor: new google.maps.Point(17, 34),
+            scaledSize: new google.maps.Size(25, 25)
+        };
+
+        markers.push(new google.maps.Marker({
+            map: map,
+            icon: icon,
+            title: place.name,
+            position: place.geometry.location
+        }));
+
+        if (place.geometry.viewport) {
+            // Only geocodes have viewport.
+            bounds.union(place.geometry.viewport);
+        } else {
+            bounds.extend(place.geometry.location);
+        }
+        });
+        map.fitBounds(bounds);
+    });
+}
+
+
+let cityCircle = null;
+function drawCircle() {
+    if (lat === 0 && lon === 0) {
+        return;
+    }
+    var slider = document.getElementById("myRange");
+    var radius = slider.value;
+    console.log('Slider value is ', radius);
+    if (cityCircle) {
+        cityCircle.setMap(null);
+    }
+    cityCircle = new google.maps.Circle({
+    strokeColor: '#FF0000',
+    strokeOpacity: 0.8,
+    strokeWeight: 2,
+    fillColor: '#FF0000',
+    fillOpacity: 0.35,
+    map: map,
+    center: {lat: lat, lng: lon},
+    radius: parseFloat(radius * 1000)
+    });
+}
+
