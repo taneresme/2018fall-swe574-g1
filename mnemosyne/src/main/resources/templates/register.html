@@ -1,13 +1,20 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/commons :: head"/>
 <link rel="stylesheet" type="text/css" th:href="@{/css/memory.css}"/>
 <body>
+<head th:replace="fragments/header :: header"/>
+
+
 <form id="regForm" class="form-horizontal" role="form" method="POST" action="/register">
     <div class="tab">
         <input type="text" name="firstName" class="form-control" id="firstName"
                placeholder="First name" required="" autofocus="autofocus"/>
         <input type="text" name="lastName" class="form-control" id="lastName"
                placeholder="Last name" required=""/>
+        <div th:if="${errors}" class="alert alert-danger mb-2" role="alert">
+            <i class="fa fa-close"> </i> <span th:text="${errors}"></span>
+        </div>
     </div>
     <div class="tab">
         <input type="text" name="username" class="form-control" id="username"
@@ -16,6 +23,9 @@
                placeholder="Email address" required=""/>
         <input type="password" name="password" class="form-control" id="password"
                placeholder="Password" required=""/>
+        <div th:if="${errors}" class="alert alert-danger mb-2" role="alert">
+            <i class="fa fa-close"> </i> <span th:text="${errors}"></span>
+        </div>
     </div>
     <div class="tab">
         <input type="date" name="birthDate" class="form-control" id="birthDate"
@@ -31,16 +41,19 @@
             <option>India</option>
             <option>Afganistan</option>
         </select>
+        <div th:if="${errors}" class="alert alert-danger mb-2" role="alert">
+            <i class="fa fa-close"> </i> <span th:text="${errors}"></span>
+        </div>
     </div>
     <div style="overflow:auto;">
         <br />
     </div>
     <div style="overflow:auto;">
         <div style="float:left;">
-            <button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
+            <button type="button" id="prevBtn"  class="btn btn-secondary" onclick="nextPrev(-1)">Previous</button>
         </div>
         <div style="float:right;">
-            <button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
+            <button type="button" id="nextBtn"  class="btn btn-primary" onclick="nextPrev(1)">Next</button>
         </div>
     </div>
 
