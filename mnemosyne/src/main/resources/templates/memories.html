@@ -4,36 +4,122 @@
 <link th:href="@{/css/onepage-scroll.css}" type="text/css" rel="stylesheet" />
 <link th:href="@{/css/memory.css}" type="text/css" rel="stylesheet" />
 <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet" />
+<head th:replace="fragments/commons :: head"/>
 <body>
-    <div class="main">
+    <div class="main container-fluid">
         <section class="page1">
-            <div id="centerDiv">
+            <div class="h-100 row align-items-center">
+                <div class="col">
                 <form name="myForm">
-                    <input type="text" name="name" class="question" id="nme" required="" autocomplete="off" />
-                    <label for="nme"><span>What's the title?</span></label>
-                    <input style="display: none;" type="submit" onclick="down()" value="Submit!" />
+                    <div class="container-fluid w-50">
+                        <div class="row">
+                            <div class="form-group col-10">
+                                <input type="text" placeholder="What's the title?" name="name" class="form-control" id="nme" required="" autocomplete="off" />
+                            </div>
+                            <div class="form-group col-2">
+                                <input type="submit" class="btn btn-info title-submit" onclick="titleDown()" value="Ok" />
+                            </div>
+                        </div>
+                    </div>
                 </form>
+                <button class="btn btn-info" style="display: none;" onclick="goTo(3)">Places</button>
+                </div>
             </div>
         </section>
         <section class="page2">
-            <div>
+            <div class="row" style="margin-left: 1em; height: 8%;">
+                <div class="col">
+                    Annotations
+                </div>
+                <div class="col text-right">
+                    <button class="btn btn-secondary" onclick="goTo(4)">Go back</button>
+                </div>
+            </div>
+        </section>
+        <section class="page3">
+            <div class="row align-items-center" style="margin-left: 1em; height: 8%;">
+                <div class="col">
+                    <input id="pac-input" style="width: 100%;" class="controls" type="text" placeholder="Search places here!" />
+                </div>
+                <div class="col text-right" style="float: right;">
+                    <button class="btn btn-secondary" onclick="goTo(4)">Go back</button>
+                </div>
+                <!-- <button class="btn btn-info" onclick="writeLat()">Write Lat</button> -->
+                <!-- <span>Please search a place and select the type of it on the right screen</span> -->
+            </div>
+            <div class="row" style="height: 92%;">
+                <div class="col-9">
+                    <div id="map"></div>
+                </div>
+                <div class="col-3 justify-content-center">
+                    <button class="btn btn-info" onclick="makeVisible(0)">Point</button>
+                    <button class="btn btn-info" onclick="makeVisible(1)">Route</button>
+                    <button class="btn btn-info" onclick="makeVisible(2)">Radius</button>
+                    <div style="margin-top: 1em;">
+                        <button class="btn btn-primary" style="display: none;" onclick="writeLocations()">Locations</button>
+                        <div id="location-no" style="display: block;">
+                            No location is selected. Please write the place you want to add to the searchbox on the map.
+                        </div>
+                        <div id="location-0" style="display: block;">
+                            <span name="location-name"></span>
+                            <button class="btn btn-primary" name="location-save" style="display: none;" onclick="saveLocPoint()">Save this point</button>
+                        </div>
+                        <div id="location-1" style="display: none;">
+                            <span name="location-name"></span>
+                            <button class="btn btn-primary" name="location-save" style="display: none;" onclick="saveLocRoute()">Add to route</button>
+                        </div>
+                        <div id="location-2" style="display: none;">
+                            <span name="location-name"></span>
+                            <div class="slidecontainer" name="location-save" style="display: none;">
+                            <input type="range" min="1" max="50" value="1" class="slider" id="myRange" />
+                            <span>Value:</span> <span id="km" style="font-weight:bold;color:red"></span>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <button class="btn btn-primary" name="location-save" style="display: none;" onclick="saveLocRadius()">Save the radius</button>
+                                </div>
+                                <div class="col justify-content-end">
+                                    <button class="btn btn-primary" name="location-save" style="display: none;" onclick="drawCircle()">Preview</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="location-list" style="display: none; margin-top: 1em;">
+                            <h2>My locations</h2>
+                            <span id="location-list-inner"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="page4">
+           <div class="container-fluid h-100">
                 <div class="add-memory-header">
                     <div style="display: inline-block; width: 100%;">
                     <div style="float: left;">
-                        <i onclick="up()" style="color: cornflowerblue;" class="fas fa-pen"></i>
-                        <span onclick="up()" id='titleSpan' style="font-size: 28px;"></span>
+                        <i onclick="goTo(1)" style="color: cornflowerblue;" class="fas fa-pen"></i>
+                        <span onclick="goTo(1)" id='titleSpan' style="font-size: 28px;"></span>
                     </div>
                     <div style="float: right;">
-                        <button>Annotations</button>
-                        <button>Places</button>
-                        <button>Save</button>
+                        <button class="btn btn-info" onclick="goTo(2)">Annotations</button>
+                        <button class="btn btn-info" onclick="goTo(3)">Places</button>
+                        <button class="btn btn-primary">Save</button>
                     </div>
 
                     </div>
                 </div>
-                <div>
-                    <div style="width: 100%;" id="editor">
-                        <h1>My awesome memory</h1><p><br /></p><p>My memory is something something and then other things as well.</p><p><br /></p><p><strong>This is a bold text</strong></p><p><br /></p><p><em>And this is a italic text</em></p><p><br/></p><p><br/></p>
+                <div class="container-fluid h-100">
+                    <div class="row">
+                        <div class="col-9 h-100">
+                            <div id="editor">
+                                <h1>My memory's catch title</h1><p><br/></p><p>You can write your memory in different styles:</p><p><br/>
+                                </p><p><em>You can write in italic</em></p><p><strong>You can write in bold</strong></p><p><u>You can write in underline</u>
+                                </p><p><strong><em><u>Or you can combine all if you want</u></em></strong></p><p><br/></p><h2>There are two kind of headings</h2><p>
+                                <br/></p><p>There is also this normal text. Here you go! These are the basics. Time to share!</p><p><br/></p><p><br/></p>
+
+                            </div>
+                        </div>
+                        <div class="col-3">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -45,4 +131,6 @@
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script th:src="@{/js/onepagescroll.js}"></script>
 <script th:src="@{/js/addmemory.js}"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBPPQdm70nzyqm7k-GAfYQq8swf0UAU6ss&amp;libraries=places&amp;callback=initAutocomplete"
+    async="async" defer="defer"></script>
 </html>
