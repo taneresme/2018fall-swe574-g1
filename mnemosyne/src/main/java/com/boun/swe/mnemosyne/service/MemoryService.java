@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static com.sun.tools.doclets.formats.html.markup.HtmlStyle.title;
+//import static com.sun.tools.doclets.formats.html.markup.HtmlStyle.title;
 
 @Service
 public class MemoryService {
@@ -27,7 +27,6 @@ public class MemoryService {
 
     public Memory createMemory(Memory memory) {
         final Memory storedMemory = memoryRepository.save(memory);
-        LOGGER.info("Memory with title: {} created successfully", title);
         return storedMemory;
     }
 
@@ -43,7 +42,6 @@ public class MemoryService {
             throw new MemoryNotFoundException("Unable to find memory with id: " + memory.getId());
         }
         final Memory storedMemory = memoryRepository.save(memory);
-        LOGGER.info("Memory with title: {} updated successfully", title);
         return storedMemory;
     }
 }
