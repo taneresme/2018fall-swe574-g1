@@ -132,10 +132,26 @@ function showLocations() {
         } else {
             awesome = createAwesome('circle');
         }
+        var span = document.createElement("span");
+        span.onclick = function() { deleteLoc(loc.id); };
+        span.appendChild(createAwesome('times'));
+        node.appendChild(span);
         node.appendChild(awesome);
         node.appendChild(textnode);
         div.appendChild(node);
     });
+}
+
+function deleteLoc(id) {
+    console.log('Delete location');
+    for (i = 0; i < savedLocations.length; i++ ) {
+        console.log(id, savedLocations[i].id);
+        if (id == savedLocations[i].id) {
+            savedLocations.splice(i, 1);
+            break;
+        }
+    }
+    showLocations();
 }
 
 function saveLoc(locType) {
