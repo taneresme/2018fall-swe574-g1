@@ -62,11 +62,11 @@
                         </div>
                         <div id="location-0" style="display: block;">
                             <span name="location-name"></span>
-                            <button class="btn btn-primary" name="location-save" style="display: none;" onclick="saveLocPoint()">Save this point</button>
+                            <button class="btn btn-primary" name="location-save" style="display: none;" onclick="saveLoc(0)">Save this point</button>
                         </div>
                         <div id="location-1" style="display: none;">
                             <span name="location-name"></span>
-                            <button class="btn btn-primary" name="location-save" style="display: none;" onclick="saveLocRoute()">Add to route</button>
+                            <button class="btn btn-primary" name="location-save" style="display: none;" onclick="saveLoc(1)">Add to route</button>
                         </div>
                         <div id="location-2" style="display: none;">
                             <span name="location-name"></span>
@@ -76,7 +76,7 @@
                             </div>
                             <div class="row">
                                 <div class="col">
-                                    <button class="btn btn-primary" name="location-save" style="display: none;" onclick="saveLocRadius()">Save the radius</button>
+                                    <button class="btn btn-primary" name="location-save" style="display: none;" onclick="saveLoc(2)">Save the radius</button>
                                 </div>
                                 <div class="col justify-content-end">
                                     <button class="btn btn-primary" name="location-save" style="display: none;" onclick="drawCircle()">Preview</button>

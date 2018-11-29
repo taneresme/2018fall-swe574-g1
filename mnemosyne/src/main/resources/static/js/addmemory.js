@@ -87,9 +87,8 @@ function makeVisible(index) {
     }
 }
 
-var locationPoints = [];
-var locationRoutes = [];
-var locationRadius = [];
+var savedLocations = [];
+var paths = [];
 var lat = 0;
 var lon = 0;
 var address = '';
@@ -98,52 +97,66 @@ function writeLat() {
     console.log('lat, lon ', lat, lon, address);
 }
 
+function guid() {
+  function s4() {
+    return Math.floor((1 + Math.random()) * 0x10000)
+      .toString(16)
+      .substring(1);
+  }
+  return s4() + s4();
+}
+
+function createAwesome(content) {
+    var i = document.createElement("i");
+    i.className = 'fas fa-' + content;
+    return i;
+}
+
+
 function showLocations() {
-    var locations = [];
     var div = document.getElementById("location-list");
     div.style.display = 'block';
     div.innerHTML = '';
     var h2 = document.createElement("h2");
     var textnode = document.createTextNode("MY LOCATIONS");         // Create a text node
     div.appendChild(h2);
-    h1.appendChild(textnode);
-    locationPoints.forEach(loc => locations.push(loc.address));
-    locationRadius.forEach(loc => locations.push(loc.address));
-    locationRoutes.forEach(loc => locations.push(loc.address));
-    locations.forEach(loc => {
+    h2.appendChild(textnode);
+    savedLocations.forEach(loc => {
         var node = document.createElement("LI");                 // Create a <li> node
-        var textnode = document.createTextNode(loc);         // Create a text node
+        var textnode = document.createTextNode(' ' + loc.address);         // Create a text node
+        var awesome;
+        if (loc.locType === 0) {
+            awesome = createAwesome('map-marker-alt');
+        } else if (loc.locType === 1) {
+            awesome = createAwesome('route');
+        } else {
+            awesome = createAwesome('circle');
+        }
+        node.appendChild(awesome);
         node.appendChild(textnode);
         div.appendChild(node);
     });
 }
 
-function saveLocPoint() {
-    locationPoints.push({
+function saveLoc(locType) {
+    var radius = null;
+    if (locType === 2) {
+        var slider = document.getElementById("myRange");
+        radius = slider.value * 1000;
+    }
+    var uuid = guid();
+    if (locType === 1) {
+        paths.push(uuid);
+    }
+    savedLocations.push({
+        id: uuid,
+        locType: locType,
         lat: lat,
         lon: lon,
+        radius: radius,
         address: address
     });
     console.log('The point is saved');
-    showLocations();
-}
-function saveLocRoute() {
-    locationRoutes.push({
-        lat: lat,
-        lon: lon,
-        address: address
-    });
-    showLocations();
-}
-function saveLocRadius() {
-    var slider = document.getElementById("myRange");
-    var radius = slider.value * 1000;
-    locationRadius.push({
-        lat: lat,
-        lon: lon,
-        address: address,
-        radius: radius
-    });
     showLocations();
 }
 
