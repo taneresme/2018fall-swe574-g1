@@ -468,10 +468,12 @@ function onePageScroll(element, options) {
 
         if(next) {
             var next_index = next.dataset.index;
-            _removeClass(current, "active");
-            _addClass(next, "active");
-            _removeClass(document.querySelector(".onepage-pagination li a" + ".active"), "active");
-            _addClass(document.querySelector(".onepage-pagination li a" + "[data-index='" + (page_index) + "']"), "active");
+            if (settings.pagination == true) {
+                _removeClass(current, "active");
+                _addClass(next, "active");
+                _removeClass(document.querySelector(".onepage-pagination li a" + ".active"), "active");
+                _addClass(document.querySelector(".onepage-pagination li a" + "[data-index='" + (page_index) + "']"), "active");
+            }
 
             body.className = body.className.replace(/\bviewing-page-\d.*?\b/g, '');
             _addClass(body, "viewing-page-"+ next_index);

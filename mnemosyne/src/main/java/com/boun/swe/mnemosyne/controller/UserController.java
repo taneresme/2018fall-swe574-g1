@@ -53,9 +53,14 @@ public class UserController {
         return "welcome";
     }
 
-    @GetMapping(value = {"/", "/login"})
+    @GetMapping(value = {"/login"})
     public String login(final Model model) {
         return "login";
+    }
+
+    @GetMapping(value = "/")
+    public String index(final Model model) {
+        return "index";
     }
 
     @PostMapping(value = "/login")

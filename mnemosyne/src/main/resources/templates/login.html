@@ -4,33 +4,40 @@
 <link rel="stylesheet" type="text/css" th:href="@{/css/memory.css}"/>
 <body>
 
-<div id="centerDiv">
-    <form class="form-horizontal" role="form" method="POST" action="/login">
-        <input type="text" name="username" class="form-control" id="username"
-               placeholder="Username" required="" autofocus="autofocus"/>
-        <input type="password" name="password" class="form-control" id="password"
-               placeholder="Password" required=""/>
-        <span th:text="${loginError}"></span>
+<head th:replace="fragments/header :: header"/>
+<div class="main container h-100" style="margin-top: 5em;">
+    <div class="container-fluid">
+        <form class="form-horizontal" role="form" method="POST" action="/login">
+            <div class="row-xs">
+                <input type="text" name="username" class="form-control" id="username"
+                    placeholder="Username" required="" autofocus="autofocus"/>
+            </div>
+            <div class="row-xs">
+                <input type="password" name="password" class="form-control" id="password"
+                    placeholder="Password" required=""/>
+                <span th:text="${loginError}"></span>
+            </div>
 
-        <div style="overflow:auto;">
-            <br />
-            <br />
-        </div>
-        <div style="overflow:auto;">
-            <div style="float: left;">
-                <span><input class="form-check-input" name="remember" type="checkbox"/> Remember me</span>
+            <div style="overflow:auto;">
+                <br />
+                <br />
             </div>
-            <div style="float:right; right:0;">
-                <button type="submit" class="btn btn-success"><i class="fa fa-sign-in"></i> Login </button>
+            <div class="row">
+                <div class="col">
+                    <span><input class="form-check-input" name="remember" type="checkbox"/> Remember me</span>
+                </div>
+                <div class="col text-right">
+                    <button type="submit" class="btn btn-success"><i class="fa fa-sign-in"></i> Login </button>
+                </div>
             </div>
-        </div>
-        <br />
-        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-    </form>
-    <a href="/password/reset">Forgot Your Password?</a>
-    <div>Do not have an account? <a href="/register">Sign up</a></div>
-    <div><a href="/addmemory">Addmemory</a></div>
+            <br />
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+        </form>
+        <a href="/password/reset">Forgot Your Password?</a>
+        <div>Do not have an account? <a href="/register">Sign up</a></div>
+        <div><a href="/memories">Addmemory</a></div>
+    </div>
 </div>
-
+<th:block th:include="fragments/footer :: footer"/>
 </body>
 </html>

@@ -2,10 +2,21 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head th:replace="fragments/commons :: head" />
 <body>
-<p>Welcome <td th:text="${username}"></td></p>
-<form th:action="@{/logout}" method="post">
-    <input type="submit" value="Sign Out"/>
-</form>
+
+<head th:replace="fragments/header :: header"/>
+<div class="container" style="margin-top: 5em; margin-left: 2em;">
+    <div class="row">
+        <p>Welcome <td th:text="${username}"></td></p>
+    </div>
+    <div class="row">
+        <a href="/memories">Add memory!</a>
+    </div>
+    <div class="row">
+        <form th:action="@{/logout}" method="post">
+            <input type="submit" value="Sign Out"/>
+        </form>
+    </div>
+</div>
 
 <th:block th:include="fragments/footer :: footer" />
 </body>
