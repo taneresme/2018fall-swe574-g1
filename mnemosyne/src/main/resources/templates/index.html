@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/commons :: head"/>
+<link rel="stylesheet" type="text/css" th:href="@{/css/memory.css}"/>
+<body>
+
+<head th:replace="fragments/header :: header"/>
+
+<div style="padding-left: 10em; padding-right: 10em; margin-top: 5em; margin-bottom: 10em;" class="container-fluid">
+    <div class="row">
+        <div class="col-4">
+            <div style="font-size: 36px; color: blue; ">
+                Share memories
+            </div>
+            <div style="margin: 1em;">
+                "There are memories that time does not erase... Forever does not make loss forgettable, only bearable"
+            </div>
+            <div style="margin: 2em;">
+                <button type="button" class="btn btn-primary">READ MORE</button>
+            </div>
+        </div>
+        <div class="col-8">
+            <div style="height: 100%;" id="map"></div>
+        </div>
+    </div>
+    <div class="row align-items-center justify-content-center" style="padding: 3em; padding-right: 10em; padding-left: 10em;">
+        Mnemosyne is a memory sharing and storing hub for everybody on the planet. Never forget your memories again.
+        Share them with your beloved ones or even share them public for everybody to see.
+        Follow other's memories and annotate them.
+        Search through millions of memories and find people who shared common interests with you.
+    </div>
+    <div class="row align-items-center justify-content-center">
+        STATISTICS
+    </div>
+    <div style="margin-top: 2em;" class="row">
+        <div class="col" style="text-align: center;">
+            <div style="font-size: 48px;">
+                <i class="fas fa-bolt"></i>
+            </div>
+            <div style="color: blue; font-size: 48px;">
+                7.2M
+            </div>
+            <div>
+                MEMORIES SHARED
+            </div>
+        </div>
+        <div class="col" style="text-align: center;">
+            <div style="font-size: 48px;" >
+                <i class="fas fa-bolt"></i>
+            </div>
+            <div style="color: blue; font-size: 48px;">
+                839K
+            </div>
+            <div>
+                USERS REGISTERED
+            </div>
+        </div>
+        <div class="col" style="text-align: center;">
+            <div style="font-size: 48px;" >
+                <i class="fas fa-bolt"></i>
+            </div>
+            <div style="color: blue; font-size: 48px;">
+                1.1M
+            </div>
+            <div>
+                DAILY VIEWS
+            </div>
+        </div>
+        <div class="col" style="text-align: center;">
+            <div style="font-size: 48px;" >
+                <i class="fas fa-bolt"></i>
+            </div>
+            <div style="color: blue; font-size: 48px;">
+                1.6M
+            </div>
+            <div>
+                ANNOTATIONS
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+
+
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBPPQdm70nzyqm7k-GAfYQq8swf0UAU6ss&amp;callback=initMap"
+        async="async" defer="defer"></script>
+
+<script th:src="@{/js/custom.js}"></script>
+<th:block th:include="fragments/footer :: footer"/>
+</body>
+</html>
