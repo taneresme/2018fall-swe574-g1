@@ -1,43 +1,86 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/html">
 <head th:replace="fragments/commons :: head"/>
-<link rel="stylesheet" type="text/css" th:href="@{/css/memory.css}"/>
 <body>
-
 <div th:replace="fragments/header :: header"/>
-<div class="main container h-100" style="margin-top: 5em;">
-    <div class="container-fluid">
-        <form class="form-horizontal" role="form" method="POST" action="/login">
-            <div class="row-xs">
-                <input type="text" name="username" class="form-control" id="username"
-                    placeholder="Username" required="" autofocus="autofocus"/>
+
+<div class="container" style="margin-bottom: 150px; margin-top: 100px;">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <header class="card-header">
+                    <div class="row">
+                        <div class="col-md-3"></div>
+                        <div class="col-md-6">
+                            <h2>Please Login</h2>
+                        </div>
+                    </div>
+                </header>
+                <article class="card-body">
+                    <form class="form-horizontal" role="form" method="POST" action="/login">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group has-danger">
+                                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fa fa-at"></i></span>
+                                        </div>
+                                        <input type="text" name="username" class="form-control" id="username"
+                                               placeholder="Username" required="" autofocus="autofocus"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="sr-only" for="password">Password</label>
+                                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fa fa-key"></i></span>
+                                        </div>
+                                        <input type="password" name="password" class="form-control" id="password"
+                                               placeholder="Password" required=""/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div th:if="${loginError}" class="alert alert-danger mb-2" role="alert">
+                                    <i class="fa fa-close"> </i> <span th:text="${loginError}"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12" style="padding-top: .35rem">
+                                <div class="form-check mb-2 mr-sm-2 mb-sm-0">
+                                    <label class="form-check-label">
+                                        <input class="form-check-input" name="remember"
+                                               type="checkbox"/>
+                                        <span style="padding-bottom: .15rem">Remember me</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="padding-top: 1rem">
+                            <div class="col-md-12">
+                                <button type="submit" class="btn btn-success"><i class="fa fa-sign-in"></i> Login
+                                </button>
+                                <a href="/password/reset">Forgot Your Password?</a>
+                            </div>
+                        </div>
+                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                    </form>
+                </article>
+                <div class="border-top card-body text-center">Do not have an account? <a href="/register">Sign up</a></div>
             </div>
-            <div class="row-xs">
-                <input type="password" name="password" class="form-control" id="password"
-                    placeholder="Password" required=""/>
-                <span th:text="${loginError}"></span>
-            </div>
-TANER
-            <div style="overflow:auto;">
-                <br />
-                <br />
-            </div>
-            <div class="row">
-                <div class="col">
-                    <span><input class="form-check-input" name="remember" type="checkbox"/> Remember me</span>
-                </div>
-                <div class="col text-right">
-                    <button type="submit" class="btn btn-success"><i class="fa fa-sign-in"></i> Login </button>
-                </div>
-            </div>
-            <br />
-            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-        </form>
-        <a href="/password/reset">Forgot Your Password?</a>
-        <div>Do not have an account? <a href="/register">Sign up</a></div>
-        <div><a href="/memories">Addmemory</a></div>
+        </div>
     </div>
 </div>
+
 <th:block th:include="fragments/footer :: footer"/>
+
 </body>
 </html>

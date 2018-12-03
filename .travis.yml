@@ -1,0 +1,11 @@
+# Tells Travis which programming language will be used.
+language: java
+
+# Tells Travis to use last stable version of Java for build
+java:
+  - "stable"
+
+#Codecov integration
+script: "mvn cobertura:cobertura"
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
