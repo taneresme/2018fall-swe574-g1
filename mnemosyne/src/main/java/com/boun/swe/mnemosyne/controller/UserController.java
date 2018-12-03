@@ -49,7 +49,7 @@ public class UserController {
         userService.save(userForm);
 
         model.addAttribute("username", userForm.getUsername());
-        return "home";
+        return "welcome";
     }
 
     @GetMapping(value = {"/login"})

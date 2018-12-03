@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/swe-ms-boun/2018fall-swe574-g1.png?branch=develop)](https://travis-ci.org/swe-ms-boun/2018fall-swe574-g1)
+
 # Mnemosyne
 
 > Mnemosyne is the goddess of memory in Greek mythology.
