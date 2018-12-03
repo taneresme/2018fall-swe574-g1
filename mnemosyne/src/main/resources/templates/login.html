@@ -4,7 +4,7 @@
 <link rel="stylesheet" type="text/css" th:href="@{/css/memory.css}"/>
 <body>
 
-<head th:replace="fragments/header :: header"/>
+<div th:replace="fragments/header :: header"/>
 <div class="main container h-100" style="margin-top: 5em;">
     <div class="container-fluid">
         <form class="form-horizontal" role="form" method="POST" action="/login">
@@ -17,7 +17,7 @@
                     placeholder="Password" required=""/>
                 <span th:text="${loginError}"></span>
             </div>
-
+TANER
             <div style="overflow:auto;">
                 <br />
                 <br />
