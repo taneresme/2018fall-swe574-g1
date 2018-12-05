@@ -13,6 +13,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -54,6 +55,14 @@ public class MemoryController {
         LOGGER.info("Get all public memories request received");
         List<Memory> memories = memoryService.getAllPublicMemories();
         model.addAttribute("publicMemories", memories);
+        return "memories";
+    }
+
+    @GetMapping(value = "/user/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public String getAllPublicMemoriesByUser(@PathVariable("userId") final Long userId, final Model model) {
+        LOGGER.info("Get all public memories request received");
+        List<Memory> memories = memoryService.getAllPublicMemoriesByUser(userId);
+        model.addAttribute("userPublicMemories", memories);
         return "memories";
     }
 }

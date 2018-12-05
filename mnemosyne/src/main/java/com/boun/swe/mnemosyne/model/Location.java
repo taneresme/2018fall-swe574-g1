@@ -1,6 +1,8 @@
 package com.boun.swe.mnemosyne.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Column;
@@ -16,6 +18,8 @@ import java.util.Set;
 
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "locations")
 public class Location {

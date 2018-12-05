@@ -1,7 +1,10 @@
 package com.boun.swe.mnemosyne.model;
 
 import com.boun.swe.mnemosyne.enums.Role;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Email;
 
@@ -16,6 +19,9 @@ import javax.persistence.Table;
 
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Entity
 @Table(name = "user")
 public class User {
