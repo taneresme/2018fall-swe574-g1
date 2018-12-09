@@ -7,6 +7,7 @@ import com.boun.swe.mnemosyne.repository.MemoryRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -36,13 +37,19 @@ public class MemoryService {
     }
 
     public Memory updateMemory(Memory memory) {
-        if (!memoryRepository.exists(memory.getId())) {
+        if (!memoryRepository.exists(Example.of(memory))) {
             LOGGER.warn("Unable to update memory with id: {} and title: {}",
                     memory.getId(), memory.getTitle());
             throw new MemoryNotFoundException("Unable to find memory with id: " + memory.getId());
         }
         final Memory storedMemory = memoryRepository.save(memory);
-         LOGGER.info("Memory with title: {} created successfully", memory.getTitle());
+        LOGGER.info("Memory with title: {} updated successfully", memory.getTitle());
         return storedMemory;
+    }
+
+    public List<Memory> getAllPublicMemoriesByUser(Long userId) {
+        List<Memory> memories = memoryRepository.findAllMemoriesByTypeAndUserId(MemoryType.PUBLIC, userId);
+        LOGGER.info("Memories with userId: {} retrieved successfully", userId);
+        return memories;
     }
 }
