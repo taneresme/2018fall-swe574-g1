@@ -17,3 +17,4 @@ deploy:
       only:
       - master
       - develop
+      - feature/taneresme/auto-deploy
