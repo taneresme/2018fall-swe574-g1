@@ -14,7 +14,6 @@ deploy:
   on:
     repo: swe-ms-boun/2018fall-swe574-g1
     branches:
-      only:
-      - master
-      - develop
-      - feature/taneresme/auto-deploy
+    - master
+    - develop
+    - feature/taneresme/auto-deploy
