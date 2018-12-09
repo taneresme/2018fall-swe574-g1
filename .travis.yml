@@ -11,3 +11,10 @@ deploy:
   app: mnemosyne
   env: mnemosyne-env
   bucket-name: elasticbeanstalk-us-east-1-571601373592
+  on:
+    repo: swe-ms-boun/2018fall-swe574-g1
+    branches:
+      only:
+      - master
+      - develop
+      - feature/taneresme/auto-deploy
