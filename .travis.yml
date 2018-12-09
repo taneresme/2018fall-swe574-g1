@@ -1,11 +1,13 @@
-# Tells Travis which programming language will be used.
 language: java
-
-# Tells Travis to use last stable version of Java for build
 java:
-  - "stable"
-
-#Codecov integration
-script: "mvn cobertura:cobertura"
-after_success:
-  - bash <(curl -s https://codecov.io/bash)
+- stable
+deploy:
+  provider: elasticbeanstalk
+  access_key_id:
+    secure:jzUtRQx5tFax3p5iO7Ys5YS/TpeRl8hePa6H/NPFIY+Z17DLsX3o0eWuwWdezIzeK4HCjbhG5q7wQfFjRgkEaYe5tGzOSas7cub4JrTLepK3DUd0ZpDQJ4bWFB7dN67/nidi42+odAXcVbvtaFhiKtIVyWyr5vH+eEJKKqU/5O1cc7Nz+n1eI4/cNxHNyGRGfqIeUCv+VdWZpr+68P++AwhagZaDJB0BWluAHJnYDQ5NLcuhNfmOeBLDmpURuu/yqrE6alooK4Ucqd0Fj4wcD23WPNkIH3hVo94Y6yqqXGIoAVqT5vR2CW01xTyDmwHQZrZOD8hMfffhrIRvAHL1V7YUosUSz0p63YB0JF7ZmBd942rVuNYnv9SrYDKi/j8paKruaulMKm/ReQXiLUxteSvX4q3nd+yMkxN6dUCRKNja8rwbLugc05mt8grNidtORfX2BzHF8HnPzEMfl2jnSiMcXAFG3xZZDD78V+sybSfk+Ps4gEl73345q1EXIH9AR0e8T6c0WCa/FZCB1FsLAxyxUFWB+dagme1LgExbsKX/YsLPeaU5TzOZR7VyP9hHq6/zmI6GOhEq57LzYZj8mYKBRf3+cr1YicMuudUwgs2JoBlzmZAh0AmLXSzwZ2MwH+mwX2aX7F6cxfC2J++EEEzKe2OJo1LQdBVyLm+BqnQ=
+  secret_access_key:
+    secure: Rsg/70/2Q/ok0Brd2JJEnzbfDLuUcJ1S3hdti58c/a1QVJklljY/VZapN/nLgSpVstE7otQPmPqb47BHwFgaH3I4k2kTL3TsVcNq4jzx5vEMKGZbdllevnbledOgU07vE/atFvjit//d7XDeBjF8Af4FS+JdOhO+LJUtpCdfZYX3q/anuyY2ZHw+wX+juESPB4+Cs6pTbMeHNmJEediesj0xbl34PPR0i0yw8T/GgeCSV8leMl2u3FHsbcPjHqz4Tza0UCvp+nRqoiGz6FP4V+NP1h2LMCP8zXIZ2wtcSRwIY4/dfWzD0oayO0GYLiqWoHJza/5daQpdgeHyL1IgaTqO1jEXDr/hQF9yaxgd3C5KpmSEcNimc9LRSsfcDTL+B0+NQzO1SYYLWei0H2YR6J/NPWngbkE7ZPHSOLuBD82CGGaio7Cx9K0Qini7WibKiox1B5SIyhVjPSI9041mpU1iNjRgNkdMp+31RAs7XFXahBS4esQa00dIJlflkhGDjbXOQVPi6lA3oy7lpU/61h4cG1evHz1rRvN2Jn9Qg2fH9lQ7x4TaOgQDNgVHbrE6aoPEqTX4Q5tClCjhq1r+3r3qTQuDLJ8C7fxAmpQ27Oy1gS4x4EoI63QWi+16ka5po6yK3OxTIU0h2LInAQt3rSudMGMiIQ+FiMukNJmFmBE=
+  region: us-east-1
+  app: mnemosyne
+  env: mnemosyne-env
+  bucket-name: elasticbeanstalk-us-east-1-571601373592
