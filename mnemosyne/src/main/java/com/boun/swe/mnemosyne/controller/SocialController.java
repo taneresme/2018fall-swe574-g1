@@ -81,7 +81,7 @@ public class SocialController {
     public String getFollowingsByUser(@PathVariable("userId") final Long userId, final Model model) {
         LOGGER.info("Get following users of user: {} request retrieved ", userId);
         final User user = userService.findByUserId(userId);
-        model.addAttribute("followers", user.getFollowingUsers());
+        model.addAttribute("followings", user.getFollowingUsers());
         return "social";
     }
 
