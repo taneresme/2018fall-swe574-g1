@@ -35,4 +35,37 @@ public class UserService {
         return userRepository.findByUsername(username);
     }
 
+    public User findByUserId(final Long userId) {
+        LOGGER.info("Retrieving user with userId: {} ", userId);
+        return userRepository.findOne(userId);
+    }
+
+    public boolean existingUser(final Long userId) {
+        LOGGER.info("Checking if the user with userId: {} exists", userId);
+        return userRepository.exists(userId);
+    }
+
+    public boolean followUser(final User user, final Long userId) {
+        if (!existingUser(userId)) {
+            LOGGER.warn("User with id: {} does not exist!", userId);
+            return false;
+        }
+        final User userToFollow = findByUserId(userId);
+        user.getFollowingUsers().add(userToFollow);
+        userRepository.save(user);
+        LOGGER.info("Successfully followed user with id: {}", userId);
+        return false;
+    }
+
+    public boolean unFollowUser(final User user, final Long userId) {
+        if (!existingUser(userId)) {
+            LOGGER.warn("User with id: {} does not exist!", userId);
+            return false;
+        }
+        final User userToUnFollow = findByUserId(userId);
+        user.getFollowingUsers().remove(userToUnFollow);
+        userRepository.save(user);
+        LOGGER.info("Successfully un-followed user with id: {}", userId);
+        return false;
+    }
 }

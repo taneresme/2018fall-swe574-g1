@@ -12,10 +12,13 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -43,6 +46,12 @@ public class User {
     @Enumerated(EnumType.STRING)
     @Column(name = "role")
     private Role role;
+
+    @OneToMany(targetEntity = User.class, fetch = FetchType.LAZY)
+    private Set<User> followers;
+
+    @OneToMany(targetEntity = User.class, fetch = FetchType.LAZY)
+    private Set<User> followingUsers;
 
     @Override
     public String toString() {

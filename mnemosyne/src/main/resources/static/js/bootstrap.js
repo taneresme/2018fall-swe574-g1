@@ -1150,7 +1150,7 @@ if (typeof jQuery === 'undefined') {
     }
   }
 
-  // these following methods are used to handle overflowing modals
+  // these followingUsers methods are used to handle overflowing modals
 
   Modal.prototype.handleUpdate = function () {
     this.adjustDialog()
