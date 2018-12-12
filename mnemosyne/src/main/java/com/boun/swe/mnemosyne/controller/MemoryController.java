@@ -90,8 +90,7 @@ public class MemoryController {
         return "memories";
     }
 
-    private List<Memory> findRequestedMemories(@PathVariable("userId") Long userId,
-                                               @RequestParam("memoryType") String memoryType, User userInRequest) {
+    private List<Memory> findRequestedMemories(Long userId, String memoryType, User userInRequest) {
         List<Memory> memories;
         if (userInRequest != null && userInRequest.getId() == userId) {
             switch (memoryType) {
