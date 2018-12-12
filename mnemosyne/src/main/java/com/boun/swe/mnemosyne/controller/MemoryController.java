@@ -77,7 +77,7 @@ public class MemoryController {
         return "memories";
     }
 
-    @GetMapping(value = "/followings/memories", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/friendships/memories", produces = MediaType.APPLICATION_JSON_VALUE)
     public String getFollowingsMemories(final Principal principal, final Model model) {
         User user = userService.findByUsername(principal.getName());
         LOGGER.info("Get memories of followings request received for user: {}", user.getId());
