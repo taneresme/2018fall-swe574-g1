@@ -31,11 +31,6 @@ public class MemoryService {
         return storedMemory;
     }
 
-    public List<Memory> getAllPublicMemories() {
-        LOGGER.info("Retrieving all published public memories");
-        return memoryRepository.findByTypeAndIsPublishedTrue(MemoryType.PUBLIC);
-    }
-
     public Memory updateMemory(Memory memory) {
         if (!memoryRepository.exists(Example.of(memory))) {
             LOGGER.warn("Unable to update memory with id: {} and title: {}",
@@ -47,9 +42,18 @@ public class MemoryService {
         return storedMemory;
     }
 
-    public List<Memory> getAllPublicMemoriesByUser(Long userId) {
-        List<Memory> memories = memoryRepository.findAllMemoriesByTypeAndUserId(MemoryType.PUBLIC, userId);
-        LOGGER.info("Memories with userId: {} retrieved successfully", userId);
-        return memories;
+    public List<Memory> getAllMemoriesByType(final MemoryType memoryType) {
+        LOGGER.info("Retrieving all published memories by memoryType: {}", memoryType.name());
+        return memoryRepository.findByTypeAndIsPublishedTrue(memoryType);
+    }
+
+    public List<Memory> getAllMemoriesByUser(final Long userId) {
+        LOGGER.info("Retrieving all published memories by memoryType: {}");
+        return memoryRepository.findAllMemoriesByUserId(userId);
+    }
+
+    public List<Memory> getAllMemoriesByTypeAndUser(final MemoryType memoryType, final Long userId) {
+        LOGGER.info("Retrieving all published memories by memoryType: {} for userId: {}", memoryType.name(), userId);
+        return memoryRepository.findByTypeAndIsPublishedTrue(memoryType);
     }
 }
