@@ -5,7 +5,7 @@
 <body>
 <div th:replace="fragments/header :: header"/>
 
-<div class="container" style="margin-bottom: 150px; margin-top: 100px;">
+<div class="container" style="margin-bottom: 100px; margin-top: 100px;">
     <div class="row justify-content-center">
         <div class="col-md-6">
             <div class="card">
@@ -18,7 +18,7 @@
                     </div>
                 </header>
                 <article class="card-body">
-                    <form class="form-horizontal" role="form" method="POST" action="/login">
+                    <form class="form-horizontal" role="form" method="POST" action="/signin">
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group has-danger">
@@ -27,7 +27,8 @@
                                             <span class="input-group-text"><i class="fa fa-at"></i></span>
                                         </div>
                                         <input type="text" name="username" class="form-control" id="username"
-                                               placeholder="Username" required="" autofocus="autofocus"/>
+                                               placeholder="Username" required="" autofocus="autofocus"
+                                               th:value="${form.username}" />
                                     </div>
                                 </div>
                             </div>

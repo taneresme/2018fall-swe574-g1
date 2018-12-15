@@ -19,33 +19,34 @@
                 </header>
                 <article class="card-body">
                     <form class="form-horizontal" role="form" method="POST" action="/register">
-                        <div class="form-row">
-                            <div class="col form-group">
-                                <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="fa fa-user"></i></span>
-                                    </div>
-                                    <input type="text" name="firstName" class="form-control" id="firstName"
-                                           placeholder="First name" required="" autofocus="autofocus"/>
-                                </div>
-                            </div>
-                            <div class="col form-group">
-                                <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="fa fa-user"></i></span>
-                                    </div>
-                                    <input type="text" name="lastName" class="form-control" id="lastName"
-                                           placeholder="Last name" required=""/>
-                                </div>
-                            </div>
-                        </div>
+                        <!--<div class="form-row">-->
+                            <!--<div class="col form-group">-->
+                                <!--<div class="input-group mb-2 mr-sm-2 mb-sm-0">-->
+                                    <!--<div class="input-group-prepend">-->
+                                        <!--<span class="input-group-text"><i class="fa fa-user"></i></span>-->
+                                    <!--</div>-->
+                                    <!--<input type="text" name="firstName" class="form-control" id="firstName"-->
+                                           <!--placeholder="First name" required="" autofocus="autofocus"-->
+                                           <!--th:value="${userForm.firstName}" />-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<div class="col form-group">-->
+                                <!--<div class="input-group mb-2 mr-sm-2 mb-sm-0">-->
+                                    <!--<div class="input-group-prepend">-->
+                                        <!--<span class="input-group-text"><i class="fa fa-user"></i></span>-->
+                                    <!--</div>-->
+                                    <!--<input type="text" name="lastName" class="form-control" id="lastName"-->
+                                           <!--placeholder="Last name" required="" th:value="${userForm.lastName}"/>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
                         <div class="form-group">
                             <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fa fa-user"></i></span>
                                 </div>
                                 <input type="text" name="username" class="form-control" id="username"
-                                       placeholder="Username" required=""/>
+                                       placeholder="Username" required="" th:value="${userForm.username}"/>
                             </div>
                         </div>
                         <div class="form-group">
@@ -54,43 +55,7 @@
                                     <span class="input-group-text"><i class="fa fa-at"></i></span>
                                 </div>
                                 <input type="email" name="email" class="form-control" id="email"
-                                       placeholder="Email address" required=""/>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text"><i class="fa fa-birthday-cake"></i></span>
-                                </div>
-                                <input type="date" name="birthDate" class="form-control" id="birthDate"
-                                       placeholder="Birth Date" required=""/>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="fa fa-building"></i></span>
-                                    </div>
-                                    <input type="text" name="city" class="form-control" id="city"
-                                           placeholder="City" required=""/>
-                                </div>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="fa fa-flag"></i></span>
-                                    </div>
-                                    <select id="countries" class="form-control">
-                                        <option> Choose...</option>
-                                        <option selected="">Turkey</option>
-                                        <option>Uzbekistan</option>
-                                        <option>Russia</option>
-                                        <option>United States</option>
-                                        <option>India</option>
-                                        <option>Afganistan</option>
-                                    </select>
-                                </div>
+                                       placeholder="Email address" required="" th:value="${userForm.email}"/>
                             </div>
                         </div>
                         <div class="form-group">
