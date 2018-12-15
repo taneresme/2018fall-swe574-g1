@@ -20,12 +20,12 @@ h2 {
 	text-align: center;
 	border-radius: 0;
 	padding-bottom: 80px;
-	background-image: -moz-linear-gradient(left, #26d6f9 0, #6a2dac 100%);
-	background-image: -webkit-linear-gradient(left, #26d6f9 0, #6a2dac 100%);
-	background-image: -webkit-gradient(linear, 0 0, 100% 100%, from(#26d6f9), to(#6a2dac));
-	background-image: -o-linear-gradient(left, #26d6f9 0, #6a2dac 100%);
-	background-image: linear-gradient(to right, #26d6f9 0, #6a2dac 100%);
-	background-image: -ms-linear-gradient(to right, #26d6f9 0, #6a2dac 100%);
+	background-image: -moz-linear-gradient(left, #0f9a2a 0, #2371d8 100%);
+	background-image: -webkit-linear-gradient(left, #0f9a2a 0, #2371d8 100%);
+	background-image: -webkit-gradient(linear, 0 0, 100% 100%, from(#0f9a2a), to(#2371d8));
+	background-image: -o-linear-gradient(left, #0f9a2a 0, #2371d8 100%);
+	background-image: linear-gradient(to right, #0f9a2a 0, #2371d8 100%);
+	background-image: -ms-linear-gradient(to right, #0f9a2a 0, #2371d8 100%);
 	background-repeat: repeat-x;
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff720e9e',
 		endColorstr='#ffdd4b39', GradientType=1)
@@ -122,14 +122,13 @@ h2 {
 
 footer {
 	text-align: center;
-	opacity: .8;
-	padding: 50px;
-	background-image: -moz-linear-gradient(left, #6a2dac 0, #26d6f9 100%);
-	background-image: -webkit-linear-gradient(left, #6a2dac 0, #26d6f9 100%);
-	background-image: -webkit-gradient(linear, 0 0, 100% 100%, from(#6a2dac), to(#26d6f9));
-	background-image: -o-linear-gradient(left, #6a2dac 0, #26d6f9 100%);
-	background-image: linear-gradient(to right, #6a2dac 0, #26d6f9 100%);
-	background-image: -ms-linear-gradient(to right, #6a2dac 0, #26d6f9 100%);
+	padding: 20px;
+	background-image: -moz-linear-gradient(left, #2371d8 0, #0f9a2a 100%);
+	background-image: -webkit-linear-gradient(left, #2371d8 0, #0f9a2a 100%);
+	background-image: -webkit-gradient(linear, 0 0, 100% 100%, from(#2371d8), to(#0f9a2a));
+	background-image: -o-linear-gradient(left, #2371d8 0, #0f9a2a 100%);
+	background-image: linear-gradient(to right, #2371d8 0, #0f9a2a 100%);
+	background-image: -ms-linear-gradient(to right, #2371d8 0, #0f9a2a 100%);
 	background-repeat: repeat-x;
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffdd4b39',
 		endColorstr='#ff720e9e', GradientType=1)
