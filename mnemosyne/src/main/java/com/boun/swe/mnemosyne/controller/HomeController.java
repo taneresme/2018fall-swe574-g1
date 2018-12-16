@@ -47,4 +47,11 @@ public class HomeController {
 
         return "home";
     }
+
+    @GetMapping(value = "/memories/add")
+    public String index() {
+        return "memories";
+    }
+
+
 }

@@ -42,6 +42,7 @@ public class MemoryController {
         this.userService = userService;
     }
 
+
     @PostMapping(value = "/memories/create", produces = MediaType.APPLICATION_JSON_VALUE)
     public Memory createMemory(@RequestParam("title") @NotBlank final String title, final Principal principal) {
         LOGGER.info("Create memory request received with memory title: {}", title);
