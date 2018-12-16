@@ -56,4 +56,9 @@ public class MemoryService {
         LOGGER.info("Retrieving all published memories by memoryType: {} for userId: {}", memoryType.name(), userId);
         return memoryRepository.findByTypeAndIsPublishedTrue(memoryType);
     }
+
+    public Memory getMemoryById(final Long memoryId) {
+        LOGGER.info("Retrieving memory by id: {}", memoryId);
+        return memoryRepository.findOne(memoryId);
+    }
 }
