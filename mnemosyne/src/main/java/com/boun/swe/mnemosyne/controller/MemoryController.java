@@ -58,9 +58,8 @@ public class MemoryController {
     }
 
     @PatchMapping(value = "/memories/update", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public Memory patchUpdateMemory(@RequestBody @NotNull final Memory memory) {
+    public void patchUpdateMemory(@RequestBody @NotNull final Memory memory) {
         LOGGER.info("Create memory request received with memory title: {}", memory.getTitle());
-        return memoryService.updateMemory(memory);
     }
 
     @GetMapping(value = "/memories", produces = MediaType.APPLICATION_JSON_VALUE)
