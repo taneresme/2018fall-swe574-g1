@@ -81,7 +81,6 @@ public class MemoryController {
         }
 
         validateMemoryByUser(model, user, memory);
-        model.addAttribute("memory", memory);
         return "memories";
     }
 
@@ -132,20 +131,34 @@ public class MemoryController {
     }
 
     private void validateMemoryByUser(Model model, User user, Memory memory) {
+
+        if (memory.getType().equals(MemoryType.PUBLIC)) {
+            model.addAttribute("memory", memory);
+            return;
+        }
+
+        if (user == null) {
+            final String errorMsg =
+                    String.format("Memory: %s is not available to unregistered user", memory.getId());
+            model.addAttribute("memoryNotAvailable", errorMsg);
+        }
+
         if (memory.getType().equals(MemoryType.PRIVATE)) {
             if (user.equals(memory.getUser())) {
                 model.addAttribute("memory", memory);
+                return;
             }
-        } else if (memory.getType().equals(MemoryType.PUBLIC)) {
-            model.addAttribute("memory", memory);
-        } else if (memory.getType().equals(MemoryType.SOCIAL)) {
+        }
+
+        if (memory.getType().equals(MemoryType.SOCIAL)) {
             if (user.getFollowingUsers().contains(memory.getUser())) {
                 model.addAttribute("memory", memory);
+                return;
             }
-        } else {
-            final String errorMsg = String.format("Memory is not available for the user: %s", user.getId());
-            LOGGER.warn(errorMsg);
-            model.addAttribute("memoryNotFound", errorMsg);
         }
+
+        final String errorMsg = String.format(
+                "User: %s has no access to memoryId: %s" + user.getUsername(), user.getId());
+        model.addAttribute("memoryNotAvailable", errorMsg);
     }
 }
