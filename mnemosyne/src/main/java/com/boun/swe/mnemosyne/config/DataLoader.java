@@ -28,7 +28,7 @@ public class DataLoader {
 
     @PostConstruct
     public void loadData() {
-        User user = User.builder()
+        User admin = User.builder()
                 .id(1L)
                 .email("test@example.com")
                 .password("12345")
@@ -36,33 +36,48 @@ public class DataLoader {
                 .username("admin")
                 .build();
 
+        User user = User.builder()
+                .id(2L)
+                .email("user@example.com")
+                .password("12345")
+                .role(Role.USER)
+                .username("user")
+                .build();
+
+        userRepository.save(admin);
         userRepository.save(user);
 
         Memory privateMemory = Memory.builder()
                 .id(1L)
                 .title("70's Berlin")
                 .text("there was a wall!")
-                .dateFrom(new Date(100_000_000))
-                .dateTo(new Date(150_000_000))
+                .year(2018)
+                .month(11)
+                .day(null)
+                .duration(1)
+                .period("Days")
                 .isPublished(true)
                 .locations(Collections.singleton(new Location(1L, "Berlin", 52.520008, 13.404954, Collections.emptySet())))
                 .type(MemoryType.PUBLIC)
-                .user(user)
+                .user(admin)
                 .build();
 
         Memory publicMemory = Memory.builder()
                 .id(2L)
                 .title("90's Berlin")
                 .text("wall is gone!")
-                .dateFrom(new Date(100_000_000))
-                .dateTo(new Date(150_000_000))
+                .year(1990)
+                .month(null)
+                .day(null)
+                .duration(1)
+                .period("Decades")
                 .isPublished(true)
                 .locations(Collections.singleton(new Location(1L, "Berlin", 52.520008, 13.404954, Collections.emptySet())))
-                .type(MemoryType.PRIVATE)
+                .type(MemoryType.PUBLIC)
                 .user(user)
                 .build();
 
-        memoryRepository.save(publicMemory);
         memoryRepository.save(privateMemory);
+        memoryRepository.save(publicMemory);
     }
 }

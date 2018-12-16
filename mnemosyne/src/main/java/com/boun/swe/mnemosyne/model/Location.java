@@ -1,5 +1,6 @@
 package com.boun.swe.mnemosyne.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -38,6 +39,7 @@ public class Location {
     @Column(name = "longitude")
     private double longitude;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "locations")
     private Set<Memory> memories;
 

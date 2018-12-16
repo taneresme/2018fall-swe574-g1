@@ -2,6 +2,8 @@ package com.boun.swe.mnemosyne.model;
 
 
 import com.boun.swe.mnemosyne.enums.MemoryType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -47,6 +49,7 @@ public class Memory {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
+    @JsonIgnore
     private User user;
 
     @NotNull
@@ -54,13 +57,15 @@ public class Memory {
 
     private String text;
 
-    @Temporal(TemporalType.DATE)
-    @Column(name = "date_from")
-    private Date dateFrom;
+    private Integer year;
 
-    @Temporal(TemporalType.DATE)
-    @Column(name = "date_to")
-    private Date dateTo;
+    private Integer month;
+
+    private Integer day;
+
+    private Integer duration;
+
+    private String period;
 
     @Column(name = "is_published")
     private boolean isPublished;
@@ -81,15 +86,19 @@ public class Memory {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("Memory{");
-        sb.append("user=").append(user);
-        sb.append(", title='").append(title).append('\'');
-        sb.append(", text='").append(text).append('\'');
-        sb.append(", dateFrom=").append(dateFrom);
-        sb.append(", dateTo=").append(dateTo);
-        sb.append(", isPublished=").append(isPublished);
-        sb.append(", type=").append(type.name());
-        sb.append('}');
-        return sb.toString();
+        return "Memory{" +
+                "id=" + id +
+                ", user=" + user +
+                ", title='" + title + '\'' +
+                ", text='" + text + '\'' +
+                ", year=" + year +
+                ", month=" + month +
+                ", day=" + day +
+                ", duration=" + duration +
+                ", period='" + period + '\'' +
+                ", isPublished=" + isPublished +
+                ", type=" + type +
+                ", locations=" + locations +
+                '}';
     }
 }

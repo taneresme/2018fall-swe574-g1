@@ -17,15 +17,15 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Controller
-public class HomeController {
+public class ViewController {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(HomeController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ViewController.class);
 
     private UserService userService;
     private final MemoryService memoryService;
 
     @Autowired
-    public HomeController(final UserService userService, MemoryService memoryService) {
+    public ViewController(final UserService userService, MemoryService memoryService) {
         this.userService = userService;
         this.memoryService = memoryService;
     }
@@ -46,4 +46,11 @@ public class HomeController {
 
         return "home";
     }
+
+    @GetMapping(value = "/memories/add")
+    public String index() {
+        return "memories";
+    }
+
+
 }
