@@ -2,6 +2,8 @@ package com.boun.swe.mnemosyne.model;
 
 
 import com.boun.swe.mnemosyne.enums.MemoryType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -47,6 +49,7 @@ public class Memory {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
+    @JsonIgnore
     private User user;
 
     @NotNull

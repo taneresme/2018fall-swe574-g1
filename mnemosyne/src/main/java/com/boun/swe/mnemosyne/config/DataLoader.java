@@ -71,7 +71,7 @@ public class DataLoader {
                 .user(user)
                 .build();
 
-        memoryRepository.save(publicMemory);
         memoryRepository.save(privateMemory);
+        memoryRepository.save(publicMemory);
     }
 }

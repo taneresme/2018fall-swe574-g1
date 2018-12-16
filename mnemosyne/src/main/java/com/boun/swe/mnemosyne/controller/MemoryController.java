@@ -11,8 +11,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -58,8 +56,12 @@ public class MemoryController {
     }
 
     @PatchMapping(value = "/memories/update", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public void patchUpdateMemory(@RequestBody @NotNull final Memory memory) {
+    public void patchUpdateMemory(@RequestBody @NotNull final Memory memory, final Principal principal) {
         LOGGER.info("Create memory request received with memory title: {}", memory.getTitle());
+        // TODO: update with principal
+        // User user = userService.findByUsername(principal.getName());
+        User user = userService.findByUserId(2L);
+        memory.setUser(user);
         memoryService.updateMemory(memory);
     }
 
@@ -72,16 +74,17 @@ public class MemoryController {
     @GetMapping(value = "/memories/{memoryId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Memory getMemoryById(@PathVariable("memoryId") final Long memoryId, final Principal principal) {
         LOGGER.info("Get memory request received for memoryId: {}", memoryId);
-        User user = userService.findByUsername(principal.getName());
+        // User user = userService.findByUsername(principal.getName());
         Memory memory = memoryService.getMemoryById(memoryId);
 
-        if (memory == null) {
+        /*if (memory == null) {
             final String errorMsg = "Memory with id: " + memoryId + " not found!";
             LOGGER.warn(errorMsg);
             throw new MemoryNotFoundException(errorMsg);
         }
 
-        return validateMemoryByUser(user, memory);
+        return validateMemoryByUser(user, memory);*/
+        return memory;
     }
 
     @GetMapping(value = "/user/{userId}/memories", produces = MediaType.APPLICATION_JSON_VALUE)
