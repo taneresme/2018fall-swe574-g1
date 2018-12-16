@@ -1,8 +1,9 @@
 package com.boun.swe.mnemosyne.annotation.annotationservice.model;
 
-//  Some Design Decisions by KUVETT Group
-/*    1)    Bodies of Annotations are text-only
-*     2)    Annotations are 1-1 relations, ie. *only one* Target
+/**  Some Design Decisions by KUVETT Group
+*       1)    Bodies of Annotations are text-only
+*           1.1) Later on, by the requirements, it's changed to accept images as well.
+*       2)    Annotations are 1-1 relations, ie. *only one* Target
 *           and *at most one* Body.
 */
 
@@ -26,8 +27,11 @@ package com.boun.swe.mnemosyne.annotation.annotationservice.model;
     }
 */
 
+import com.github.anno4j.model.Target;
+import eu.fbk.rdfpro.jsonld.JSONLD;
 import org.springframework.boot.json.BasicJsonParser;
 import org.springframework.boot.json.JsonParser;
+import com.github.anno4j.Anno4j;
 
 import javax.persistence.*;
 
@@ -35,55 +39,33 @@ import javax.persistence.*;
 @Entity
 @Table(name = "annotations")
 public class Annotation {
-    private String context = "\"http://www.w3.org/ns/anno.jsonld\",";
-    private String id;
-    private String type = "\"Annotation\",";
-    private String body;
-    private String target;
+    private com.github.anno4j.model.Annotation annotation;
+    private String annotationId;
+    private String targetId;
+    private String bodyCreator;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long idNumeric;
 
-
-    public String getContext() {
-        return this.context;
+    public Annotation(com.github.anno4j.model.Annotation annotation){
+        this.annotation = annotation;
+        annotationId = annotation.getResourceAsString();
+        if(!annotation.getTargets().isEmpty())
+            this.targetId = ((Target) annotation.getTargets().toArray()[0]).getResourceAsString();
+        // TODO: what is Resource?
+        if(!annotation.getBodies().isEmpty())
+            this.bodyCreator = ((Target) annotation.getBodies().toArray()[0]).getCreator().getName();
     }
-    public String getId() {
-        return this.id;
-    }
-    public String getType() {
-        return this.type;
-    }
-    public String getBody() {
-        return this.body;
-    }
-    public String getTarget() {
-        return this.target;
-    }
-
-    public void setId() {
+    public void setId(){
         if (this.idNumeric != null)
-            this.id = idNumeric.toString();
-        else { id = ""; }
+            annotation.setModified(idNumeric.toString());
+        // TODO: More on ID's how to assign them, how to access them?
     }
 
-    //  public void setTarget(String target) { this.target = target; }
-    //  public void setBody(String body) { this.body = body; }
-
-    public Annotation(String body, String target){
-        this.body = body;
-        this.target = target;
-    }
-
-    @Override
-    public String toString(){
-        return "{" +
-                "\"@context\": "    + context +
-                "\"id\": "          + id +
-                "\"type\": "        + type +
-                "\"body\": "        + body +
-                "\"target\": "      + target + "}";
+    public String getId(){
+        return annotation.getGenerated();
+        // TODO: More on ID's how to assign them, how to access them?
     }
 
 }
