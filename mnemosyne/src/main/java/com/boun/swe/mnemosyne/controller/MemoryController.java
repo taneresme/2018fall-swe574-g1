@@ -28,7 +28,7 @@ import java.util.List;
 
 @Validated
 @RestController
-@RequestMapping
+@RequestMapping("/api")
 public class MemoryController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MemoryController.class);
