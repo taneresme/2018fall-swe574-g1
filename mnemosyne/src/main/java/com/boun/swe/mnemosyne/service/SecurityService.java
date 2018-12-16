@@ -33,7 +33,13 @@ public class SecurityService {
         final UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(userDetails, password, userDetails.getAuthorities());
 
-        authenticationManager.authenticate(authenticationToken);
+        /* If there is any exceptions below, we will be handling the exception
+         * not to allow Spring to redirect to its error pages. */
+        try {
+            authenticationManager.authenticate(authenticationToken);
+        } catch (Throwable e) {
+            return false;
+        }
 
         if (authenticationToken.isAuthenticated()) {
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
