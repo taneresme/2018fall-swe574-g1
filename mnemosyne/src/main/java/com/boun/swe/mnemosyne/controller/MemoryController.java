@@ -141,6 +141,7 @@ public class MemoryController {
             final String errorMsg =
                     String.format("Memory: %s is not available to unregistered user", memory.getId());
             model.addAttribute("memoryNotAvailable", errorMsg);
+            return;
         }
 
         if (memory.getType().equals(MemoryType.PRIVATE)) {
