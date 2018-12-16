@@ -28,7 +28,7 @@ public class DataLoader {
 
     @PostConstruct
     public void loadData() {
-        User user = User.builder()
+        User admin = User.builder()
                 .id(1L)
                 .email("test@example.com")
                 .password("12345")
@@ -36,6 +36,15 @@ public class DataLoader {
                 .username("admin")
                 .build();
 
+        User user = User.builder()
+                .id(2L)
+                .email("user@example.com")
+                .password("12345")
+                .role(Role.USER)
+                .username("user")
+                .build();
+
+        userRepository.save(admin);
         userRepository.save(user);
 
         Memory privateMemory = Memory.builder()
@@ -47,7 +56,7 @@ public class DataLoader {
                 .isPublished(true)
                 .locations(Collections.singleton(new Location(1L, "Berlin", 52.520008, 13.404954, Collections.emptySet())))
                 .type(MemoryType.PUBLIC)
-                .user(user)
+                .user(admin)
                 .build();
 
         Memory publicMemory = Memory.builder()
@@ -58,7 +67,7 @@ public class DataLoader {
                 .dateTo(new Date(150_000_000))
                 .isPublished(true)
                 .locations(Collections.singleton(new Location(1L, "Berlin", 52.520008, 13.404954, Collections.emptySet())))
-                .type(MemoryType.PRIVATE)
+                .type(MemoryType.PUBLIC)
                 .user(user)
                 .build();
 

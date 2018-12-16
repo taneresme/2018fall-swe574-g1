@@ -1,6 +1,7 @@
 package com.boun.swe.mnemosyne.controller;
 
 import com.boun.swe.mnemosyne.enums.MemoryType;
+import com.boun.swe.mnemosyne.exception.MemoryNotFoundException;
 import com.boun.swe.mnemosyne.model.Memory;
 import com.boun.swe.mnemosyne.model.User;
 import com.boun.swe.mnemosyne.service.MemoryService;
@@ -10,25 +11,25 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.constraints.NotNull;
 import java.security.Principal;
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Validated
-@Controller
+@RestController
 @RequestMapping
 public class MemoryController {
 
@@ -44,32 +45,32 @@ public class MemoryController {
     }
 
     @PostMapping(value = "/memories/create", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String createMemory(@ModelAttribute("memoryTitle") @NotBlank final String title, final Model model) {
+    public Memory createMemory(@RequestParam("title") @NotBlank final String title, final Principal principal) {
         LOGGER.info("Create memory request received with memory title: {}", title);
-        Memory createdMemory = memoryService.createMemory(
-                Memory.builder().title(title).type(MemoryType.PRIVATE).build());
-        model.addAttribute("memory", createdMemory);
-        return "memories";
+        /*User user = userService.findByUsername(principal.getName());
+        if (user == null) {
+            // TODO: throw exception here
+            LOGGER.warn("User cannot create memory");
+            return null;
+        }*/
+        User user = userService.findByUserId(2L);
+        return memoryService.createMemory(Memory.builder().title(title).type(MemoryType.PRIVATE).user(user).build());
     }
 
-    @PatchMapping(value = "/memories/update", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public String patchUpdateMemory(@ModelAttribute("memoryForm") @NotNull final Memory memory, final Model model) {
+    @PatchMapping(value = "/memories/update", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public Memory patchUpdateMemory(@RequestBody @NotNull final Memory memory) {
         LOGGER.info("Create memory request received with memory title: {}", memory.getTitle());
-        Memory updatedMemory = memoryService.updateMemory(memory);
-        model.addAttribute("updatedMemory", updatedMemory);
-        return "memories";
+        return memoryService.updateMemory(memory);
     }
 
     @GetMapping(value = "/memories", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String getAllPublicMemories(final Model model) {
+    public List<Memory> getAllPublicMemories() {
         LOGGER.info("Get all public memories request received");
-        List<Memory> memories = memoryService.getAllMemoriesByType(MemoryType.PUBLIC);
-        model.addAttribute("publicMemories", memories);
-        return "memories";
+        return memoryService.getAllMemoriesByType(MemoryType.PUBLIC);
     }
 
     @GetMapping(value = "/memories/{memoryId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String getMemoryById(@PathVariable("memoryId") final Long memoryId, final Principal principal, final Model model) {
+    public Memory getMemoryById(@PathVariable("memoryId") final Long memoryId, final Principal principal) {
         LOGGER.info("Get memory request received for memoryId: {}", memoryId);
         User user = userService.findByUsername(principal.getName());
         Memory memory = memoryService.getMemoryById(memoryId);
@@ -77,34 +78,30 @@ public class MemoryController {
         if (memory == null) {
             final String errorMsg = "Memory with id: " + memoryId + " not found!";
             LOGGER.warn(errorMsg);
-            model.addAttribute("memoryNotFound", errorMsg);
+            throw new MemoryNotFoundException(errorMsg);
         }
 
-        validateMemoryByUser(model, user, memory);
-        return "memories";
+        return validateMemoryByUser(user, memory);
     }
 
     @GetMapping(value = "/user/{userId}/memories", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String getMemoriesByUser(@PathVariable("userId") final Long userId, @RequestParam("memoryType") final String memoryType,
-                                    final Principal principal, final Model model) {
+    public List<Memory> getMemoriesByUser(@PathVariable("userId") final Long userId, @RequestParam("memoryType") final String memoryType,
+                                          final Principal principal) {
         LOGGER.info("Get memories request received by userId: {} with memoryType: {}", userId, memoryType);
         User user = userService.findByUsername(principal.getName());
-        final List<Memory> memories = findRequestedMemories(userId, memoryType, user);
-        model.addAttribute("userPublicMemories", memories);
-        return "memories";
+        return findRequestedMemories(userId, memoryType, user);
     }
 
     @GetMapping(value = "/friendships/memories", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String getFollowingsMemories(final Principal principal, final Model model) {
+    public List<Memory> getFollowingsMemories(final Principal principal) {
         User user = userService.findByUsername(principal.getName());
         LOGGER.info("Get memories of followings request received for user: {}", user.getId());
-        Set<Memory> followingsMemories = new HashSet<>();
+        final List<Memory> followingsMemories = new ArrayList<>();
         user.getFollowingUsers().forEach(followingUser -> {
             followingsMemories.addAll(memoryService.getAllMemoriesByTypeAndUser(MemoryType.PUBLIC, followingUser.getId()));
             followingsMemories.addAll(memoryService.getAllMemoriesByTypeAndUser(MemoryType.SOCIAL, followingUser.getId()));
         });
-        model.addAttribute("followingsMemories", followingsMemories);
-        return "memories";
+        return followingsMemories;
     }
 
     private List<Memory> findRequestedMemories(Long userId, String memoryType, User userInRequest) {
@@ -130,36 +127,32 @@ public class MemoryController {
         return memories;
     }
 
-    private void validateMemoryByUser(Model model, User user, Memory memory) {
+    private Memory validateMemoryByUser(User user, Memory memory) {
 
         if (memory.getType().equals(MemoryType.PUBLIC)) {
-            model.addAttribute("memory", memory);
-            return;
+            return memory;
         }
 
         if (user == null) {
             final String errorMsg =
                     String.format("Memory: %s is not available to unregistered user", memory.getId());
-            model.addAttribute("memoryNotAvailable", errorMsg);
-            return;
+            throw new MemoryNotFoundException(errorMsg);
         }
 
         if (memory.getType().equals(MemoryType.PRIVATE)) {
             if (user.equals(memory.getUser())) {
-                model.addAttribute("memory", memory);
-                return;
+                return memory;
             }
         }
 
         if (memory.getType().equals(MemoryType.SOCIAL)) {
             if (user.getFollowingUsers().contains(memory.getUser())) {
-                model.addAttribute("memory", memory);
-                return;
+                return memory;
             }
         }
 
         final String errorMsg = String.format(
                 "User: %s has no access to memoryId: %s" + user.getUsername(), user.getId());
-        model.addAttribute("memoryNotAvailable", errorMsg);
+        throw new MemoryNotFoundException(errorMsg);
     }
 }

@@ -32,7 +32,7 @@ public class MemoryService {
     }
 
     public Memory updateMemory(Memory memory) {
-        if (!memoryRepository.exists(Example.of(memory))) {
+        if (!memoryRepository.exists(memory.getId())) {
             LOGGER.warn("Unable to update memory with id: {} and title: {}",
                     memory.getId(), memory.getTitle());
             throw new MemoryNotFoundException("Unable to find memory with id: " + memory.getId());
