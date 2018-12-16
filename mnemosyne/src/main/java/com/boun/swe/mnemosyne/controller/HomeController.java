@@ -4,7 +4,6 @@ import com.boun.swe.mnemosyne.enums.MemoryType;
 import com.boun.swe.mnemosyne.model.Memory;
 import com.boun.swe.mnemosyne.model.User;
 import com.boun.swe.mnemosyne.service.MemoryService;
-import com.boun.swe.mnemosyne.service.SecurityService;
 import com.boun.swe.mnemosyne.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
