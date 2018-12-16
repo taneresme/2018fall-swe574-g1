@@ -46,7 +46,8 @@ public class MemoryController {
     @PostMapping(value = "/memories/create", produces = MediaType.APPLICATION_JSON_VALUE)
     public String createMemory(@ModelAttribute("memoryTitle") @NotBlank final String title, final Model model) {
         LOGGER.info("Create memory request received with memory title: {}", title);
-        Memory createdMemory = memoryService.createMemory(Memory.builder().title(title).build());
+        Memory createdMemory = memoryService.createMemory(
+                Memory.builder().title(title).type(MemoryType.PRIVATE).build());
         model.addAttribute("memory", createdMemory);
         return "memories";
     }
@@ -64,6 +65,23 @@ public class MemoryController {
         LOGGER.info("Get all public memories request received");
         List<Memory> memories = memoryService.getAllMemoriesByType(MemoryType.PUBLIC);
         model.addAttribute("publicMemories", memories);
+        return "memories";
+    }
+
+    @GetMapping(value = "/memories/{memoryId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public String getMemoryById(@PathVariable("memoryId") final Long memoryId, final Principal principal, final Model model) {
+        LOGGER.info("Get memory request received for memoryId: {}", memoryId);
+        User user = userService.findByUsername(principal.getName());
+        Memory memory = memoryService.getMemoryById(memoryId);
+
+        if (memory == null) {
+            final String errorMsg = "Memory with id: " + memoryId + " not found!";
+            LOGGER.warn(errorMsg);
+            model.addAttribute("memoryNotFound", errorMsg);
+        }
+
+        validateMemoryByUser(model, user, memory);
+        model.addAttribute("memory", memory);
         return "memories";
     }
 
@@ -111,5 +129,23 @@ public class MemoryController {
             memories = memoryService.getAllMemoriesByTypeAndUser(MemoryType.PUBLIC, userId);
         }
         return memories;
+    }
+
+    private void validateMemoryByUser(Model model, User user, Memory memory) {
+        if (memory.getType().equals(MemoryType.PRIVATE)) {
+            if (user.equals(memory.getUser())) {
+                model.addAttribute("memory", memory);
+            }
+        } else if (memory.getType().equals(MemoryType.PUBLIC)) {
+            model.addAttribute("memory", memory);
+        } else if (memory.getType().equals(MemoryType.SOCIAL)) {
+            if (user.getFollowingUsers().contains(memory.getUser())) {
+                model.addAttribute("memory", memory);
+            }
+        } else {
+            final String errorMsg = String.format("Memory is not available for the user: %s", user.getId());
+            LOGGER.warn(errorMsg);
+            model.addAttribute("memoryNotFound", errorMsg);
+        }
     }
 }
