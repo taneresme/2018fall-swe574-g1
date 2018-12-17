@@ -5,6 +5,7 @@ import com.boun.swe.mnemosyne.model.Memory;
 import com.boun.swe.mnemosyne.model.User;
 import com.boun.swe.mnemosyne.service.MemoryService;
 import com.boun.swe.mnemosyne.service.UserService;
+import com.sun.xml.internal.bind.v2.TODO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,27 +50,20 @@ public class ViewController {
         return "home";
     }
 
+    // TODO: map to /memories
     @GetMapping(value = "/memories/add")
-    public String index() {
+    public String memoryView() {
         return "memories";
     }
 
 
+    // TODO: this shouldn't be here, and handled by view side?
     @GetMapping(value = "/memories/{memoryId}")
     public String getMemoryById(@PathVariable("memoryId") final Long memoryId, final Principal principal, final Model model) {
         LOGGER.info("Get memory request received for memoryId: {}", memoryId);
-        // User user = userService.findByUsername(principal.getName());
         model.addAttribute("principal", principal);
         Memory memory = memoryService.getMemoryById(memoryId);
         model.addAttribute("memory", memory);
-
-        /*if (memory == null) {
-            final String errorMsg = "Memory with id: " + memoryId + " not found!";
-            LOGGER.warn(errorMsg);
-            throw new MemoryNotFoundException(errorMsg);
-        }
-
-        return validateMemoryByUser(user, memory);*/
         return "memory_view";
     }
 

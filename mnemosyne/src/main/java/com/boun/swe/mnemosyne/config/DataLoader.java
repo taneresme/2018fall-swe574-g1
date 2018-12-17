@@ -6,25 +6,21 @@ import com.boun.swe.mnemosyne.model.Location;
 import com.boun.swe.mnemosyne.model.Memory;
 import com.boun.swe.mnemosyne.model.User;
 import com.boun.swe.mnemosyne.repository.MemoryRepository;
-import com.boun.swe.mnemosyne.repository.UserRepository;
 import com.boun.swe.mnemosyne.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.util.Collections;
-import java.util.Date;
 
 @Component
 public class DataLoader {
 
-    private UserRepository userRepository;
     private MemoryRepository memoryRepository;
     private UserService userService;
 
     @Autowired
-    public DataLoader(UserRepository userRepository, UserService userService, MemoryRepository memoryRepository) {
-        this.userRepository = userRepository;
+    public DataLoader(UserService userService, MemoryRepository memoryRepository) {
         this.memoryRepository = memoryRepository;
         this.userService = userService;
     }
@@ -48,17 +44,17 @@ public class DataLoader {
                 .build();
 
 
-        User mavi = User.builder()
+        User blue = User.builder()
                 .id(3L)
-                .email("mavi@example.com")
+                .email("blue@example.com")
                 .password("123")
                 .role(Role.USER)
-                .username("mavi")
+                .username("blue")
                 .build();
 
         userService.save(admin);
         userService.save(user);
-        userService.save(mavi);
+        userService.save(blue);
 
         Memory privateMemory = Memory.builder()
                 .id(1L)
@@ -87,7 +83,7 @@ public class DataLoader {
                 .isPublished(true)
                 .locations(Collections.singleton(new Location(1L, "Berlin", 52.520008, 13.404954, Collections.emptySet())))
                 .type(MemoryType.PUBLIC)
-                .user(mavi)
+                .user(blue)
                 .build();
 
         Memory examMemory = Memory.builder()
@@ -102,7 +98,7 @@ public class DataLoader {
                 .isPublished(true)
                 .locations(Collections.singleton(new Location(1L, "Berlin", 52.520008, 13.404954, Collections.emptySet())))
                 .type(MemoryType.PUBLIC)
-                .user(mavi)
+                .user(blue)
                 .build();
 
         memoryRepository.save(privateMemory);

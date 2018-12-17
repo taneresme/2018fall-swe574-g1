@@ -62,7 +62,7 @@ public class MemoryController {
         LOGGER.info("Create memory request received with memory title: {}", memory.getTitle());
         User user = userService.findByUsername(principal.getName());
         memory.setUser(user);
-        memory.text = HtmlUtils.htmlUnescape(memory.text);
+        memory.setText(HtmlUtils.htmlUnescape(memory.getText()));
         memoryService.updateMemory(memory);
     }
 
