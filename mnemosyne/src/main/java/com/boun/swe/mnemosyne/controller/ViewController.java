@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.security.Principal;
 import java.util.HashSet;
@@ -42,6 +43,7 @@ public class ViewController {
             followingsMemories.addAll(memoryService.getAllMemoriesByTypeAndUser(MemoryType.PUBLIC, followingUser.getId()));
             followingsMemories.addAll(memoryService.getAllMemoriesByTypeAndUser(MemoryType.SOCIAL, followingUser.getId()));
         });
+        model.addAttribute("memories", memoryService.getAllMemoriesByType(MemoryType.PUBLIC));
         model.addAttribute("followingsMemories", followingsMemories);
 
         return "home";
@@ -52,5 +54,23 @@ public class ViewController {
         return "memories";
     }
 
+
+    @GetMapping(value = "/memories/{memoryId}")
+    public String getMemoryById(@PathVariable("memoryId") final Long memoryId, final Principal principal, final Model model) {
+        LOGGER.info("Get memory request received for memoryId: {}", memoryId);
+        // User user = userService.findByUsername(principal.getName());
+        model.addAttribute("principal", principal);
+        Memory memory = memoryService.getMemoryById(memoryId);
+        model.addAttribute("memory", memory);
+
+        /*if (memory == null) {
+            final String errorMsg = "Memory with id: " + memoryId + " not found!";
+            LOGGER.warn(errorMsg);
+            throw new MemoryNotFoundException(errorMsg);
+        }
+
+        return validateMemoryByUser(user, memory);*/
+        return "memory_view";
+    }
 
 }

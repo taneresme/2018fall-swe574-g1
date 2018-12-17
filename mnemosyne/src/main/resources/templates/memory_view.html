@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/commons :: head"/>
+<link rel="stylesheet" type="text/css" th:href="@{/css/memory.css}"/>
+<link rel="stylesheet" type="text/css" th:href="@{/css/memory-view.css}"/>
+<link type="text/css" rel="stylesheet" href="http://annotorious.github.com/latest/annotorious.css" />
+<body>
+
+<div th:replace="fragments/header :: header"/>
+
+
+<div class="container bootstrap snippet align-text-center" style="margin-bottom: 100px; margin-top: 100px; max-width: 70%;">
+    <div class="row">
+        <span style="font-size: 26px;"><p th:text="${memory.title}" /></span>
+    </div>
+    <div class="row">
+        <span th:text="${memory.year} != null ? ${memory.year}" />
+        <span th:text="${memory.month} != null ? '/' + ${memory.month}" />
+        <span th:text="${memory.day} != null ? '/' + ${memory.day}" />
+        &nbsp;for&nbsp;<p th:text="${memory.duration}" />&nbsp;<p th:text="${memory.period}" />
+    </div>
+    <div class="row">
+        <div id="editor-view">
+            <pre>
+                <p th:text="${memory.text}" />
+            </pre>
+        </div>
+    </div>
+    <div class="row">
+        <div style="height: 100%; min-height: 300px;" id="map"></div>
+    </div>
+</div>
+
+<script th:src="@{/js/annotator.js}"></script>
+<script th:src="@{/js/custom.js}"></script>
+<th:block th:include="fragments/footer :: footer"/>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBPPQdm70nzyqm7k-GAfYQq8swf0UAU6ss&amp;callback=initMap"
+        async="async" defer="defer"></script>
+<script type="text/javascript" src="http://annotorious.github.com/latest/annotorious.min.js"></script>
+</body>
+</html>

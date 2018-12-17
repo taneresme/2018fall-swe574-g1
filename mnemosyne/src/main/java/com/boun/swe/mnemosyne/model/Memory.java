@@ -55,7 +55,7 @@ public class Memory {
     @NotNull
     private String title;
 
-    private String text;
+    public String text;
 
     private Integer year;
 
