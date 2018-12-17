@@ -35,7 +35,7 @@ public class UserController {
     @GetMapping(value = "/register")
     public String registration(Principal principal, final Model model) {
         /* If the user is already authenticated */
-        if (principal != null){
+        if (principal != null) {
             return "redirect:/home";
         }
 
@@ -69,7 +69,7 @@ public class UserController {
     @GetMapping(value = "/login")
     public String getLogin(Principal principal, final Model model) {
         /* If the user is already authenticated */
-        if (principal != null){
+        if (principal != null) {
             return "redirect:/home";
         }
 

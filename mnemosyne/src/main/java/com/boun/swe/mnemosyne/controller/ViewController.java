@@ -5,7 +5,6 @@ import com.boun.swe.mnemosyne.model.Memory;
 import com.boun.swe.mnemosyne.model.User;
 import com.boun.swe.mnemosyne.service.MemoryService;
 import com.boun.swe.mnemosyne.service.UserService;
-import com.sun.xml.internal.bind.v2.TODO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
