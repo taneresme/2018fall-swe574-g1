@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.HtmlUtils;
 
 import javax.validation.constraints.NotNull;
 import java.security.Principal;
@@ -59,10 +60,9 @@ public class MemoryController {
     @PatchMapping(value = "/memories/update", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public void patchUpdateMemory(@RequestBody @NotNull final Memory memory, final Principal principal) {
         LOGGER.info("Create memory request received with memory title: {}", memory.getTitle());
-        // TODO: update with principal
-        // User user = userService.findByUsername(principal.getName());
-        User user = userService.findByUserId(2L);
+        User user = userService.findByUsername(principal.getName());
         memory.setUser(user);
+        memory.text = HtmlUtils.htmlUnescape(memory.text);
         memoryService.updateMemory(memory);
     }
 
