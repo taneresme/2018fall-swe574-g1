@@ -1,0 +1,63 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head th:fragment="head">
+    <meta charset="utf-8"/>
+    <meta name="_csrf_parameter" content="_csrf"/>
+    <meta name="_csrf_header" content="X-CSRF-TOKEN"/>
+    <meta name="_csrf" content="97950459-f9aa-4b29-9179-d702228d33f0"/>
+
+    <title th:text="KUVETT"/>
+
+    <link rel="stylesheet" type="text/css"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.css"/>
+    <link rel="stylesheet" type="text/css"
+          href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap4.min.css"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/docs.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/font-awesome.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/custom.css}"/>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+
+    <!--<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous" />-->
+    <script
+            src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+</head>
+
+<div th:fragment="loading">
+    <div class="mx-auto" style="width: 150px;">
+        <p class="lead">
+            <i class="fa fa-spinner fa-spin" style="font-size: 2em;"> </i>
+            Loading...
+        </p>
+    </div>
+</div>
+
+<div th:fragment="prompt-modal">
+    <div class="modal fade" tabindex="-1" role="dialog" id="modal-prompt">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Are you sure?</h5>
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p id="modal-prompt-model-message">Are you sure?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success"
+                            onclick="promptModalYesButtonClicked()">
+                        <i class="fa fa-check"/> Yes
+                    </button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">
+                        <i class="fa fa-close"/> No
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</html>

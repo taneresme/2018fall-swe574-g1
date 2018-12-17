@@ -1,0 +1,65 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<div th:fragment="header">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    <div class="fixed-top mb-4">
+        <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
+            <div class="container">
+                <a class="navbar-brand mb-0" href="/">mnemosyne</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse"
+                        data-target="#navbarNavAltMarkup"
+                        aria-controls="navbarNavAltMarkup" aria-expanded="false"
+                        aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                    <ul class="nav navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-item nav-link" href="/home">home</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-item nav-link" href="/home">followings</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-item nav-link" href="/memories/add">new memory</a></li>
+                    </ul>
+                </div>
+
+                <div class="nav navbar-right" th:if="${principal != null}">
+                    <ul class="nav navbar-nav">
+                        <li class="nav-item">
+                            <span class="navbar-text">welcome, <span th:text="${principal.principal.username}"/></span>
+                        </li>
+                        <li class="nav-item">
+                            <div class="dropdown show">
+                                <!--<img th:src="${principal.profilePictureUrl}" class="rounded float-left"/>-->
+                                <a class="btn dropdown-toggle" data-toggle="dropdown"
+                                   aria-haspopup="true" aria-expanded="false"> </a>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                    <a class="dropdown-item" href="/profile"><i class="fa fa-user mr-3"/>profile</a>
+                                    <a class="dropdown-item" href="/logout"><i class="fa fa-sign-out mr-3"/>logout</a>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="nav navbar-right" th:if="${principal == null}">
+                    <ul class="nav navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-item nav-link" href="/login">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-item nav-link" href="/register">Sign up</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+</div>
+</html>

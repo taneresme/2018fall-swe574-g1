@@ -1,0 +1,198 @@
+/*html, body {*/
+  /*font-family: 'Ubuntu', sans-serif;*/
+  /*height: 100%;*/
+/*}*/
+#centerDiv {
+    position:fixed;
+    top: 50%;
+    left: 50%;
+    /* width:10em; */
+    margin-top: -9em; 
+    margin-left: -15em; 
+}
+
+h1 {
+  font-size: 28px;
+  margin-bottom: 2.5%;
+}
+
+/*div {*/
+  /*font-family: 'Ubuntu', sans-serif;*/
+/*}*/
+
+/*a {*/
+  /*color: #333;*/
+/*}*/
+/*a:hover {*/
+  /*color: lightcoral;*/
+/*}*/
+
+/* button, */
+
+
+/* button:hover {
+  background: lightcoral;
+} */
+
+/*
+span {
+  font-family: 'Ubuntu', sans-serif;
+  color: #333;
+  border: none;
+  font-size: 18px;
+}*/
+
+ /* Style the form */
+#regForm {
+  background-color: #ffffff;
+  margin: 100px auto;
+  padding: 40px;
+  width: 40%;
+  min-width: 300px;
+}
+
+
+/* Mark input boxes that gets an error on validation: */
+input.invalid {
+  background-color: #ffdddd;
+}
+
+/* Hide all steps by default: */
+.tab {
+  display: none;
+}
+
+/* Make circles that indicate the steps of the form: */
+.step {
+  height: 15px;
+  width: 15px;
+  margin: 0 2px;
+  background-color: #bbbbbb;
+  border: none;
+  border-radius: 50%;
+  display: inline-block;
+  opacity: 0.5;
+}
+
+/* Mark the active step: */
+.step.active {
+  opacity: 1;
+}
+
+/* Mark the steps that are finished and valid: */
+.step.finish {
+  background-color: #4CAF50;
+}
+
+.add-memory-header {
+  margin: 1%;
+  padding-left: 2%;
+}
+
+.title-input {
+  font-family: FontAwesome, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+.slider {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 15px;
+    border-radius: 5px;  
+    background: #d3d3d3;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%; 
+    background: #4CAF50;
+    cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: #4CAF50;
+    cursor: pointer;
+}
+      #map {
+        height: 100%;
+      }
+      #description {
+        font-size: 15px;
+        font-weight: 300;
+      }
+      #infowindow-content .title {
+        font-weight: bold;
+      }
+
+      #infowindow-content {
+        display: none;
+      }
+
+      #map #infowindow-content {
+        display: inline;
+      }
+
+      .pac-card {
+        margin: 10px 10px 0 0;
+        border-radius: 2px 0 0 2px;
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        outline: none;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+        background-color: #fff;
+      }
+
+      #pac-container {
+        padding-bottom: 0px;
+        padding-bottom: 12px;
+        margin-right: 12px;
+      }
+
+      .pac-controls {
+        display: inline-block;
+        padding: 5px 11px;
+      }
+
+      .pac-controls label {
+        font-size: 13px;
+        font-weight: 300;
+      }
+
+      /* #pac-input {
+        background-color: #fff;
+        font-size: 15px;
+        font-weight: 300;
+        margin-left: 12px;
+        padding: 0 11px 0 13px;
+        text-overflow: ellipsis;
+        width: 400px;
+      } */
+
+      /* #pac-input:focus {
+        border-color: #4d90fe;
+      } */
+
+      #title {
+        color: #fff;
+        background-color: #4d90fe;
+        font-size: 25px; 
+        font-weight: 500;
+        padding: 6px 12px;
+      }
+      #target {
+        width: 345px;
+      }
+
+
+    #ex1Slider .slider-selection {
+        background: #BABABA;
+    }
