@@ -49,27 +49,20 @@ public class ViewController {
         return "home";
     }
 
+    // TODO: map to /memories
     @GetMapping(value = "/memories/add")
-    public String index() {
+    public String memoryView() {
         return "memories";
     }
 
 
+    // TODO: this shouldn't be here, and handled by view side?
     @GetMapping(value = "/memories/{memoryId}")
     public String getMemoryById(@PathVariable("memoryId") final Long memoryId, final Principal principal, final Model model) {
         LOGGER.info("Get memory request received for memoryId: {}", memoryId);
-        // User user = userService.findByUsername(principal.getName());
         model.addAttribute("principal", principal);
         Memory memory = memoryService.getMemoryById(memoryId);
         model.addAttribute("memory", memory);
-
-        /*if (memory == null) {
-            final String errorMsg = "Memory with id: " + memoryId + " not found!";
-            LOGGER.warn(errorMsg);
-            throw new MemoryNotFoundException(errorMsg);
-        }
-
-        return validateMemoryByUser(user, memory);*/
         return "memory_view";
     }
 
