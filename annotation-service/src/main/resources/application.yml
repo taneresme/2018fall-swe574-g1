@@ -1,0 +1,32 @@
+server:
+  port: 8091
+spring:
+  jpa:
+    show-sql: true
+  messages:
+    basename: validation
+  h2:
+    console:
+      enabled: true
+  datasource:
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=- 1;DB_CLOSE_ON_EXIT=FALSE
+    driverClassName: org.h2.Driver
+    username: sa
+    password:
+
+---
+spring:
+  profiles: prod
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: create-drop
+  messages:
+    basename: validation
+  datasource:
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/annotations
+    username: postgres
+    password: admin
+    database: POSTGRESQL
+    database-platform: org.hibernate.dialect.PostgresPlusDialect
