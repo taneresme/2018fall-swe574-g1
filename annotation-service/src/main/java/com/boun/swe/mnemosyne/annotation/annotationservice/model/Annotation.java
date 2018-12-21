@@ -1,71 +1,174 @@
 package com.boun.swe.mnemosyne.annotation.annotationservice.model;
 
-/**  Some Design Decisions by KUVETT Group
-*       1)    Bodies of Annotations are text-only
-*           1.1) Later on, by the requirements, it's changed to accept images as well.
-*       2)    Annotations are 1-1 relations, ie. *only one* Target
-*           and *at most one* Body.
-*/
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-/*  This is how an annotation looks:
-    {
-      "@context": "http://www.w3.org/ns/anno.jsonld",
-            AT LEAST 1: ABOVE STRING MUST BE ONE OF THOSE
-      "id": "http://example.org/anno1",
-            ONLY 1: IRI OF ANNOTATION
-      "type": "Annotation",
-            AT LEAST 1: Annotation MUST BE ONE OF THEM
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-            KEEP THEM CONSTANT
-
-      "body": "http://example.org/post1",
-            GENERALLY MORE THAN 1, MAY BE 0:
-                RELATIONSHIP BETWEEN ANNOTATION AND BODY
-      "target": "http://example.com/page1"
-            AT LEAST 1:
-                RELATIONSHIP BETWEEN ANNOTATION AND TARGET
-    }
-*/
-
-import com.github.anno4j.model.Target;
-import eu.fbk.rdfpro.jsonld.JSONLD;
-import org.springframework.boot.json.BasicJsonParser;
-import org.springframework.boot.json.JsonParser;
-import com.github.anno4j.Anno4j;
-
-import javax.persistence.*;
-
-
-@Entity
-@Table(name = "annotations")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonPropertyOrder({
+        "@context",
+        "id",
+        "type",
+        "motivation",
+        "creator",
+        "created",
+        "generator",
+        "generated",
+        "stylesheet",
+        "body",
+        "target"
+})
 public class Annotation {
-    private com.github.anno4j.model.Annotation annotation;
-    private String annotationId;
-    private String targetId;
-    private String bodyCreator;
+    @JsonProperty("@context")
+    private String context;
+    @JsonProperty("id")
+    private String id;
+    @JsonProperty("type")
+    private String type;
+    @JsonProperty("motivation")
+    private String motivation;
+    @JsonProperty("creator")
+    private Creator creator;
+    @JsonProperty("created")
+    private String created;
+    @JsonProperty("generator")
+    private Generator generator;
+    @JsonProperty("generated")
+    private String generated;
+    @JsonProperty("stylesheet")
+    private Stylesheet stylesheet;
+    @JsonProperty("body")
+    private List<Body> body = null;
+    @JsonProperty("target")
+    private Target target;
+    @JsonIgnore
+    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long idNumeric;
-
-    public Annotation(com.github.anno4j.model.Annotation annotation){
-        this.annotation = annotation;
-        annotationId = annotation.getResourceAsString();
-        if(!annotation.getTargets().isEmpty())
-            this.targetId = ((Target) annotation.getTargets().toArray()[0]).getResourceAsString();
-        // TODO: what is Resource?
-        if(!annotation.getBodies().isEmpty())
-            this.bodyCreator = ((Target) annotation.getBodies().toArray()[0]).getCreator().getName();
+    @JsonProperty("@context")
+    public String getContext() {
+        return context;
     }
-    public void setId(){
-        if (this.idNumeric != null)
-            annotation.setModified(idNumeric.toString());
-        // TODO: More on ID's how to assign them, how to access them?
+
+    @JsonProperty("@context")
+    public void setContext(String context) {
+        this.context = context;
     }
 
-    public String getId(){
-        return annotation.getGenerated();
-        // TODO: More on ID's how to assign them, how to access them?
+    @JsonProperty("id")
+    public String getId() {
+        return id;
+    }
+
+    @JsonProperty("id")
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    @JsonProperty("type")
+    public String getType() {
+        return type;
+    }
+
+    @JsonProperty("type")
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    @JsonProperty("motivation")
+    public String getMotivation() {
+        return motivation;
+    }
+
+    @JsonProperty("motivation")
+    public void setMotivation(String motivation) {
+        this.motivation = motivation;
+    }
+
+    @JsonProperty("creator")
+    public Creator getCreator() {
+        return creator;
+    }
+
+    @JsonProperty("creator")
+    public void setCreator(Creator creator) {
+        this.creator = creator;
+    }
+
+    @JsonProperty("created")
+    public String getCreated() {
+        return created;
+    }
+
+    @JsonProperty("created")
+    public void setCreated(String created) {
+        this.created = created;
+    }
+
+    @JsonProperty("generator")
+    public Generator getGenerator() {
+        return generator;
+    }
+
+    @JsonProperty("generator")
+    public void setGenerator(Generator generator) {
+        this.generator = generator;
+    }
+
+    @JsonProperty("generated")
+    public String getGenerated() {
+        return generated;
+    }
+
+    @JsonProperty("generated")
+    public void setGenerated(String generated) {
+        this.generated = generated;
+    }
+
+    @JsonProperty("stylesheet")
+    public Stylesheet getStylesheet() {
+        return stylesheet;
+    }
+
+    @JsonProperty("stylesheet")
+    public void setStylesheet(Stylesheet stylesheet) {
+        this.stylesheet = stylesheet;
+    }
+
+    @JsonProperty("body")
+    public List<Body> getBody() {
+        return body;
+    }
+
+    @JsonProperty("body")
+    public void setBody(List<Body> body) {
+        this.body = body;
+    }
+
+    @JsonProperty("target")
+    public Target getTarget() {
+        return target;
+    }
+
+    @JsonProperty("target")
+    public void setTarget(Target target) {
+        this.target = target;
+    }
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
+    }
+
+    @JsonAnySetter
+    public void setAdditionalProperty(String name, Object value) {
+        this.additionalProperties.put(name, value);
     }
 
 }

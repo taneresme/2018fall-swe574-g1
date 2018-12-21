@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
-@Repository
-public interface AnnotationRepository extends JpaRepository<Annotation, String> {
-    Optional<Annotation> findById(String id);
+//@Repository
+public interface AnnotationRepository {//extends JpaRepository<Annotation, String> {
+    //Optional<Annotation> findById(String id);
 }
