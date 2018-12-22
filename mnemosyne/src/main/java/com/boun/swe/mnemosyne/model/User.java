@@ -8,8 +8,11 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
 import org.hibernate.validator.constraints.Email;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -20,6 +23,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.util.HashSet;
 import java.util.Set;
 
 @Getter
@@ -28,10 +32,19 @@ import java.util.Set;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "user")
+@Table(name = "users")
+@GenericGenerator(
+        name = "sequenceGenerator",
+        strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
+        parameters = {
+                @Parameter(name = "sequence_name", value = "USER_SEQUENCE"),
+                @Parameter(name = "initial_value", value = "1"),
+                @Parameter(name = "increment_size", value = "1")
+        }
+)
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(generator = "sequenceGenerator")
     @Column(name = "id")
     private Long id;
 
@@ -49,11 +62,13 @@ public class User {
     @Column(name = "role")
     private Role role;
 
-    @OneToMany(targetEntity = User.class, fetch = FetchType.EAGER)
-    private Set<User> followers;
+    @JsonIgnore
+    @OneToMany(targetEntity = User.class, fetch = FetchType.LAZY)
+    private Set<User> followers = new HashSet<>();
 
-    @OneToMany(targetEntity = User.class, fetch = FetchType.EAGER)
-    private Set<User> followingUsers;
+    @JsonIgnore
+    @OneToMany(targetEntity = User.class, fetch = FetchType.LAZY)
+    private Set<User> followingUsers = new HashSet<>();
 
     @Override
     public String toString() {
@@ -63,8 +78,6 @@ public class User {
         sb.append(", password='").append(password).append('\'');
         sb.append(", email='").append(email).append('\'');
         sb.append(", role=").append(role);
-        sb.append(", followers=").append(followers);
-        sb.append(", followingUsers=").append(followingUsers);
         sb.append('}');
         return sb.toString();
     }

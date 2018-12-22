@@ -3,14 +3,14 @@
 <head th:replace="fragments/commons :: head"/>
 <body>
 
-<head th:replace="fragments/header :: header"/>
+<div th:replace="fragments/header :: header"/>
 
 <div class="container bootstrap snippet" style="margin-bottom: 100px; margin-top: 100px;">
     <div class="row">
         <!-- unfollowing state -->
         <p th:if="${mightBeFollowed}">
         <div class="col-sm-3">
-            <h1>taneresme</h1>
+            <h1 th:text="${principal.principal.username}"/>
         </div>
         <div class="col-sm-3 my-auto">
             <a href="#" class="btn btn-success btn-sm">Follow</a>
@@ -20,7 +20,7 @@
         <!-- following state -->
         <p th:if="${followed}">
         <div class="col-sm-3">
-            <h1>taneresme</h1>
+            <h1 th:text="${principal.principal.username}"/>
         </div>
         <div class="col-sm-3 my-auto">
             <span class="font-weight-light my-auto">Followed</span>
@@ -31,7 +31,7 @@
         <!-- self-profile state -->
         <p th:if="${principal.principal.username == user.username}">
         <div class="col-sm-3">
-            <h1>taneresme</h1>
+            <h1 th:text="${principal.principal.username}"/>
         </div>
         </p>
     </div>
@@ -241,7 +241,7 @@
     /* Updates user's profile information */
     function update_profile_info() {
         var email = $("#email").val();
-        if (email == ""){
+        if (email == "") {
             /* Set error and show the message */
             $("#profile-information-tab-error-message").html("Fill in the blanks!");
             show("#profile-information-tab-error-alert");
@@ -285,7 +285,7 @@
         var password = $("#currentPassword").val();
         var newPassword = $("#newPassword").val();
         var confirmPassword = $("#newPasswordConfirm").val();
-        if (password == "" || newPassword == "" || confirmPassword == ""){
+        if (password == "" || newPassword == "" || confirmPassword == "") {
             /* Set error and show the message */
             $("#change-password-tab-error-message").html("Fill in the blanks!");
             show("#change-password-tab-error-alert");

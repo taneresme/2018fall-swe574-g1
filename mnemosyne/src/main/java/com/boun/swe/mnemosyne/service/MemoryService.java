@@ -7,7 +7,6 @@ import com.boun.swe.mnemosyne.repository.MemoryRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -60,5 +59,10 @@ public class MemoryService {
     public Memory getMemoryById(final Long memoryId) {
         LOGGER.info("Retrieving memory by id: {}", memoryId);
         return memoryRepository.findOne(memoryId);
+    }
+
+    public boolean isExistingMemory(final Long memoryId) {
+        LOGGER.info("Validating memory by id: {}", memoryId);
+        return memoryRepository.exists(memoryId);
     }
 }

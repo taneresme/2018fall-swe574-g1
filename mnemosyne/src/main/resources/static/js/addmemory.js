@@ -1,15 +1,17 @@
+var memory = {};
 function html() {
     // to get the content of the editor as HTML object
     var htmlContent = quill.container.firstChild.innerHTML;
-    console.log(htmlContent);
+    return htmlContent;
 }
 var options = {
     modules: {
-        toolbar: [
-            [{ header: [1, 2, false] }],
-            ['bold', 'italic', 'underline'],
-            ['image', 'code-block']
-        ]
+        // toolbar: [
+        //     [{ header: [1, 2, false] }],
+        //     ['bold', 'italic', 'underline'],
+        //     ['image', 'code-block']
+        // ]
+        toolbar: false,
     },
     placeholder: 'Compose an epic...',
     readOnly: false,
@@ -32,13 +34,25 @@ onePageScroll(".main", {
                                      // the browser's width is less than 600, the fallback will kick in.
 });
 
+
+// View only
+var options2 = {
+    modules: {
+        toolbar: false,
+    },
+    readOnly: true,
+    theme: 'snow'
+};
+var quill2 = new Quill('#editor-view', options2);
+
 let title = '';
 function titleDown() {
     title = document.getElementById('nme').value;
     if (title !== null && title !== '') {
         console.log('Title is ', title);
         document.getElementById('titleSpan').innerHTML = title;
-        moveTo(".main", 4);
+        createTitle(title);
+        goTo(2);
     }   else {
         console.log('Title is empty. Title is required.');
     }
@@ -51,6 +65,11 @@ function goTo(index) {
 }
 // prevent from from doing what it normally does
 document.forms.myForm.onsubmit = function(e) {
+    e = e || event;
+    e.preventDefault();
+}
+
+document.forms.myForm1.onsubmit = function(e) {
     e = e || event;
     e.preventDefault();
 }
@@ -278,5 +297,131 @@ function drawCircle() {
     center: {lat: lat, lng: lon},
     radius: parseFloat(radius * 1000)
     });
+}
+
+
+function dates() {
+    var e = document.getElementById("year-select");
+    var year = e.options[e.selectedIndex].value;
+    var e = document.getElementById("month-select");
+    var month = e.options[e.selectedIndex].value;
+    var e = document.getElementById("month-select");
+    var day = e.options[e.selectedIndex].value;
+    var e = document.getElementById("duration");
+    var duration = e.value;
+    var e = document.getElementById("period-select");
+    var period = e.options[e.selectedIndex].value;
+    if (duration !== '') {
+        goTo(4);
+        memory['year'] = year;
+        memory['month'] = month;
+        memory['day'] = month;
+        memory['period'] = period;
+        memory['duration'] = duration;
+        patch();
+    }
+    console.log(year, month, day, period, duration);
+}
+
+document.forms.myForm.onsubmit = function(e) {
+    e = e || event;
+    e.preventDefault();
+}
+// Year
+var select = document.getElementById("year-select");
+for(var i = new Date().getFullYear(); i >= 1930; i--) {
+    var el = document.createElement("option");
+    el.textContent = i;
+    el.value = i;
+    select.appendChild(el);
+}
+// Month
+var select = document.getElementById("month-select");
+var options = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+var el = document.createElement("option");
+el.textContent = 'None';
+el.value = null;
+select.appendChild(el);
+for(var i = 1; i <= options.length; i++) {
+    var opt = options[i];
+    var el = document.createElement("option");
+    el.textContent = opt;
+    el.value = i;
+    select.appendChild(el);
+}
+// Day
+var select = document.getElementById("day-select");
+var el = document.createElement("option");
+el.textContent = 'None';
+el.value = null;
+select.appendChild(el);
+for(var i = 1; i < 32; i++) {
+    var el = document.createElement("option");
+    el.textContent = i;
+    el.value = i;
+    select.appendChild(el);
+}
+// Duration
+var select = document.getElementById("period-select");
+var options = ["Minutes", "Hours", "Days", "Weeks", "Months", "Years", "Decades"];
+for(var i = 0; i < options.length; i++) {
+    var opt = options[i];
+    var el = document.createElement("option");
+    el.textContent = opt;
+    el.value = opt;
+    select.appendChild(el);
+}
+// Integer checker for duration
+function isNumber(evt) {
+    evt = (evt) ? evt : window.event;
+    var charCode = (evt.which) ? evt.which : evt.keyCode;
+    if ( (charCode > 31 && charCode < 48) || charCode > 57) {
+        return false;
+    }
+    return true;
+}
+
+// Requests
+
+// Load axios
+// const axios = require('axios');
+function createTitle(title) {
+    axios.post('/api/memories/create?title=' + title)
+        .then(function (response) {
+            memory = response.data;
+            console.log(memory);
+        })
+        .catch(function (error) {
+            console.log(error);
+        })
+}
+function patch() {
+    axios.patch('/api/memories/update', memory)
+        .then(function (response) {
+            console.log('Update successful');
+        })
+        .catch(function (error) {
+            console.log(error);
+        })
+}
+
+function saveMemory(process) {
+    if (process == 1) {
+        memory['published'] = true;
+        memory['type'] = 'PUBLIC';
+    }
+    // memory['text'] = html();
+    memory['text'] = quill.getText();
+
+    console.log(quill.getText());
+    setTimeout(function() {
+        console.log(memory);
+        patch();
+    }, 500);
+    setTimeout(function() {
+        if (process == 1) {
+            document.location.href = '/home';
+        }
+    }, 4000);
 }
 

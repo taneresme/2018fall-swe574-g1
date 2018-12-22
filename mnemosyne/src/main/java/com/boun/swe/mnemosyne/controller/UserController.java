@@ -35,7 +35,7 @@ public class UserController {
     @GetMapping(value = "/register")
     public String registration(Principal principal, final Model model) {
         /* If the user is already authenticated */
-        if (principal != null){
+        if (principal != null) {
             return "redirect:/home";
         }
 
@@ -48,20 +48,25 @@ public class UserController {
     public String postRegister(@ModelAttribute("userForm") final User userForm,
                                final BindingResult bindingResult, final Model model) {
         LOGGER.info("Registration request received for user: {}", userForm.getUsername());
-        userValidator.validate(userForm, bindingResult);
+       try {
+           userValidator.validate(userForm, bindingResult);
 
-        /*Adding userForm again to the model to populate on the screen in the case of error
-        * to prevent the user fill the blanks again */
-        model.addAttribute("userForm", userForm);
-        if (bindingResult != null && bindingResult.hasErrors()) {
-            model.addAttribute("errors", bindingResult.getFieldErrors());
-            return "register";
-        }
+           /*Adding userForm again to the model to populate on the screen in the case of error
+           * to prevent the user fill the blanks again */
+           model.addAttribute("userForm", userForm);
+           if (bindingResult != null && bindingResult.hasErrors()) {
+               throw new Exception(bindingResult.getFieldErrors().toString());
+           }
 
-        userService.save(userForm);
+           userService.save(userForm);
 
-        /* Authenticate the user after successful registration */
-        securityService.authenticate(userForm.getUsername(), userForm.getPassword());
+           /* Authenticate the user after successful registration */
+           securityService.authenticate(userForm.getUsername(), userForm.getPassword());
+       }
+       catch(Throwable ex){
+           model.addAttribute("errors", ex.getMessage());
+           return "register";
+       }
 
         return "redirect:/home";
     }
@@ -69,7 +74,7 @@ public class UserController {
     @GetMapping(value = "/login")
     public String getLogin(Principal principal, final Model model) {
         /* If the user is already authenticated */
-        if (principal != null){
+        if (principal != null) {
             return "redirect:/home";
         }
 

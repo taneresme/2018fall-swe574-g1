@@ -16,6 +16,7 @@ function getRand(from, to, fixed) {
 }
 var map;
 function initMap() {
+    console.log('init map');
     map = new google.maps.Map(document.getElementById('map'), {
         center: {lat: 39.397, lng: 34.644},
         zoom: 5
@@ -29,3 +30,8 @@ function initMap() {
         });
     }
 }
+
+var app = new annotator.App();
+app.include(annotator.ui.main);
+app.include(annotator.storage.http);
+app.start();

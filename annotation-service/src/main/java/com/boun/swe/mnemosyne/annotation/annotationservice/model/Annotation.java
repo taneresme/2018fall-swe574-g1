@@ -6,7 +6,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.springframework.data.annotation.Id;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,7 +29,13 @@ import java.util.Map;
         "body",
         "target"
 })
+//@Entity
 public class Annotation {
+
+    //@Id
+    //@GeneratedValue(strategy = GenerationType.AUTO)
+    @JsonIgnore
+    private Long entityId;
     @JsonProperty("@context")
     private String context;
     @JsonProperty("id")
@@ -50,6 +60,14 @@ public class Annotation {
     private Target target;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+
+    public Long getEntityId() {
+        return entityId;
+    }
+
+    public void setEntityId(Long entityId) {
+        this.entityId = entityId;
+    }
 
     @JsonProperty("@context")
     public String getContext() {

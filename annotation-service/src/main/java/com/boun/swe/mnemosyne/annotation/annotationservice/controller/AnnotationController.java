@@ -26,7 +26,7 @@ public class AnnotationController {
 
     @PostMapping(value = "/create",
             consumes = JSON_LD_ANNOTATION_MEDIA_TYPE, produces = JSON_LD_ANNOTATION_MEDIA_TYPE)
-    public Annotation create(@RequestBody Annotation annotation) {
+    public Annotation create(@RequestBody Object annotation) {
 
         return null;
     }
