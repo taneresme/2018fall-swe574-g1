@@ -16,47 +16,46 @@ Annotation server is developed within the project but it lives independently fro
 Thus, any annotation that are compliant with the following structure as defined in W3C model, will be able to stored in an annotation-server. 
 
 
-For Media (Image) Annotation (Example 4 - W3C):
+For Media (Image) Annotation:
 ```json
 {
   "@context": "http://www.w3.org/ns/anno.jsonld",
-  "id": "http://example.org/anno4",
+  "id": "file:///home/tugcan/scripts/html/index.html",
   "type": "Annotation",
-   "generator": {
-    "id": "http://example.org/client1",
-    "type": "Software",
-    "name": "Code v2.1",
-    "homepage": "http://example.org/client1/homepage1"
+  "body": {
+    "type": "TextualBody",
+    "value": "This is my comment",
+    "creator": "blue"
   },
-  "body": "http://example.org/description1",
   "target": {
-    "id": "http://example.com/image1#xywh=100,100,300,300",
+    "id": "https://example.com/image.jpg#xywh=0.4,0.24344569288389514,0.2525,0.30711610486891383",
     "type": "Image",
-    "format": "image/jpeg"
+    "format": "image/jpeg",
+    "ceator": "user2"
   }
 }
 ```
 
-For Textual Annotation (Example 23 - WC3):
+For Textual Annotation:
 ```json
 {
   "@context": "http://www.w3.org/ns/anno.jsonld",
-  "id": "http://example.org/anno23",
+  "id": "http://mayonez/memory/3",
   "type": "Annotation",
-  "generator": {
-    "id": "http://example.org/client1",
-    "type": "Software",
-    "name": "Code v2.1",
-    "homepage": "http://example.org/client1/homepage1"
+  "body": {
+    "type": "TextualBody",
+    "value": "sadfasdf",
+    "creator": "mavi"
   },
-  "body": "http://example.org/comment1",
   "target": {
-    "source": "http://example.org/page1",
-    "selector": {
-      "type": "TextQuoteSelector",
-      "exact": "anotation",
-      "prefix": "this is an ",
-      "suffix": " that has some"
+    "type": "TextQuoteSelector",
+    "exact": "e of an",
+    "prefix": 104,
+    "suffix": 111,
+    "refinedBy": {
+      "type": "TextPositionSelector",
+      "start": "/div[2]",
+      "end": "/div[2]"
     }
   }
 }
