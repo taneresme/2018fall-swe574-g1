@@ -13,7 +13,7 @@ For detailed information please visit [Wiki](https://github.com/swe-ms-boun/2018
 ## Supported Annotation Models
 
 Annotation server is developed within the project but it lives independently from the application.
-Thus, any annotation that are compliant with the following structure and defined in W3C model, will be able to store in an annotation-server. 
+Thus, any annotation that are compliant with the following structure as defined in W3C model, will be able to stored in an annotation-server. 
 
 
 For Media (Image) Annotation (Example 4 - W3C):
