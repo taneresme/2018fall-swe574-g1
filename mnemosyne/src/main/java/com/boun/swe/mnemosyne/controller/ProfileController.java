@@ -3,18 +3,19 @@ package com.boun.swe.mnemosyne.controller;
 import com.boun.swe.mnemosyne.model.User;
 import com.boun.swe.mnemosyne.request.ChangePasswordRequest;
 import com.boun.swe.mnemosyne.request.ProfileUpdateRequest;
-import com.boun.swe.mnemosyne.service.SecurityService;
 import com.boun.swe.mnemosyne.service.UserService;
-import com.boun.swe.mnemosyne.validator.UserValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.security.Principal;
 
@@ -24,14 +25,10 @@ public class ProfileController {
     private static final Logger LOGGER = LoggerFactory.getLogger(ProfileController.class);
 
     private UserService userService;
-    private SecurityService securityService;
-    private UserValidator userValidator;
 
     @Autowired
-    public ProfileController(final UserService userService, final SecurityService securityService, final UserValidator userValidator) {
+    public ProfileController(final UserService userService) {
         this.userService = userService;
-        this.securityService = securityService;
-        this.userValidator = userValidator;
     }
 
     @GetMapping(value = "/profile")
@@ -48,8 +45,7 @@ public class ProfileController {
                 return "redirect:/profile";
             }
             model.addAttribute("user", user);
-        }
-        else {
+        } else {
             User user = userService.findByUsername(principal.getName());
             model.addAttribute("user", user);
         }
@@ -73,7 +69,7 @@ public class ProfileController {
     @ResponseBody
     public ResponseEntity<String> changePassword(Principal principal, @RequestBody ChangePasswordRequest request) throws Exception {
         /* Check old password */
-        if (!((UsernamePasswordAuthenticationToken) principal).getCredentials().equals(request.getOldPassword())){
+        if (!((UsernamePasswordAuthenticationToken) principal).getCredentials().equals(request.getOldPassword())) {
             throw new Exception("Passport mismatch!");
             //return ResponseEntity.status(400).body("{'error' : 'Passport mismatch!'}");
         }

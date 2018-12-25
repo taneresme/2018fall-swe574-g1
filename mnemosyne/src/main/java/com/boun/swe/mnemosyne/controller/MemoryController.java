@@ -2,6 +2,7 @@ package com.boun.swe.mnemosyne.controller;
 
 import com.boun.swe.mnemosyne.enums.MemoryType;
 import com.boun.swe.mnemosyne.exception.MemoryNotFoundException;
+import com.boun.swe.mnemosyne.exception.UserNotFoundException;
 import com.boun.swe.mnemosyne.model.Memory;
 import com.boun.swe.mnemosyne.model.User;
 import com.boun.swe.mnemosyne.service.MemoryService;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.HtmlUtils;
 
 import javax.validation.constraints.NotNull;
 import java.security.Principal;
@@ -46,23 +48,25 @@ public class MemoryController {
     @PostMapping(value = "/memories/create", produces = MediaType.APPLICATION_JSON_VALUE)
     public Memory createMemory(@RequestParam("title") @NotBlank final String title, final Principal principal) {
         LOGGER.info("Create memory request received with memory title: {}", title);
-        /*User user = userService.findByUsername(principal.getName());
+        User user = userService.findByUsername(principal.getName());
         if (user == null) {
-            // TODO: throw exception here
-            LOGGER.warn("User cannot create memory");
-            return null;
-        }*/
-        User user = userService.findByUserId(2L);
+            throw new UserNotFoundException("User not found!");
+        }
         return memoryService.createMemory(Memory.builder().title(title).type(MemoryType.PRIVATE).user(user).build());
     }
 
     @PatchMapping(value = "/memories/update", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public void patchUpdateMemory(@RequestBody @NotNull final Memory memory, final Principal principal) {
         LOGGER.info("Create memory request received with memory title: {}", memory.getTitle());
-        // TODO: update with principal
-        // User user = userService.findByUsername(principal.getName());
-        User user = userService.findByUserId(2L);
+        User user = userService.findByUsername(principal.getName());
+        if (user == null) {
+            throw new UserNotFoundException("User not found!");
+        }
+        if (!memoryService.isExistingMemory(memory.getId())) {
+            throw new MemoryNotFoundException("Memory with id: " + memory.getId() + " is not found");
+        }
         memory.setUser(user);
+        memory.setText(HtmlUtils.htmlUnescape(memory.getText()));
         memoryService.updateMemory(memory);
     }
 
@@ -75,17 +79,11 @@ public class MemoryController {
     @GetMapping(value = "/memories/{memoryId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Memory getMemoryById(@PathVariable("memoryId") final Long memoryId, final Principal principal) {
         LOGGER.info("Get memory request received for memoryId: {}", memoryId);
-        // User user = userService.findByUsername(principal.getName());
-        Memory memory = memoryService.getMemoryById(memoryId);
-
-        /*if (memory == null) {
-            final String errorMsg = "Memory with id: " + memoryId + " not found!";
-            LOGGER.warn(errorMsg);
-            throw new MemoryNotFoundException(errorMsg);
+        User user = userService.findByUsername(principal.getName());
+        if (user == null) {
+            throw new UserNotFoundException("User not found!");
         }
-
-        return validateMemoryByUser(user, memory);*/
-        return memory;
+        return memoryService.getMemoryById(memoryId);
     }
 
     @GetMapping(value = "/user/{userId}/memories", produces = MediaType.APPLICATION_JSON_VALUE)

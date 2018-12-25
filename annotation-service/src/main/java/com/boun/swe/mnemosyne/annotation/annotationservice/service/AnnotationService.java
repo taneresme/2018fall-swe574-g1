@@ -5,23 +5,31 @@ import com.boun.swe.mnemosyne.annotation.annotationservice.repository.Annotation
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class AnnotationService {
-    private AnnotationRepository annotationRepository;
+
+    private final AnnotationRepository annotationRepository;
 
     @Autowired
-    public AnnotationService(AnnotationRepository annRepo){
-        annotationRepository = annRepo;
+    public AnnotationService(AnnotationRepository annotationRepository) {
+        this.annotationRepository = annotationRepository;
     }
 
-    public String createAnnotation(String body, String target){
-        Annotation save = annotationRepository.save(new Annotation(body, target));
-        save.setId();
-        return save.getId();
+    public Annotation save(Annotation annotation) {
+        return annotationRepository.save(annotation);
     }
 
-    public Annotation getAnnotation(String id) {
-        return annotationRepository.findById(id).orElse(null);
-        //POSSIBLE NULL-PTR EXCEPTION
+    public Annotation findAnnotationById(String id) {
+        return annotationRepository.findByAnnotationId(id);
+    }
+
+    public Annotation findAnnotationByEntityId(Long entityId) {
+        return annotationRepository.findOne(entityId);
+    }
+
+    public List<Annotation> findAll() {
+        return annotationRepository.findAll();
     }
 }

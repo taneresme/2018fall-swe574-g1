@@ -10,63 +10,50 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
-import javax.persistence.Table;
-
 
 @Getter
 @Setter
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-        "@context",
         "id",
         "type",
-        "generator",
-        "body",
-        "target"
+        "source",
+        "format",
+        "selector"
 })
-@Entity
-@Table(name = "annotations")
+@Entity(name = "target")
 @GenericGenerator(
         name = "sequenceGenerator",
         strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
         parameters = {
-                @Parameter(name = "sequence_name", value = "ANNOTATION_SEQUENCE"),
+                @Parameter(name = "sequence_name", value = "TARGET_SEQUENCE"),
                 @Parameter(name = "initial_value", value = "1"),
                 @Parameter(name = "increment_size", value = "1")
         }
 )
-public class Annotation {
+public class Target {
 
     @Id
     @GeneratedValue(generator = "sequenceGenerator")
     @JsonIgnore
     private Long id;
 
-    @Column(name = "context")
-    @JsonProperty("@context")
-    private String context;
-
     @JsonProperty("id")
-    private String annotationId;
+    private String targetId;
 
-    @Column(name = "type")
     @JsonProperty("type")
     private String type;
 
+    @JsonProperty("format")
+    private String format;
+
+    @JsonProperty("source")
+    private String source;
+
     @OneToOne(cascade = CascadeType.ALL)
-    private Generator generator;
-
-    @Column(name = "body")
-    @JsonProperty("body")
-    private String body;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    private Target target;
-
+    private Selector selector;
 }

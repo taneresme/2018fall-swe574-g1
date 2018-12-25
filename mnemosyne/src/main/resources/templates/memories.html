@@ -10,29 +10,46 @@
         <section class="page1">
             <div class="h-100 row align-items-center">
                 <div class="col">
-                <form name="myForm">
-                    <div class="container-fluid w-50">
-                        <div class="row">
-                            <div class="form-group col-10">
-                                <input type="text" placeholder="What's the title?" name="name" class="form-control" id="nme" required="" autocomplete="off" />
-                            </div>
-                            <div class="form-group col-2">
-                                <input type="submit" class="btn btn-info title-submit" onclick="titleDown()" value="Ok" />
+                    <form name="myForm">
+                        <div class="container-fluid w-50">
+                            <div class="row">
+                                <div class="form-group col-10">
+                                    <input type="text" placeholder="What's the title?" name="name" class="form-control" id="nme" required="" autocomplete="off" />
+                                </div>
+                                <div class="form-group col-2">
+                                    <input type="submit" class="btn btn-info title-submit" onclick="titleDown()" value="Ok" />
+                                </div>
                             </div>
                         </div>
+                    </form>
                     </div>
-                </form>
-                <button class="btn btn-info" style="display: none;" onclick="goTo(3)">Places</button>
-                </div>
             </div>
         </section>
         <section class="page2">
-            <div class="row" style="margin-left: 1em; height: 8%;">
+            <div class="h-100 row align-items-center">
                 <div class="col">
-                    Annotations
-                </div>
-                <div class="col text-right">
-                    <button class="btn btn-secondary" onclick="goTo(4)">Go back</button>
+                    <form name="myForm1">
+                        <div class="row" style="margin: 3em;">
+                            <div class="col">
+                                <select class="form-control" id="year-select" required="required"></select>
+                            </div>
+                            <div class="col">
+                                <select class="form-control" id="month-select"></select>
+                            </div>
+                            <div class="col">
+                                <select class="form-control" id="day-select"></select>
+                            </div>
+                            <div class="col">
+                                <input class="form-control textfield" type="text" placeholder="Enter a duration" required="required" value="" id="duration" onkeypress="return isNumber(event)" />
+                            </div>
+                            <div class="col">
+                                <select class="form-control" id="period-select" required="required"></select>
+                            </div>
+                            <div class="col">
+                                <button type="submit" onclick="dates()" class="btn btn-primary">Save</button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </section>
@@ -100,9 +117,10 @@
                         <span onclick="goTo(1)" id='titleSpan' style="font-size: 28px;"></span>
                     </div>
                     <div style="float: right;">
-                        <button class="btn btn-info" onclick="goTo(2)">Annotations</button>
+                        <button class="btn btn-info" onclick="goTo(2)">Dates</button>
                         <button class="btn btn-info" onclick="goTo(3)">Places</button>
-                        <button class="btn btn-primary">Save</button>
+                        <button class="btn btn-primary" onclick="saveMemory(0)">Save</button>
+                        <button class="btn btn-success" onclick="saveMemory(1)">Publish</button>
                     </div>
 
                     </div>
@@ -111,11 +129,9 @@
                     <div class="row">
                         <div class="col-9 h-100">
                             <div id="editor">
-                                <h1>My memory's catch title</h1><p><br/></p><p>You can write your memory in different styles:</p><p><br/>
-                                </p><p><em>You can write in italic</em></p><p><strong>You can write in bold</strong></p><p><u>You can write in underline</u>
-                                </p><p><strong><em><u>Or you can combine all if you want</u></em></strong></p><p><br/></p><h2>There are two kind of headings</h2><p>
-                                <br/></p><p>There is also this normal text. Here you go! These are the basics. Time to share!</p><p><br/></p><p><br/></p>
-
+                                Write a catchy entry<br/>
+                                <p>You can bring your memories to life!</p><br/>
+                                <p>Share it with thousands of people around the world</p><br />
                             </div>
                         </div>
                         <div class="col-3">
