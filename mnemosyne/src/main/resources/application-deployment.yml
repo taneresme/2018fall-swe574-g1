@@ -1,0 +1,22 @@
+# use this yml to create war file (application.yml)
+# it requires postgres running on your local env
+# give docker potgres credentials to make it run
+# in elasticbeanstalk define env variables
+# for datasource url, username, password should be given in
+# elasticbeanstalk configuration pointing rds instance
+# database name is: ebdb
+spring:
+  thymeleaf:
+    cache: false
+  jpa:
+    show-sql: true
+  messages:
+    basename: validation
+  datasource:
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/mnemosyne
+    # url: jdbc:postgresql://<rds.endpoint>:5432/ebdb
+    database: POSTGRESQL
+    database-platform: org.hibernate.dialect.PostgresPlusDialect
+    # username: <local env postgres username>
+    # password: <local env postgres password>

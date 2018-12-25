@@ -60,4 +60,9 @@ public class MemoryService {
         LOGGER.info("Retrieving memory by id: {}", memoryId);
         return memoryRepository.findOne(memoryId);
     }
+
+    public boolean isExistingMemory(final Long memoryId) {
+        LOGGER.info("Validating memory by id: {}", memoryId);
+        return memoryRepository.exists(memoryId);
+    }
 }
