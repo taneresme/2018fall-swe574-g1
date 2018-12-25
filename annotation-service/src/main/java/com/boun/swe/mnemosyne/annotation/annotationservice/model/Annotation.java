@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.sun.xml.internal.ws.client.sei.ResponseBuilder;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
@@ -25,9 +26,8 @@ import javax.persistence.Table;
         "@context",
         "id",
         "type",
-        "creator",
-        "generator",
         "body",
+        "generator",
         "target"
 })
 @Entity
@@ -60,14 +60,10 @@ public class Annotation {
     private String type;
 
     @OneToOne(cascade = CascadeType.ALL)
-    private Creator creator;
+    private Body body;
 
     @OneToOne(cascade = CascadeType.ALL)
     private Generator generator;
-
-    @Column(name = "body")
-    @JsonProperty("body")
-    private String body;
 
     @OneToOne(cascade = CascadeType.ALL)
     private Target target;
