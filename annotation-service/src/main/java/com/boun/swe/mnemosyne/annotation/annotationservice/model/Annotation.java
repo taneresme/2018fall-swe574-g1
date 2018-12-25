@@ -1,192 +1,72 @@
 package com.boun.swe.mnemosyne.annotation.annotationservice.model;
 
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import org.springframework.data.annotation.Id;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
+
+@Getter
+@Setter
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
         "@context",
         "id",
         "type",
-        "motivation",
-        "creator",
-        "created",
         "generator",
-        "generated",
-        "stylesheet",
         "body",
         "target"
 })
-//@Entity
+@Entity
+@Table(name = "annotations")
+@GenericGenerator(
+        name = "sequenceGenerator",
+        strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
+        parameters = {
+                @Parameter(name = "sequence_name", value = "ANNOTATION_SEQUENCE"),
+                @Parameter(name = "initial_value", value = "1"),
+                @Parameter(name = "increment_size", value = "1")
+        }
+)
 public class Annotation {
 
-    //@Id
-    //@GeneratedValue(strategy = GenerationType.AUTO)
+    @Id
+    @GeneratedValue(generator = "sequenceGenerator")
     @JsonIgnore
-    private Long entityId;
+    private Long id;
+
+    @Column(name = "context")
     @JsonProperty("@context")
     private String context;
+
     @JsonProperty("id")
-    private String id;
+    private String annotationId;
+
+    @Column(name = "type")
     @JsonProperty("type")
     private String type;
-    @JsonProperty("motivation")
-    private String motivation;
-    @JsonProperty("creator")
-    private Creator creator;
-    @JsonProperty("created")
-    private String created;
-    @JsonProperty("generator")
+
+    @OneToOne(cascade = CascadeType.ALL)
     private Generator generator;
-    @JsonProperty("generated")
-    private String generated;
-    @JsonProperty("stylesheet")
-    private Stylesheet stylesheet;
+
+    @Column(name = "body")
     @JsonProperty("body")
-    private List<Body> body = null;
-    @JsonProperty("target")
+    private String body;
+
+    @OneToOne(cascade = CascadeType.ALL)
     private Target target;
-    @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
-
-    public Long getEntityId() {
-        return entityId;
-    }
-
-    public void setEntityId(Long entityId) {
-        this.entityId = entityId;
-    }
-
-    @JsonProperty("@context")
-    public String getContext() {
-        return context;
-    }
-
-    @JsonProperty("@context")
-    public void setContext(String context) {
-        this.context = context;
-    }
-
-    @JsonProperty("id")
-    public String getId() {
-        return id;
-    }
-
-    @JsonProperty("id")
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    @JsonProperty("type")
-    public String getType() {
-        return type;
-    }
-
-    @JsonProperty("type")
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    @JsonProperty("motivation")
-    public String getMotivation() {
-        return motivation;
-    }
-
-    @JsonProperty("motivation")
-    public void setMotivation(String motivation) {
-        this.motivation = motivation;
-    }
-
-    @JsonProperty("creator")
-    public Creator getCreator() {
-        return creator;
-    }
-
-    @JsonProperty("creator")
-    public void setCreator(Creator creator) {
-        this.creator = creator;
-    }
-
-    @JsonProperty("created")
-    public String getCreated() {
-        return created;
-    }
-
-    @JsonProperty("created")
-    public void setCreated(String created) {
-        this.created = created;
-    }
-
-    @JsonProperty("generator")
-    public Generator getGenerator() {
-        return generator;
-    }
-
-    @JsonProperty("generator")
-    public void setGenerator(Generator generator) {
-        this.generator = generator;
-    }
-
-    @JsonProperty("generated")
-    public String getGenerated() {
-        return generated;
-    }
-
-    @JsonProperty("generated")
-    public void setGenerated(String generated) {
-        this.generated = generated;
-    }
-
-    @JsonProperty("stylesheet")
-    public Stylesheet getStylesheet() {
-        return stylesheet;
-    }
-
-    @JsonProperty("stylesheet")
-    public void setStylesheet(Stylesheet stylesheet) {
-        this.stylesheet = stylesheet;
-    }
-
-    @JsonProperty("body")
-    public List<Body> getBody() {
-        return body;
-    }
-
-    @JsonProperty("body")
-    public void setBody(List<Body> body) {
-        this.body = body;
-    }
-
-    @JsonProperty("target")
-    public Target getTarget() {
-        return target;
-    }
-
-    @JsonProperty("target")
-    public void setTarget(Target target) {
-        this.target = target;
-    }
-
-    @JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
-    }
-
-    @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-    }
 
 }

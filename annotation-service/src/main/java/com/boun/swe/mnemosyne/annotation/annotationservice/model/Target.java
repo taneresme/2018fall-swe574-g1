@@ -1,97 +1,64 @@
 package com.boun.swe.mnemosyne.annotation.annotationservice.model;
 
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.MapsId;
+import javax.persistence.OneToOne;
 
+@Getter
+@Setter
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
+        "id",
         "type",
-        "styleClass",
         "source",
-        "state",
+        "format",
         "selector"
 })
+@Entity(name = "target")
+@GenericGenerator(
+        name = "sequenceGenerator",
+        strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
+        parameters = {
+                @Parameter(name = "sequence_name", value = "TARGET_SEQUENCE"),
+                @Parameter(name = "initial_value", value = "1"),
+                @Parameter(name = "increment_size", value = "1")
+        }
+)
 public class Target {
+
+    @Id
+    @GeneratedValue(generator = "sequenceGenerator")
+    @JsonIgnore
+    private Long id;
+
+    @JsonProperty("id")
+    private String targetId;
 
     @JsonProperty("type")
     private String type;
-    @JsonProperty("styleClass")
-    private String styleClass;
+
+    @JsonProperty("format")
+    private String format;
+
     @JsonProperty("source")
     private String source;
-    @JsonProperty("state")
-    private List<State> state = null;
-    @JsonProperty("selector")
+
+    @OneToOne(cascade = CascadeType.ALL)
     private Selector selector;
-    @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
-
-    @JsonProperty("type")
-    public String getType() {
-        return type;
-    }
-
-    @JsonProperty("type")
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    @JsonProperty("styleClass")
-    public String getStyleClass() {
-        return styleClass;
-    }
-
-    @JsonProperty("styleClass")
-    public void setStyleClass(String styleClass) {
-        this.styleClass = styleClass;
-    }
-
-    @JsonProperty("source")
-    public String getSource() {
-        return source;
-    }
-
-    @JsonProperty("source")
-    public void setSource(String source) {
-        this.source = source;
-    }
-
-    @JsonProperty("state")
-    public List<State> getState() {
-        return state;
-    }
-
-    @JsonProperty("state")
-    public void setState(List<State> state) {
-        this.state = state;
-    }
-
-    @JsonProperty("selector")
-    public Selector getSelector() {
-        return selector;
-    }
-
-    @JsonProperty("selector")
-    public void setSelector(Selector selector) {
-        this.selector = selector;
-    }
-
-    @JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
-    }
-
-    @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-    }
-
 }

@@ -1,14 +1,23 @@
 package com.boun.swe.mnemosyne.annotation.annotationservice.model;
 
-import java.util.HashMap;
-import java.util.Map;
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
 
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+
+@Getter
+@Setter
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
         "id",
@@ -16,67 +25,32 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
         "name",
         "homepage"
 })
+@Entity(name = "generator")
+@GenericGenerator(
+        name = "sequenceGenerator",
+        strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
+        parameters = {
+                @Parameter(name = "sequence_name", value = "GENERATOR_SEQUENCE"),
+                @Parameter(name = "initial_value", value = "1"),
+                @Parameter(name = "increment_size", value = "1")
+        }
+)
 public class Generator {
 
+    @Id
+    @GeneratedValue(generator = "sequenceGenerator")
+    @JsonIgnore
+    private Long id;
+
     @JsonProperty("id")
-    private String id;
+    private String generatorId;
+
     @JsonProperty("type")
     private String type;
+
     @JsonProperty("name")
     private String name;
+
     @JsonProperty("homepage")
     private String homepage;
-    @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
-
-    @JsonProperty("id")
-    public String getId() {
-        return id;
-    }
-
-    @JsonProperty("id")
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    @JsonProperty("type")
-    public String getType() {
-        return type;
-    }
-
-    @JsonProperty("type")
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    @JsonProperty("name")
-    public String getName() {
-        return name;
-    }
-
-    @JsonProperty("name")
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @JsonProperty("homepage")
-    public String getHomepage() {
-        return homepage;
-    }
-
-    @JsonProperty("homepage")
-    public void setHomepage(String homepage) {
-        this.homepage = homepage;
-    }
-
-    @JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
-    }
-
-    @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-    }
-
 }

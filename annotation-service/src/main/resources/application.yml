@@ -18,7 +18,7 @@ spring:
   jpa:
     show-sql: true
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
   messages:
     basename: validation
   datasource:
@@ -26,3 +26,5 @@ spring:
     url: jdbc:postgresql://localhost:5432/annotations
     database: POSTGRESQL
     database-platform: org.hibernate.dialect.PostgresPlusDialect
+    username: postgres
+    password: admin

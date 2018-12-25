@@ -46,9 +46,8 @@
             <artifactId>h2</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.github.jsonld-java</groupId>
-            <artifactId>jsonld-java</artifactId>
-            <version>0.12.3</version>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
         </dependency>
     </dependencies>
 
@@ -60,6 +59,5 @@
             </plugin>
         </plugins>
     </build>
-
 
 </project>
