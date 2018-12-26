@@ -15,6 +15,14 @@ For detailed information please visit [Wiki](https://github.com/swe-ms-boun/2018
 Annotation server is developed within the project but it lives independently from the application.
 Thus, any annotation that are compliant with the following structure as defined in W3C model, will be able to stored in an annotation-server. 
 
+### Content-Type
+
+The following type must be selected as described in W3C model:
+```
+application/ld+json;profile="http://www.w3.org/ns/anno.jsonld"
+```
+
+### Annotation Body
 
 For Media (Image) Annotation:
 ```json
@@ -74,4 +82,4 @@ List of terminal commands to running docker postgre container and creating proje
 > mnemosyne=# \dt
 
 **Configuration via Terminal**\
-https://github.com/swe-ms-boun/2018fall-swe574-g1/wiki/6.1-Database-Design
+[Wiki Link](https://github.com/swe-ms-boun/2018fall-swe574-g1/wiki/6.1-Database-Design)
