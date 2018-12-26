@@ -21,9 +21,12 @@ import javax.persistence.OneToOne;
 @JsonPropertyOrder({
         "id",
         "type",
+        "exact",
+        "prefix",
+        "suffix",
+        "refinedBy",
         "source",
-        "format",
-        "selector"
+        "format"
 })
 @Entity(name = "target")
 @GenericGenerator(
@@ -48,12 +51,21 @@ public class Target {
     @JsonProperty("type")
     private String type;
 
+    @JsonProperty("exact")
+    private String exact;
+
+    @JsonProperty("prefix")
+    private Long prefix;
+
+    @JsonProperty("suffix")
+    private Long suffix;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    private RefinedBy refinedBy;
+
     @JsonProperty("format")
     private String format;
 
     @JsonProperty("source")
     private String source;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    private Selector selector;
 }
