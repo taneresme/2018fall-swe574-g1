@@ -32,4 +32,8 @@ public class AnnotationService {
     public List<Annotation> findAll() {
         return annotationRepository.findAll();
     }
+
+    public List<Annotation> findAllByCreator(String creator) {
+        return annotationRepository.findByCreator(creator);
+    }
 }
