@@ -39,7 +39,7 @@ For Media (Image) Annotation:
     "id": "https://example.com/image.jpg#xywh=0.4,0.24344569288389514,0.2525,0.30711610486891383",
     "type": "Image",
     "format": "image/jpeg",
-    "ceator": "user2"
+    "creator": "user2"
   }
 }
 ```
