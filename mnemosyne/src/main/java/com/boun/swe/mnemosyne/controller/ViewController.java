@@ -21,13 +21,24 @@ import java.util.Set;
 public class ViewController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ViewController.class);
+
+    private final UserService userService;
     private final MemoryService memoryService;
-    private UserService userService;
 
     @Autowired
     public ViewController(final UserService userService, MemoryService memoryService) {
         this.userService = userService;
         this.memoryService = memoryService;
+    }
+
+    @GetMapping(value = "/")
+    public String index(Principal principal, final Model model) {
+        /* add authenticated user principle */
+        model.addAttribute("principal", principal);
+        LOGGER.info("Get memory request for all memories and return count");
+        model.addAttribute("totalMemories", memoryService.getAllMemories().size());
+        model.addAttribute("totalUsers", userService.getAllUsers().size());
+        return "index";
     }
 
     @GetMapping(value = "/home")
@@ -65,14 +76,4 @@ public class ViewController {
         return "memory_view";
     }
 
-
-    @GetMapping(value = "/")
-    public String index(Principal principal, final Model model) {
-        /* add authenticated user principle */
-        model.addAttribute("principal", principal);
-        LOGGER.info("Get memory request for all memories and return count");
-        model.addAttribute("totalMemories", memoryService.getAllMemories().size());
-        model.addAttribute("totalUsers", userService.getAllUsers().size());
-        return "index";
-    }
 }
