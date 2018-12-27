@@ -84,14 +84,6 @@ public class UserController {
 
     }
 
-    @GetMapping(value = "/")
-    public String index(Principal principal, final Model model) {
-        /* add authenticated user principle */
-        model.addAttribute("principal", principal);
-
-        return "index";
-    }
-
     /* I changed the POST address of the login form to eliminate the Spring login action */
     @PostMapping(value = "/signin")
     public String postLogin(@ModelAttribute("form") final User userForm, final Model model) {
