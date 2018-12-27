@@ -56,6 +56,11 @@ public class MemoryService {
         return memoryRepository.findByTypeAndIsPublishedTrue(memoryType);
     }
 
+    public List<Memory> getAllMemories() {
+        LOGGER.info("Retrieving all published memories");
+        return memoryRepository.findAll();
+    }
+
     public Memory getMemoryById(final Long memoryId) {
         LOGGER.info("Retrieving memory by id: {}", memoryId);
         return memoryRepository.findOne(memoryId);

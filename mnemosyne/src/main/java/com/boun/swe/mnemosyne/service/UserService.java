@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserService {
     private static final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
@@ -67,5 +69,10 @@ public class UserService {
         userRepository.save(user);
         LOGGER.info("Successfully un-followed user with id: {}", userId);
         return false;
+    }
+
+    public List<User> getAllUsers() {
+        LOGGER.info("Retrieving all users");
+        return userRepository.findAll();
     }
 }
