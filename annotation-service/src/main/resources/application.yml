@@ -12,7 +12,6 @@ spring:
     url: jdbc:postgresql://localhost:5432/annotations
     database: POSTGRESQL
     database-platform: org.hibernate.dialect.PostgreSQLDialect
-    username:
-    password:
+
 deployment:
   url: http://annotationserver.xtptzahyma.us-east-1.elasticbeanstalk.com
