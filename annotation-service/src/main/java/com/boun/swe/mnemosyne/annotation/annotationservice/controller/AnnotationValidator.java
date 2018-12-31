@@ -24,10 +24,6 @@ public class AnnotationValidator {
                     "@context must be: " + TYPE);
         }
 
-        if (annotation.getId() == null && annotation.getAnnotationId().isEmpty()) {
-            throw new BadRequestException("Annotation id must not be null or empty");
-        }
-
         if (annotation.getTarget() == null) {
             throw new BadRequestException("Target must not be null");
         }

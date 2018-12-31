@@ -17,4 +17,7 @@ public interface AnnotationRepository extends JpaRepository<Annotation, Long> {
 
     @Query("select a from Annotation a where a.body.creator = ?1")
     List<Annotation> findByCreator(String creator);
+
+    @Query("select a from Annotation a where a.generator.id = ?1")
+    Annotation findByGenerator(String id);
 }

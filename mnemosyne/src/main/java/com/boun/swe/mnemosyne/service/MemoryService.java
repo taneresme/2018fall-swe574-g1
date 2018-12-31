@@ -18,6 +18,7 @@ public class MemoryService {
     private static final Logger LOGGER = LoggerFactory.getLogger(MemoryService.class);
 
     private MemoryRepository memoryRepository;
+    private List<Memory> last5Memories;
 
     @Autowired
     public MemoryService(MemoryRepository memoryRepository) {
@@ -69,5 +70,10 @@ public class MemoryService {
     public boolean isExistingMemory(final Long memoryId) {
         LOGGER.info("Validating memory by id: {}", memoryId);
         return memoryRepository.exists(memoryId);
+    }
+
+    public List<Memory> getLast10Memories() {
+        LOGGER.info("Retrieving last 5 memories");
+        return memoryRepository.findTop10ByOrderByIdDesc();
     }
 }

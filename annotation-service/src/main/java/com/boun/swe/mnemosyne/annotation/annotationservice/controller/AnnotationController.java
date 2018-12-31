@@ -44,6 +44,14 @@ public class AnnotationController {
         return annotationService.findAnnotationById(id);
     }
 
+    @GetMapping(value = "/generator", produces = JSON_LD_ANNOTATION_MEDIA_TYPE)
+    public Annotation findByGenerator(@RequestParam("id") String id) {
+        if (id == null || id.isEmpty()) {
+            return null;
+        }
+        return annotationService.findAnnotationByGeneratorId(id);
+    }
+
     @GetMapping(value = "/creator/{creator}", produces = JSON_LD_ANNOTATION_MEDIA_TYPE)
     public List<Annotation> getAllByCreator(@PathVariable("creator") String creator) {
         return annotationService.findAllByCreator(creator);

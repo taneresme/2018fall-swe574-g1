@@ -25,7 +25,6 @@ import javax.persistence.OneToOne;
         "prefix",
         "suffix",
         "refinedBy",
-        "source",
         "format"
 })
 @Entity(name = "target")
@@ -65,7 +64,4 @@ public class Target {
 
     @JsonProperty("format")
     private String format;
-
-    @JsonProperty("source")
-    private String source;
 }
