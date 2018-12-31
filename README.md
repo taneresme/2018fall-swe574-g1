@@ -28,7 +28,7 @@ For Media (Image) Annotation:
 ```json
 {
   "@context": "http://www.w3.org/ns/anno.jsonld",
-  "id": "file:///home/tugcan/scripts/html/index.html",
+  "id": "http://annotationserver.xtptzahyma.us-east-1.elasticbeanstalk.com/anno2",
   "type": "Annotation",
   "body": {
     "type": "TextualBody",
@@ -48,7 +48,7 @@ For Textual Annotation:
 ```json
 {
   "@context": "http://www.w3.org/ns/anno.jsonld",
-  "id": "http://mayonez/memory/3",
+  "id": "http://annotationserver.xtptzahyma.us-east-1.elasticbeanstalk.com/anno7",
   "type": "Annotation",
   "body": {
     "type": "TextualBody",
