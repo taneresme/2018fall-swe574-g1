@@ -28,5 +28,5 @@ spring:
     url: jdbc:postgresql://localhost:5432/mnemosyne
     database: POSTGRESQL
     database-platform: org.hibernate.dialect.PostgresPlusDialect
-    username: postgres
-    password: admin
+    username:
+    password:
