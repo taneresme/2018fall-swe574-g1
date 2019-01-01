@@ -10,6 +10,67 @@ if (!String.format) {
   };
 }
 
+function chanceLikingStatus (id) {
+    var i = $("#" + id);
+    if (i.hasClass("fa-heart-o")){
+        /* Liking */
+        i.removeClass("fa-heart-o");
+        i.addClass("fa-heart");
+        i.attr("style", "color:red;");
+    }
+    else{
+        /* Disliking */
+        i.removeClass("fa-heart");
+        i.addClass("fa-heart-o");
+        i.removeAttr("style");
+    }
+
+    /* Call API to change the liking status */
+    $.ajax({
+        type : "POST",
+        contentType : "application/json",
+        url : "/api/memories/" + id + "/like",
+        dataType : "json",
+        cache : false,
+        timeout : 20000,
+        success : function (data){console.log(data)},
+        error : function (error){console.log(error)}
+    });
+}
+
+function unfollow(userId){
+    $.ajax({
+        type : "POST",
+        contentType : "application/json",
+        url : "/friendships/remove/" + userId,
+        dataType : "json",
+        cache : false,
+        timeout : 20000,
+        success : function (data){
+            console.log(data);
+
+            $("#li_followed_" + userId).addClass("d-none");
+            $("#li_unfollow_button_" + userId).addClass("d-none");
+            $("#li_unfollowed_desc_" + userId).removeClass("invisible");
+        },
+        error : function (error){console.log(error)}
+    });
+}
+
+function searchInJs() {
+    var input = document.getElementById("search_box");
+    var filter = input.value.toLowerCase();
+    var nodes = document.getElementsByClassName('search_target');
+
+    for (i = 0; i < nodes.length; i++) {
+        if (nodes[i].innerText.toLowerCase().includes(filter)) {
+            nodes[i].style.display = "block";
+        } else {
+            nodes[i].style.display = "none";
+        }
+    }
+}
+
 function getRand(from, to, fixed) {
     return (Math.random() * (to - from) + from).toFixed(fixed) * 1;
     // .toFixed() returns string, so ' * 1' is a trick to convert to number

@@ -5,14 +5,14 @@ import com.boun.swe.mnemosyne.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
+import javax.xml.ws.Response;
 import java.security.Principal;
 
 @Controller(value = "/friendships")
@@ -40,17 +40,16 @@ public class SocialController {
         return "social";
     }
 
-    @PostMapping(value = "/remove", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String unFollowUser(@RequestParam("userId") final Long userId, final Principal principal, final Model model) {
+    @PostMapping(value = "/friendships/remove/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public ResponseEntity<String> unFollowUser(@PathVariable("userId") final Long userId, final Principal principal) {
         final User user = userService.findByUsername(principal.getName());
         LOGGER.info("Unfollow user: {} retrieved for user: {}", userId, user.getId());
         boolean isUnFollowed = userService.unFollowUser(user, userId);
         if (!isUnFollowed) {
-            model.addAttribute("unFollowUserError", "Unable to follow user with userId: " + userId);
-            return "social";
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(String.format("Unable to follow user with userId: %s", userId));
         }
-        model.addAttribute("unFollowUserSuccess", userId);
-        return "social";
+        return ResponseEntity.ok("{}");
     }
 
     @GetMapping(value = "/followers", produces = MediaType.APPLICATION_JSON_VALUE)

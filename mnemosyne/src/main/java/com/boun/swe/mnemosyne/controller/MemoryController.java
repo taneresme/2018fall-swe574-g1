@@ -47,6 +47,23 @@ public class MemoryController {
         this.userService = userService;
     }
 
+    @PostMapping(value = "/memories/{memoryId}/like", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Memory likeMemory(@PathVariable("memoryId") final Long memoryId, final Principal principal) {
+        LOGGER.info("Like memory request received with memory Id: {}", memoryId);
+        User user = userService.findByUsername(principal.getName());
+        if (user == null) {
+            throw new UserNotFoundException("User not found!");
+        }
+        Memory memory = memoryService.getMemoryById(memoryId);
+        if (memory.getUsersLiked().contains(user)){
+            memoryService.unlikeMemory(memory, user);
+        }
+        else{
+            memoryService.likeMemory(memory, user);
+        }
+        return memory;
+    }
+
     @PostMapping(value = "/memories/create", produces = MediaType.APPLICATION_JSON_VALUE)
     public Memory createMemory(@RequestParam("title") @NotBlank final String title, final Principal principal) {
         LOGGER.info("Create memory request received with memory title: {}", title);

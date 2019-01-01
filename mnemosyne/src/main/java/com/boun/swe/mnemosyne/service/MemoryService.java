@@ -3,6 +3,7 @@ package com.boun.swe.mnemosyne.service;
 import com.boun.swe.mnemosyne.enums.MemoryType;
 import com.boun.swe.mnemosyne.exception.MemoryNotFoundException;
 import com.boun.swe.mnemosyne.model.Memory;
+import com.boun.swe.mnemosyne.model.User;
 import com.boun.swe.mnemosyne.repository.MemoryRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -75,5 +76,17 @@ public class MemoryService {
     public List<Memory> getLast10Memories() {
         LOGGER.info("Retrieving last 5 memories");
         return memoryRepository.findTop10ByOrderByIdDesc();
+    }
+
+    public Memory likeMemory(final Memory memory, final User user) {
+        LOGGER.info("Like memory : {}", memory);
+        memory.getUsersLiked().add(user);
+        return memoryRepository.save(memory);
+    }
+
+    public Memory unlikeMemory(final Memory memory, final User user) {
+        LOGGER.info("UnLike memory : {}", memory);
+        memory.getUsersLiked().remove(user);
+        return memoryRepository.save(memory);
     }
 }
