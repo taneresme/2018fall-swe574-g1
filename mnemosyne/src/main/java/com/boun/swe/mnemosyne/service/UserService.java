@@ -72,7 +72,7 @@ public class UserService {
         userRepository.save(user);
         userRepository.save(userToUnFollow);
         LOGGER.info("Successfully un-followed user with id: {}", userId);
-        return false;
+        return true;
     }
 
     public List<User> getAllUsers() {
