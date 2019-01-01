@@ -16,6 +16,12 @@ h1 {
   margin-bottom: 2.5%;
 }
 
+strong {
+    font-weight: bold;
+}
+.ql-editor strong{
+ font-weight:bold;
+}
 /*div {*/
   /*font-family: 'Ubuntu', sans-serif;*/
 /*}*/
