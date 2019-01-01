@@ -1,8 +1,11 @@
 package com.boun.swe.mnemosyne.controller;
 
+import com.boun.swe.mnemosyne.enums.MemoryType;
+import com.boun.swe.mnemosyne.model.Memory;
 import com.boun.swe.mnemosyne.model.User;
 import com.boun.swe.mnemosyne.request.ChangePasswordRequest;
 import com.boun.swe.mnemosyne.request.ProfileUpdateRequest;
+import com.boun.swe.mnemosyne.service.MemoryService;
 import com.boun.swe.mnemosyne.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,13 +14,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
 
 @Controller
 public class ProfileController {
@@ -25,29 +25,40 @@ public class ProfileController {
     private static final Logger LOGGER = LoggerFactory.getLogger(ProfileController.class);
 
     private UserService userService;
+    private final MemoryService memoryService;
 
     @Autowired
-    public ProfileController(final UserService userService) {
+    public ProfileController(final UserService userService, MemoryService memoryService) {
         this.userService = userService;
+        this.memoryService = memoryService;
     }
 
-    @GetMapping(value = "/profile")
-    public String getProfile(Principal principal, final Model model, @RequestParam(value = "userId", required = false) final Long userId) {
-        /* add authenticated user principal */
+    @GetMapping(value = {"/profile", "/profile/{userId}"})
+    public String getProfile(Principal principal, final Model model, @PathVariable(value = "userId", required = false) final Long userId) {
+        /* add authenticated user principle */
         model.addAttribute("principal", principal);
+        User user = userService.findByUsername(principal.getName());
+        model.addAttribute("principalUser", user);
 
         if (userId != null) {
             /* Get user */
-            User user = userService.findByUserId(userId);
+            User userById = userService.findByUserId(userId);
             /* If there is no user with the provided Id */
-            if (user == null) {
+            if (userById == null || userById.getId() == user.getId()) {
             /* We will be routing the user to their own profile */
                 return "redirect:/profile";
             }
-            model.addAttribute("user", user);
+            List<Memory> memories = memoryService.getAllMemoriesByTypeAndUser(MemoryType.PUBLIC, userId);
+            model.addAttribute("user", userById);
+            model.addAttribute("memories", memories);
+            model.addAttribute("followers", userById.getFollowers());
         } else {
-            User user = userService.findByUsername(principal.getName());
+            /* Self */
+            List<Memory> memories = memoryService.getAllMemoriesByUser(user.getId());
+            model.addAttribute("self", true);
             model.addAttribute("user", user);
+            model.addAttribute("memories", memories);
+            model.addAttribute("followers", user.getFollowers());
         }
         return "profile";
     }

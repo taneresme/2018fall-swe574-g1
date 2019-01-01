@@ -7,54 +7,43 @@
 
 <div class="container bootstrap snippet" style="margin-bottom: 100px; margin-top: 100px;">
     <div class="row">
-        <!-- unfollowing state -->
-        <p th:if="${mightBeFollowed}">
+
         <div class="col-sm-3">
-            <h1 th:text="${principal.principal.username}"/>
+            <h1 class="display-4" th:text="${user.username}"/>
         </div>
-        <div class="col-sm-3 my-auto">
+
+        <!-- unfollowing state -->
+        <div th:if="${unfollowed}" class="col-sm-3 my-auto">
             <a href="#" class="btn btn-success btn-sm">Follow</a>
         </div>
-        </p>
 
         <!-- following state -->
-        <p th:if="${followed}">
-        <div class="col-sm-3">
-            <h1 th:text="${principal.principal.username}"/>
-        </div>
-        <div class="col-sm-3 my-auto">
+        <div th:if="${followed}" class="col-sm-3 my-auto">
             <span class="font-weight-light my-auto">Followed</span>
             <a href="#" class="btn btn-danger btn-sm ml-3 my-auto">Unfollow</a>
         </div>
-        </p>
 
-        <!-- self-profile state -->
-        <p th:if="${principal.principal.username == user.username}">
-        <div class="col-sm-3">
-            <h1 th:text="${principal.principal.username}"/>
-        </div>
-        </p>
     </div>
     <div class="row">
         <div class="col-sm-3"><!--left col-->
             <div class="">
                 <div class="card">
                     <ul class="nav nav-pills flex-column">
-                        <li class="nav-item" th:if="${principal.principal.username == user.username}">
-                            <a id="personal-information" class="nav-link active"
+                        <li class="nav-item" th:if="${self}">
+                            <a id="personal-information" class="nav-link"
                                data-toggle="tab" href="#profile-information-tab" role="tab">
                                 Profile Information
                             </a>
                         </li>
                         <!-- When each user is see their own profile -->
-                        <li class="nav-item" th:if="${principal.principal.username == user.username}">
+                        <li class="nav-item" th:if="${self}">
                             <a id="change-password" class="nav-link"
                                data-toggle="tab" href="#change-password-tab" role="tab">
                                 Change Password
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a id="my-memories" class="nav-link"
+                            <a id="my-memories" class="nav-link active"
                                data-toggle="tab" href="#my-memories-tab" role="tab">
                                 Shared Memories
                             </a>
@@ -74,8 +63,8 @@
             <div id="tabs" class="tab-content">
 
                 <!-- Profile Information -->
-                <div class="col-md-9 tab-pane active show" id="profile-information-tab" role="tabpanel"
-                     th:if="${principal.principal.username == user.username}">
+                <div class="col-md-9 tab-pane" id="profile-information-tab" role="tabpanel"
+                     th:if="${self}">
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="form-group">
@@ -125,7 +114,7 @@
 
                 <!-- Change Password -->
                 <div class="tab-pane col-md-9" id="change-password-tab" role="tabpanel"
-                     th:if="${principal.principal.username == user.username}">
+                     th:if="${self}">
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="form-group">
@@ -186,36 +175,16 @@
                 <!-- End of Change Password  -->
 
                 <!-- My memories -->
-                <div class="tab-pane" id="my-memories-tab" role="tabpanel">
-                    <div class="card" style="margin-bottom: 20px;">
-                        <div class="card-body">
-                            <h5 class="card-title">Once I was in NYC!</h5>
-                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                                Reiciendis aliquid atque, nulla? Quos cum ex quis soluta, a laboriosam.
-                                Dicta expedita corporis animi vero voluptate voluptatibus possimus, veniam magni
-                                quis!</p>
-                            <a href="#" class="btn btn-outline-primary">Read more <i class="fa fa-external-link"/></a>
-                        </div>
-                        <div class="card-footer text-muted">
-                            <i class="fa fa-heart" style="color: red;"/> Posted on November 18, 2018 by taneresme
-                        </div>
-                    </div>
-
-                    <div class="card" style="margin-bottom: 20px;">
-                        <div class="card-body">
-                            <h5 class="card-title">Once I was in NYC!</h5>
-                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                                Reiciendis aliquid atque, nulla? Quos cum ex quis soluta, a laboriosam.
-                                Dicta expedita corporis animi vero voluptate voluptatibus possimus, veniam magni
-                                quis!</p>
-                            <a href="#" class="btn btn-outline-primary">Read more <i class="fa fa-external-link"/></a>
-                        </div>
-                        <div class="card-footer text-muted">
-                            <i class="fa fa-heart-o"/> Posted on November 18, 2018 by taneresme
-                        </div>
-                    </div>
+                <div class="tab-pane active show" id="my-memories-tab" role="tabpanel">
+                    <div th:replace="fragments/commons :: memory-list(${memories}, ${self})" />
                 </div>
                 <!-- End of My memories -->
+
+                <!-- My followers -->
+                <div class="tab-pane" id="followers-tab" role="tabpanel">
+                    <div th:replace="fragments/commons :: follower-list" />
+                </div>
+                <!-- End of My followers -->
 
             </div>
         </div><!--/col-9-->

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
-<link type="text/css" rel="stylesheet" href="http://annotorious.github.com/latest/annotorious.css" />
-<head th:replace="fragments/commons :: head" />
+<link type="text/css" rel="stylesheet" href="http://annotorious.github.com/latest/annotorious.css"/>
+<head th:replace="fragments/commons :: head"/>
 <body>
 
 <div th:replace="fragments/header :: header"/>
@@ -15,20 +15,11 @@
         </div>
     </form>
 
-    <h1>Memories posted by your friends...</h1>
-    <div th:each="memory: ${memories}" class="card" style="margin-bottom: 20px;">
-        <div class="card-body">
-            <h5 class="card-title" th:text="${memory.title}"></h5>
-            <p class="card-text" th:text="${memory.text}"></p>
-            <a th:href="'/memories/' + ${memory.id}" class="btn btn-outline-primary">Read more <i class="fa fa-external-link" /></a>
-        </div>
-        <div class="card-footer text-muted">
-            <i class="fa fa-heart-o" /> by <span th:text="${memory.user.username}"></span>
-        </div>
-    </div>
+    <h1 class="display-4">Memories posted by your friends...</h1>
+    <div th:replace="fragments/commons :: memory-list(${memories}, ${self})" />
 </div>
 
-<th:block th:include="fragments/footer :: footer" />
+<th:block th:include="fragments/footer :: footer"/>
 </body>
 <script th:src="@{/js/annotator.js}"></script>
 <script th:src="@{/js/custom.js}"></script>

@@ -10,6 +10,34 @@ if (!String.format) {
   };
 }
 
+function chanceLikingStatus (id) {
+    var i = $("#" + id);
+    if (i.hasClass("fa-heart-o")){
+        /* Liking */
+        i.removeClass("fa-heart-o");
+        i.addClass("fa-heart");
+        i.attr("style", "color:red");
+    }
+    else{
+        /* Disliking */
+        i.removeClass("fa-heart");
+        i.addClass("fa-heart-o");
+        i.removeAttr("style");
+    }
+
+    /* Call API to change the liking status */
+    $.ajax({
+        type : "POST",
+        contentType : "application/json",
+        url : "/api/memories/" + id + "/like",
+        dataType : "json",
+        cache : false,
+        timeout : 20000,
+        success : function (data){console.log(data)},
+        error : function (error){console.log(error)}
+    });
+}
+
 function getRand(from, to, fixed) {
     return (Math.random() * (to - from) + from).toFixed(fixed) * 1;
     // .toFixed() returns string, so ' * 1' is a trick to convert to number

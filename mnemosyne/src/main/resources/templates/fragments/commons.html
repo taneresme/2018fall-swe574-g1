@@ -15,8 +15,12 @@
     <link rel="stylesheet" type="text/css" th:href="@{/css/docs.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/font-awesome.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/custom.css}"/>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+            integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+            crossorigin="anonymous"></script>
 
     <!--<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous" />-->
     <script
@@ -60,4 +64,80 @@
         </div>
     </div>
 </div>
+
+
+<div th:fragment="memory-thumbnail(memory)">
+    <div class="card" style="margin-bottom: 20px;">
+        <div class="card-body">
+            <ul class="list-inline">
+                <li class="list-inline-item">
+                    <h5 class="card-title" th:text="${memory.title}" />
+                </li>
+                <li th:if="${#strings.toString(memory.type) == 'PRIVATE'}" class="list-inline-item">
+                    <small class="text-muted"><em>Private</em></small>
+                </li>
+                <li th:if="${#strings.toString(memory.type) == 'SOCIAL'}" class="list-inline-item">
+                    <small class="text-muted"><em>Social</em></small>
+                </li>
+                <li th:if="${#strings.toString(memory.type) == 'PUBLIC'}" class="list-inline-item">
+                    <small class="text-muted"><em>Public</em></small>
+                </li>
+            </ul>
+            <p class="card-text lead" th:text="${memory.text}"></p>
+            <a th:href="'/memories/' + ${memory.id}" class="btn btn-outline-primary">Read more <i
+                    class="fa fa-external-link"/></a>
+        </div>
+        <div class="card-footer text-muted">
+            <i th:if="${not #lists.contains(memory.usersLiked, principal.principal)}"
+               th:id="${memory.id}" class="fa fa-heart-o" th:onclick="${'chanceLikingStatus(' + memory.id +')'}"/>
+            <i th:if="${#lists.contains(memory.usersLiked, principal.principal)}"
+               th:id="${memory.id}" class="fa fa-heart" style="color: red" th:onclick="${'chanceLikingStatus(' + memory.id +')'}"/>
+            by <a th:href="'/profile/' + ${memory.user.id}"> <span th:text="${memory.user.username}"></span> </a>
+        </div>
+    </div>
+</div>
+<div th:fragment="memory-list(memories, self)">
+    <div th:if="${#lists.isEmpty(memories)}" class="text-center">
+        <span class="h4">No memory to be displayed</span>
+        <br />
+        <br />
+        <p th:if="${self}">
+            <span>How about sharing your memories... </span>
+            <a href="/memories/add" class="btn btn-outline-primary">Share <i
+                    class="fa fa-external-link"/></a>
+        </p>
+    </div>
+    <div th:if="${not #lists.isEmpty(memories)}" th:each="memory: ${memories}">
+        <div th:replace="fragments/commons :: memory-thumbnail(${memory})"/>
+    </div>
+</div>
+
+
+<div th:fragment="follower-thumbnail">
+    <div class="card" style="margin-bottom: 20px;">
+        <div class="card-body">
+
+            <div class="col-sm-3">
+                <span th:text="${follower.username}"></span>
+            </div>
+            <div class="col-sm-3 my-auto">
+                <span class="font-weight-light my-auto">Followed</span>
+                <a href="#" class="btn btn-danger btn-sm ml-3 my-auto">Unfollow</a>
+            </div>
+
+            <a th:href="'/profile/' + ${follower.id}" class="btn btn-outline-primary">Go to profile <i
+                    class="fa fa-external-link"/></a>
+        </div>
+    </div>
+</div>
+<div th:fragment="follower-list">
+    <div th:if="${#lists.isEmpty(followers)}" class="text-center">
+        <span class="h4">No follower</span>
+    </div>
+    <div th:if="${not #lists.isEmpty(followers)}" th:each="follower: ${followers}">
+        <div th:replace="fragments/commons :: follower-thumbnail"/>
+    </div>
+</div>
+
+
 </html>
