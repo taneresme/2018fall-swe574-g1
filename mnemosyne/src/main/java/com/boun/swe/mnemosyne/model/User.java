@@ -53,11 +53,11 @@ public class User {
     private Role role;
 
     @JsonIgnore
-    @OneToMany(targetEntity = User.class, fetch = FetchType.LAZY)
+    @ManyToMany(targetEntity = User.class, fetch = FetchType.LAZY)
     private Set<User> followers = new HashSet<>();
 
     @JsonIgnore
-    @OneToMany(targetEntity = User.class, fetch = FetchType.LAZY)
+    @ManyToMany(targetEntity = User.class, fetch = FetchType.LAZY)
     private Set<User> followingUsers = new HashSet<>();
 
     @Override
