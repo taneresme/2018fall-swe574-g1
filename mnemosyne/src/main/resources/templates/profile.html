@@ -13,13 +13,13 @@
                 <h1 class="display-4" th:text="${user.username}"/>
             </li>
             <!-- unfollowing state -->
-            <li th:if="${unfollowed}" class="list-inline-item ml-3">
+            <li th:if="${unfollowed}" class="list-inline-item ml-3 mt-2">
                 <form role="form" method="POST" th:action="'/profile/'+${user.id}+'/follow'">
                     <button type="submit" class="btn btn-success" >Follow</button>
                 </form>
             </li>
             <!-- following state -->
-            <li th:if="${followed}" class="list-inline-item ml-3">
+            <li th:if="${followed}" class="list-inline-item ml-3 mt-2">
                 <form role="form" method="POST" th:action="'/profile/'+${user.id}+'/unfollow'">
                     <i class="fa fa-check" style="color: green" />
                     <span class="font-weight-light">Followed</span>

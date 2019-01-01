@@ -120,13 +120,20 @@
                 <li class="list-inline-item">
                     <h3 class="card-text text-muted" th:text="${userItem.username}"></h3>
                 </li>
-                <li th:if="${isFollowing}" class="list-inline-item">
-                    <span class="btn btn-success ml-2">Follow</span>
+                <!--<li th:if="${isFollowing}" class="list-inline-item">-->
+                    <!--<span class="btn btn-success ml-2">Follow</span>-->
+                <!--</li>-->
+                <li th:id="${'li_followed_' + userItem.id}" th:if="${#lists.contains(userItem.followers, principalUser)}" class="list-inline-item mt-2">
+                    <i class="fa fa-check" style="color: green" />
+                    <span class="font-weight-light">Followed</span>
                 </li>
-                <li th:if="${isFollowing}" class="list-inline-item">
-                    <span class="btn btn-danger ml-2">Unfollow</span>
+                <li th:id="${'li_unfollow_button_' + userItem.id}" th:if="${#lists.contains(userItem.followers, principalUser)}" class="list-inline-item mt-2">
+                    <button class="btn btn-danger" th:onclick="${'unfollow(' + userItem.id + ')'}">Unfollow</button>
                 </li>
-                <li class="list-inline-item">
+                <li th:id="${'li_unfollowed_desc_' + userItem.id}" class="list-inline-item invisible mt-2">
+                    <span class="font-weight-light">Unfollowed</span>
+                </li>
+                <li class="list-inline-item mt-2 ml-auto">
                     <a th:href="'/profile/' + ${userItem.id}" class="btn btn-outline-primary ml-2">Go to profile
                         <i class="fa fa-external-link"/></a>
                 </li>

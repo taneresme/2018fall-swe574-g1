@@ -38,6 +38,25 @@ function chanceLikingStatus (id) {
     });
 }
 
+function unfollow(userId){
+    $.ajax({
+        type : "POST",
+        contentType : "application/json",
+        url : "/friendships/remove/" + userId,
+        dataType : "json",
+        cache : false,
+        timeout : 20000,
+        success : function (data){
+            console.log(data);
+
+            $("#li_followed_" + userId).addClass("d-none");
+            $("#li_unfollow_button_" + userId).addClass("d-none");
+            $("#li_unfollowed_desc_" + userId).removeClass("invisible");
+        },
+        error : function (error){console.log(error)}
+    });
+}
+
 function getRand(from, to, fixed) {
     return (Math.random() * (to - from) + from).toFixed(fixed) * 1;
     // .toFixed() returns string, so ' * 1' is a trick to convert to number
