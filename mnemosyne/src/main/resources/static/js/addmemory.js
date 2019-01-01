@@ -6,14 +6,15 @@ function html() {
 }
 var options = {
     modules: {
-        // toolbar: [
-        //     [{ header: [1, 2, false] }],
-        //     ['bold', 'italic', 'underline'],
-        //     ['image', 'code-block']
-        // ]
-        toolbar: false,
+         toolbar: [
+             [{ header: [1, 2, false] }],
+             ['bold', 'italic', 'underline'],
+             ['image', 'code-block']
+         ]
+//        toolbar: false,
     },
     placeholder: 'Compose an epic...',
+    scrollingContainer: 'overflow-y',
     readOnly: false,
     theme: 'snow'
 };
@@ -74,40 +75,29 @@ document.forms.myForm1.onsubmit = function(e) {
     e.preventDefault();
 }
 
-var slider = document.getElementById("myRange");
-var output = document.getElementById("km");
-output.innerHTML = slider.value + ' km'; // Display the default slider value
+//var slider = document.getElementById("myRange");
+//var output = document.getElementById("km");
+//output.innerHTML = slider.value + ' km'; // Display the default slider value
 
 // Update the current slider value (each time you drag the slider handle)
-slider.oninput = function() {
-    output.innerHTML = this.value + ' km';
-} 
+//slider.oninput = function() {
+//    output.innerHTML = this.value + ' km';
+//}
 
 function makeVisible(index) {
     var zero = document.getElementById('location-0');
-    var one = document.getElementById('location-1');
-    var two = document.getElementById('location-2');
     zero.style.display = 'none';
-    one.style.display = 'none';
-    two.style.display = 'none';
     switch (index) {
         case 0:
             zero.style.display = 'block';
             return;
-        case 1:
-            one.style.display = 'block';
-            return;
-        case 2:
-            two.style.display = 'block';
-            return;
         default:
-            one.style.display = 'block';
+            zero.style.display = 'block';
             return;
     }
 }
 
 var savedLocations = [];
-var paths = [];
 var lat = 0;
 var lon = 0;
 var address = '';
@@ -116,14 +106,14 @@ function writeLat() {
     console.log('lat, lon ', lat, lon, address);
 }
 
-function guid() {
-  function s4() {
-    return Math.floor((1 + Math.random()) * 0x10000)
-      .toString(16)
-      .substring(1);
-  }
-  return s4() + s4();
-}
+//function guid() {
+//  function s4() {
+//    return Math.floor((1 + Math.random()) * 0x10000)
+//      .toString(16)
+//      .substring(1);
+//  }
+//  return s4() + s4();
+//}
 
 function createAwesome(content) {
     var i = document.createElement("i");
@@ -140,17 +130,11 @@ function showLocations() {
     var textnode = document.createTextNode("MY LOCATIONS");         // Create a text node
     div.appendChild(h2);
     h2.appendChild(textnode);
-    savedLocations.forEach(loc => {
+    memory.locations.forEach(loc => {
         var node = document.createElement("LI");                 // Create a <li> node
-        var textnode = document.createTextNode(' ' + loc.address);         // Create a text node
+        var textnode = document.createTextNode(' ' + loc.locationName);         // Create a text node
         var awesome;
-        if (loc.locType === 0) {
-            awesome = createAwesome('map-marker-alt');
-        } else if (loc.locType === 1) {
-            awesome = createAwesome('route');
-        } else {
-            awesome = createAwesome('circle');
-        }
+        awesome = createAwesome('map-marker-alt');
         var span = document.createElement("span");
         span.onclick = function() { deleteLoc(loc.id); };
         span.appendChild(createAwesome('times'));
@@ -163,42 +147,42 @@ function showLocations() {
 
 function deleteLoc(id) {
     console.log('Delete location');
-    for (i = 0; i < savedLocations.length; i++ ) {
-        console.log(id, savedLocations[i].id);
-        if (id == savedLocations[i].id) {
-            savedLocations.splice(i, 1);
+    for (i = 0; i < memory.locations.length; i++ ) {
+        console.log(id, memory.locations[i].id);
+        if (id == memory.locations[i].id) {
+//            savedLocations.splice(i, 1);
+            memory.locations.splice(i, 1);
             break;
         }
     }
+    patch();
     showLocations();
 }
 
-function saveLoc(locType) {
-    var radius = null;
-    if (locType === 2) {
-        var slider = document.getElementById("myRange");
-        radius = slider.value * 1000;
+function saveLoc() {
+//    savedLocations.push({
+//        id: uuid,
+//        locType: locType,
+//        lat: lat,
+//        lon: lon,
+//        radius: radius,
+//        address: address
+//    });
+    if(memory.locations === null) {
+        memory.locations = []
     }
-    var uuid = guid();
-    if (locType === 1) {
-        paths.push(uuid);
-    }
-    savedLocations.push({
-        id: uuid,
-        locType: locType,
-        lat: lat,
-        lon: lon,
-        radius: radius,
-        address: address
-    });
+    memory.locations.push({
+        "latitude": lat,
+        "longitude": lon,
+        "locationName": address
+    })
+    patch();
     console.log('The point is saved');
     showLocations();
 }
 
 function writeLocations() {
     console.log(locationPoints);
-    console.log(locationRoutes);
-    console.log(locationRadius);
 }
     
 function initAutocomplete() {
@@ -276,28 +260,28 @@ function initAutocomplete() {
 }
 
 
-let cityCircle = null;
-function drawCircle() {
-    if (lat === 0 && lon === 0) {
-        return;
-    }
-    var slider = document.getElementById("myRange");
-    var radius = slider.value;
-    console.log('Slider value is ', radius);
-    if (cityCircle) {
-        cityCircle.setMap(null);
-    }
-    cityCircle = new google.maps.Circle({
-    strokeColor: '#FF0000',
-    strokeOpacity: 0.8,
-    strokeWeight: 2,
-    fillColor: '#FF0000',
-    fillOpacity: 0.35,
-    map: map,
-    center: {lat: lat, lng: lon},
-    radius: parseFloat(radius * 1000)
-    });
-}
+//let cityCircle = null;
+//function drawCircle() {
+//    if (lat === 0 && lon === 0) {
+//        return;
+//    }
+//    var slider = document.getElementById("myRange");
+//    var radius = slider.value;
+//    console.log('Slider value is ', radius);
+//    if (cityCircle) {
+//        cityCircle.setMap(null);
+//    }
+//    cityCircle = new google.maps.Circle({
+//    strokeColor: '#FF0000',
+//    strokeOpacity: 0.8,
+//    strokeWeight: 2,
+//    fillColor: '#FF0000',
+//    fillOpacity: 0.35,
+//    map: map,
+//    center: {lat: lat, lng: lon},
+//    radius: parseFloat(radius * 1000)
+//    });
+//}
 
 
 function dates() {
@@ -342,7 +326,7 @@ var el = document.createElement("option");
 el.textContent = 'None';
 el.value = null;
 select.appendChild(el);
-for(var i = 1; i <= options.length; i++) {
+for(var i = 0; i <= options.length; i++) {
     var opt = options[i];
     var el = document.createElement("option");
     el.textContent = opt;
@@ -408,18 +392,26 @@ function patch() {
 function saveMemory(process) {
     if (process == 1) {
         memory['published'] = true;
+        memory['type'] = 'SOCIAL';
+    }
+    else if(process == 2) {
+        memory['published'] = true;
         memory['type'] = 'PUBLIC';
     }
-    // memory['text'] = html();
-    memory['text'] = quill.getText();
+     memory['text'] = html();
+//    memory['text'] = quill.getText();
 
     console.log(quill.getText());
     setTimeout(function() {
         console.log(memory);
         patch();
+        var button1 = document.getElementById('publishButton1');
+        button1.innerHTML = 'Saving...';
+        var button2 = document.getElementById('publishButton2');
+        button2.innerHTML = 'Saving...';
     }, 500);
     setTimeout(function() {
-        if (process == 1) {
+        if (process === 1 || process === 2) {
             document.location.href = '/home';
         }
     }, 4000);
