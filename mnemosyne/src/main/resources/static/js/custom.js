@@ -57,6 +57,20 @@ function unfollow(userId){
     });
 }
 
+function searchInJs() {
+    var input = document.getElementById("search_box");
+    var filter = input.value.toLowerCase();
+    var nodes = document.getElementsByClassName('search_target');
+
+    for (i = 0; i < nodes.length; i++) {
+        if (nodes[i].innerText.toLowerCase().includes(filter)) {
+            nodes[i].style.display = "block";
+        } else {
+            nodes[i].style.display = "none";
+        }
+    }
+}
+
 function getRand(from, to, fixed) {
     return (Math.random() * (to - from) + from).toFixed(fixed) * 1;
     // .toFixed() returns string, so ' * 1' is a trick to convert to number

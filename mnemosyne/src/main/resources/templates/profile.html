@@ -8,25 +8,28 @@
 <div class="container bootstrap snippet" style="margin-bottom: 100px; margin-top: 100px;">
     <div class="row">
         <div class="col-sm-9">
-        <ul class="list-inline d-flex align-items-center">
-            <li class="list-inline-item">
-                <h1 class="display-4" th:text="${user.username}"/>
-            </li>
-            <!-- unfollowing state -->
-            <li th:if="${unfollowed}" class="list-inline-item ml-3 mt-2">
-                <form role="form" method="POST" th:action="'/profile/'+${user.id}+'/follow'">
-                    <button type="submit" class="btn btn-success" >Follow</button>
-                </form>
-            </li>
-            <!-- following state -->
-            <li th:if="${followed}" class="list-inline-item ml-3 mt-2">
-                <form role="form" method="POST" th:action="'/profile/'+${user.id}+'/unfollow'">
-                    <i class="fa fa-check" style="color: green" />
-                    <span class="font-weight-light">Followed</span>
-                    <button type="submit" class="btn btn-danger ml-3" >Unfollow</button>
-                </form>
-            </li>
-        </ul>
+            <ul class="list-inline d-flex align-items-center">
+                <li class="list-inline-item">
+                    <h1 class="display-4" th:text="${user.username}"/>
+                </li>
+                <!-- unfollowing state -->
+                <li th:if="${unfollowed}" class="list-inline-item ml-3 mt-2">
+                    <form role="form" method="POST" th:action="'/profile/'+${user.id}+'/follow'">
+                        <button type="submit" class="btn btn-success">Follow</button>
+                    </form>
+                </li>
+                <!-- following state -->
+                <li th:if="${followed}" class="list-inline-item ml-3 mt-2">
+                    <form role="form" method="POST" th:action="'/profile/'+${user.id}+'/unfollow'">
+                        <i class="fa fa-check" style="color: green"/>
+                        <span class="font-weight-light">Followed</span>
+                        <button type="submit" class="btn btn-danger ml-3">Unfollow</button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+        <div class="col-sm-3">
+            <div th:replace="fragments/commons :: search_box" />
         </div>
     </div>
     <div class="row">
@@ -187,19 +190,19 @@
 
                 <!-- My memories -->
                 <div class="tab-pane active show" id="my-memories-tab" role="tabpanel">
-                    <div th:replace="fragments/commons :: memory-list(${memories}, ${self}, ${principalUser})" />
+                    <div th:replace="fragments/commons :: memory-list(${memories}, ${self}, ${principalUser})"/>
                 </div>
                 <!-- End of My memories -->
 
                 <!-- My followers -->
                 <div class="tab-pane" id="followers-tab" role="tabpanel">
-                    <div th:replace="fragments/commons :: follower-list(${user.followers})" />
+                    <div th:replace="fragments/commons :: follower-list(${user.followers})"/>
                 </div>
                 <!-- End of My followers -->
 
                 <!-- My followings -->
                 <div class="tab-pane" id="followings-tab" role="tabpanel">
-                    <div th:replace="fragments/commons :: following-list(${user.followingUsers})" />
+                    <div th:replace="fragments/commons :: following-list(${user.followingUsers})"/>
                 </div>
                 <!-- End of My followings -->
 

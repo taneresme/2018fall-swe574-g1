@@ -67,7 +67,7 @@
 
 
 <div th:fragment="memory-thumbnail(memory, principalUser)">
-    <div class="card" style="margin-bottom: 20px;">
+    <div class="card search_target" style="margin-bottom: 20px;">
         <div class="card-body">
             <ul class="list-inline">
                 <li class="list-inline-item">
@@ -114,7 +114,7 @@
 
 
 <div th:fragment="follow-thumbnail(userItem, isFollowing)">
-    <div class="card align-middle" style="margin-bottom: 20px;">
+    <div class="card align-middle search_target" style="margin-bottom: 20px;">
         <div class="card-body mt-3">
             <ul class="list-inline d-flex align-items-center">
                 <li class="list-inline-item">
@@ -158,6 +158,16 @@
     <div th:if="${not #lists.isEmpty(followingUsers)}" th:each="following: ${followingUsers}">
         <div th:replace="fragments/commons :: follow-thumbnail(${following}, true)"/>
     </div>
+</div>
+
+
+<div th:fragment="search_box">
+    <form class="form-inline my-2 my-lg-4">
+        <div class="ml-auto">
+            <input id="search_box" class="form-control" type="search" placeholder="Type to search"
+                   aria-label="Search" onkeyup="searchInJs()"/>
+        </div>
+    </form>
 </div>
 
 </html>
