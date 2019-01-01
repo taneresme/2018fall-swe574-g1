@@ -19,4 +19,5 @@ public interface MemoryRepository extends JpaRepository<Memory, Long> {
     @Query(value = "SELECT m FROM Memory m where m.type = ?1 and m.user.id = ?2")
     List<Memory> findAllMemoriesByTypeAndUserId(final MemoryType memoryType, final Long userId);
 
+    List<Memory> findTop10ByOrderByIdDesc();
 }

@@ -2,6 +2,7 @@ package com.boun.swe.mnemosyne.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -61,5 +62,32 @@ public class Location {
         sb.append(", longitude=").append(longitude);
         sb.append('}');
         return sb.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Location location = (Location) o;
+
+        if (Double.compare(location.latitude, latitude) != 0) return false;
+        if (Double.compare(location.longitude, longitude) != 0) return false;
+        if (locationName != null ? !locationName.equals(location.locationName) : location.locationName != null)
+            return false;
+        return memories != null ? memories.equals(location.memories) : location.memories == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result;
+        long temp;
+        result = locationName != null ? locationName.hashCode() : 0;
+        temp = Double.doubleToLongBits(latitude);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        temp = Double.doubleToLongBits(longitude);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        return result;
     }
 }

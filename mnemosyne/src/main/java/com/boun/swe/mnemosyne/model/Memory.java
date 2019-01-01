@@ -43,6 +43,7 @@ public class Memory {
     @NotNull
     private String title;
 
+    @Column(columnDefinition = "text")
     private String text;
 
     private Integer year;

@@ -11,6 +11,7 @@ spring:
     driverClassName: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/annotations
     database: POSTGRESQL
-    database-platform: org.hibernate.dialect.PostgresPlusDialect
-    username: postgres
-    password: admin
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+deployment:
+  url: http://annotationserver.xtptzahyma.us-east-1.elasticbeanstalk.com

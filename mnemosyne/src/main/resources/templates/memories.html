@@ -69,9 +69,9 @@
                     <div id="map"></div>
                 </div>
                 <div class="col-3 justify-content-center">
-                    <button class="btn btn-info" onclick="makeVisible(0)">Point</button>
-                    <button class="btn btn-info" onclick="makeVisible(1)">Route</button>
-                    <button class="btn btn-info" onclick="makeVisible(2)">Radius</button>
+                    <button class="btn btn-info" onclick="makeVisible(0)">Locations</button>
+                    <!--<button class="btn btn-info" onclick="makeVisible(1)">Route</button>-->
+                    <!--<button class="btn btn-info" onclick="makeVisible(2)">Radius</button>-->
                     <div style="margin-top: 1em;">
                         <button class="btn btn-primary" style="display: none;" onclick="writeLocations()">Locations</button>
                         <div id="location-no" style="display: block;">
@@ -79,27 +79,27 @@
                         </div>
                         <div id="location-0" style="display: block;">
                             <span name="location-name"></span>
-                            <button class="btn btn-primary" name="location-save" style="display: none;" onclick="saveLoc(0)">Save this point</button>
+                            <button class="btn btn-primary" name="location-save" style="display: none;" onclick="saveLoc()">Save this point</button>
                         </div>
-                        <div id="location-1" style="display: none;">
-                            <span name="location-name"></span>
-                            <button class="btn btn-primary" name="location-save" style="display: none;" onclick="saveLoc(1)">Add to route</button>
-                        </div>
-                        <div id="location-2" style="display: none;">
-                            <span name="location-name"></span>
-                            <div class="slidecontainer" name="location-save" style="display: none;">
-                            <input type="range" min="1" max="50" value="1" class="slider" id="myRange" />
-                            <span>Value:</span> <span id="km" style="font-weight:bold;color:red"></span>
-                            </div>
-                            <div class="row">
-                                <div class="col">
-                                    <button class="btn btn-primary" name="location-save" style="display: none;" onclick="saveLoc(2)">Save the radius</button>
-                                </div>
-                                <div class="col justify-content-end">
-                                    <button class="btn btn-primary" name="location-save" style="display: none;" onclick="drawCircle()">Preview</button>
-                                </div>
-                            </div>
-                        </div>
+                        <!--<div id="location-1" style="display: none;">-->
+                            <!--<span name="location-name"></span>-->
+                            <!--<button class="btn btn-primary" name="location-save" style="display: none;" onclick="saveLoc(1)">Add to route</button>-->
+                        <!--</div>-->
+                        <!--<div id="location-2" style="display: none;">-->
+                            <!--<span name="location-name"></span>-->
+                            <!--<div class="slidecontainer" name="location-save" style="display: none;">-->
+                            <!--<input type="range" min="1" max="50" value="1" class="slider" id="myRange" />-->
+                            <!--<span>Value:</span> <span id="km" style="font-weight:bold;color:red"></span>-->
+                            <!--</div>-->
+                            <!--<div class="row">-->
+                                <!--<div class="col">-->
+                                    <!--<button class="btn btn-primary" name="location-save" style="display: none;" onclick="saveLoc(2)">Save the radius</button>-->
+                                <!--</div>-->
+                                <!--<div class="col justify-content-end">-->
+                                    <!--<button class="btn btn-primary" name="location-save" style="display: none;" onclick="drawCircle()">Preview</button>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
                         <div id="location-list" style="display: none; margin-top: 1em;">
                             <h2>My locations</h2>
                             <span id="location-list-inner"></span>
@@ -120,15 +120,16 @@
                         <button class="btn btn-info" onclick="goTo(2)">Dates</button>
                         <button class="btn btn-info" onclick="goTo(3)">Places</button>
                         <button class="btn btn-primary" onclick="saveMemory(0)">Save</button>
-                        <button class="btn btn-success" onclick="saveMemory(1)">Publish</button>
+                        <button class="btn btn-success" id="publishButton1" onclick="saveMemory(1)">Publish Socially</button>
+                        <button class="btn btn-success" id="publishButton2" onclick="saveMemory(2)">Publish Publicly</button>
                     </div>
 
                     </div>
                 </div>
                 <div class="container-fluid h-100">
                     <div class="row">
-                        <div class="col-9 h-100">
-                            <div id="editor">
+                        <div class="col-9 h-80">
+                            <div id="editor" style="max-height: 400px;">
                                 Write a catchy entry<br/>
                                 <p>You can bring your memories to life!</p><br/>
                                 <p>Share it with thousands of people around the world</p><br />
@@ -137,6 +138,7 @@
                         <div class="col-3">
                         </div>
                     </div>
+                    <div id="editor-view" style="display: none;"></div>
                 </div>
             </div>
         </section>
