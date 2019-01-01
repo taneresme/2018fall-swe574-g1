@@ -113,7 +113,7 @@
 </div>
 
 
-<div th:fragment="follower-thumbnail">
+<div th:fragment="follower-thumbnail(follower)">
     <div class="card" style="margin-bottom: 20px;">
         <div class="card-body">
 
@@ -130,12 +130,12 @@
         </div>
     </div>
 </div>
-<div th:fragment="follower-list">
+<div th:fragment="follower-list(followers)">
     <div th:if="${#lists.isEmpty(followers)}" class="text-center">
         <span class="h4">No follower</span>
     </div>
     <div th:if="${not #lists.isEmpty(followers)}" th:each="follower: ${followers}">
-        <div th:replace="fragments/commons :: follower-thumbnail"/>
+        <div th:replace="fragments/commons :: follower-thumbnail(${follower})"/>
     </div>
 </div>
 

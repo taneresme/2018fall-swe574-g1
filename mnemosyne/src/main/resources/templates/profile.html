@@ -7,22 +7,27 @@
 
 <div class="container bootstrap snippet" style="margin-bottom: 100px; margin-top: 100px;">
     <div class="row">
-
-        <div class="col-sm-3">
-            <h1 class="display-4" th:text="${user.username}"/>
+        <div class="col-sm-9">
+        <ul class="list-inline d-flex align-items-center">
+            <li class="list-inline-item">
+                <h1 class="display-4" th:text="${user.username}"/>
+            </li>
+            <!-- unfollowing state -->
+            <li th:if="${unfollowed}" class="list-inline-item ml-3">
+                <form role="form" method="POST" th:action="'/profile/'+${user.id}+'/follow'">
+                    <button type="submit" class="btn btn-success" >Follow</button>
+                </form>
+            </li>
+            <!-- following state -->
+            <li th:if="${followed}" class="list-inline-item ml-3">
+                <form role="form" method="POST" th:action="'/profile/'+${user.id}+'/unfollow'">
+                    <i class="fa fa-check" style="color: green" />
+                    <span class="font-weight-light">Followed</span>
+                    <button type="submit" class="btn btn-danger ml-3" >Unfollow</button>
+                </form>
+            </li>
+        </ul>
         </div>
-
-        <!-- unfollowing state -->
-        <div th:if="${unfollowed}" class="col-sm-3 my-auto">
-            <a href="#" class="btn btn-success btn-sm">Follow</a>
-        </div>
-
-        <!-- following state -->
-        <div th:if="${followed}" class="col-sm-3 my-auto">
-            <span class="font-weight-light my-auto">Followed</span>
-            <a href="#" class="btn btn-danger btn-sm ml-3 my-auto">Unfollow</a>
-        </div>
-
     </div>
     <div class="row">
         <div class="col-sm-3"><!--left col-->
@@ -182,7 +187,7 @@
 
                 <!-- My followers -->
                 <div class="tab-pane" id="followers-tab" role="tabpanel">
-                    <div th:replace="fragments/commons :: follower-list" />
+                    <div th:replace="fragments/commons :: follower-list(${followers})" />
                 </div>
                 <!-- End of My followers -->
 
@@ -300,6 +305,7 @@
             }
         });
     }
+
 </script>
 
 </body>

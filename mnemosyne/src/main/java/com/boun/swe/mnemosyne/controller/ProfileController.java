@@ -10,6 +10,7 @@ import com.boun.swe.mnemosyne.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Controller;
@@ -48,10 +49,15 @@ public class ProfileController {
             /* We will be routing the user to their own profile */
                 return "redirect:/profile";
             }
-            List<Memory> memories = memoryService.getAllMemoriesByTypeAndUser(MemoryType.PUBLIC, userId);
+
+            Boolean followed = user.getFollowingUsers().contains(userById);
+
+            List<Memory> memories = memoryService.getAllMemoriesByTypeAndUser(MemoryType.PUBLIC, userById.getId());
             model.addAttribute("user", userById);
             model.addAttribute("memories", memories);
             model.addAttribute("followers", userById.getFollowers());
+            model.addAttribute("followed", followed);
+            model.addAttribute("unfollowed", !followed);
         } else {
             /* Self */
             List<Memory> memories = memoryService.getAllMemoriesByUser(user.getId());
@@ -90,5 +96,35 @@ public class ProfileController {
         userService.save(user);
 
         return ResponseEntity.ok("{}");
+    }
+
+    @PostMapping(value = "/profile/{userId}/follow", produces = MediaType.APPLICATION_JSON_VALUE)
+    public String followUser(@PathVariable("userId") final Long userId, final Principal principal, final Model model) {
+        final User user = userService.findByUsername(principal.getName());
+
+        /* Perform follow-user action */
+        boolean isFollowed = userService.followUser(user, userId);
+        if (!isFollowed) {
+            model.addAttribute("followUserError", "Unable to follow user with userId: " + userId);
+            return "redirect:/profile/" + userId;
+        }
+        model.addAttribute("followUserSuccess", userId);
+
+        return "redirect:/profile/" + userId;
+    }
+
+    @PostMapping(value = "/profile/{userId}/unfollow", produces = MediaType.APPLICATION_JSON_VALUE)
+    public String unFollowUser(@PathVariable("userId") final Long userId, final Principal principal, final Model model) {
+        final User user = userService.findByUsername(principal.getName());
+
+        /* Perform unfollow-user action */
+        boolean isUnFollowed = userService.unFollowUser(user, userId);
+        if (!isUnFollowed) {
+            model.addAttribute("unFollowUserError", "Unable to follow user with userId: " + userId);
+            return "redirect:/profile/" + userId;
+        }
+        model.addAttribute("unFollowUserSuccess", userId);
+
+        return "redirect:/profile/" + userId;
     }
 }

@@ -56,7 +56,7 @@ public class UserService {
         user.getFollowingUsers().add(userToFollow);
         userRepository.save(user);
         LOGGER.info("Successfully followed user with id: {}", userId);
-        return false;
+        return true;
     }
 
     public boolean unFollowUser(final User user, final Long userId) {
