@@ -1,22 +1,13 @@
 package com.boun.swe.mnemosyne.model;
 
-
 import com.boun.swe.mnemosyne.enums.MemoryType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -82,7 +73,7 @@ public class Memory {
     private Set<Location> locations;
 
     @JsonIgnore
-    @OneToMany(targetEntity = User.class, fetch = FetchType.LAZY)
+    @ManyToMany(targetEntity = User.class, fetch = FetchType.LAZY)
     private Set<User> usersLiked = new HashSet<>();
 
     @Override

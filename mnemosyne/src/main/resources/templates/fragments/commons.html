@@ -66,7 +66,7 @@
 </div>
 
 
-<div th:fragment="memory-thumbnail(memory)">
+<div th:fragment="memory-thumbnail(memory, principalUser)">
     <div class="card" style="margin-bottom: 20px;">
         <div class="card-body">
             <ul class="list-inline">
@@ -88,15 +88,15 @@
                     class="fa fa-external-link"/></a>
         </div>
         <div class="card-footer text-muted">
-            <i th:if="${not #lists.contains(memory.usersLiked, principal.principal)}"
+            <i th:if="${not #lists.contains(memory.usersLiked, principalUser)}"
                th:id="${memory.id}" class="fa fa-heart-o" th:onclick="${'chanceLikingStatus(' + memory.id +')'}"/>
-            <i th:if="${#lists.contains(memory.usersLiked, principal.principal)}"
+            <i th:if="${#lists.contains(memory.usersLiked, principalUser)}"
                th:id="${memory.id}" class="fa fa-heart" style="color: red" th:onclick="${'chanceLikingStatus(' + memory.id +')'}"/>
             by <a th:href="'/profile/' + ${memory.user.id}"> <span th:text="${memory.user.username}"></span> </a>
         </div>
     </div>
 </div>
-<div th:fragment="memory-list(memories, self)">
+<div th:fragment="memory-list(memories, self, principalUser)">
     <div th:if="${#lists.isEmpty(memories)}" class="text-center">
         <span class="h4">No memory to be displayed</span>
         <br />
@@ -108,7 +108,7 @@
         </p>
     </div>
     <div th:if="${not #lists.isEmpty(memories)}" th:each="memory: ${memories}">
-        <div th:replace="fragments/commons :: memory-thumbnail(${memory})"/>
+        <div th:replace="fragments/commons :: memory-thumbnail(${memory}, ${principalUser})"></div>
     </div>
 </div>
 

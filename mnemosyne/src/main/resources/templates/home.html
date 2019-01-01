@@ -16,7 +16,7 @@
     </form>
 
     <h1 class="display-4">Memories posted by your friends...</h1>
-    <div th:replace="fragments/commons :: memory-list(${memories}, ${self})" />
+    <div th:replace="fragments/commons :: memory-list(${memories}, ${self}, ${principalUser})" />
 </div>
 
 <th:block th:include="fragments/footer :: footer"/>

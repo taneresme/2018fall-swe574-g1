@@ -176,7 +176,7 @@
 
                 <!-- My memories -->
                 <div class="tab-pane active show" id="my-memories-tab" role="tabpanel">
-                    <div th:replace="fragments/commons :: memory-list(${memories}, ${self})" />
+                    <div th:replace="fragments/commons :: memory-list(${memories}, ${self}, ${principalUser})" />
                 </div>
                 <!-- End of My memories -->
 
