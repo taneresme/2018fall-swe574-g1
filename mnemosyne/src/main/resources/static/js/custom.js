@@ -16,7 +16,7 @@ function chanceLikingStatus (id) {
         /* Liking */
         i.removeClass("fa-heart-o");
         i.addClass("fa-heart");
-        i.attr("style", "color:red");
+        i.attr("style", "color:red;");
     }
     else{
         /* Disliking */

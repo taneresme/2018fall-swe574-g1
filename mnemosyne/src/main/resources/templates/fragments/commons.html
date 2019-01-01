@@ -71,7 +71,7 @@
         <div class="card-body">
             <ul class="list-inline">
                 <li class="list-inline-item">
-                    <h5 class="card-title" th:text="${memory.title}" />
+                    <h5 class="card-title" th:text="${memory.title}"/>
                 </li>
                 <li th:if="${#strings.toString(memory.type) == 'PRIVATE'}" class="list-inline-item">
                     <small class="text-muted"><em>Private</em></small>
@@ -87,20 +87,22 @@
             <a th:href="'/memories/' + ${memory.id}" class="btn btn-outline-primary">Read more <i
                     class="fa fa-external-link"/></a>
         </div>
-        <div class="card-footer text-muted">
+        <div class="card-footer text-muted d-flex">
             <i th:if="${not #lists.contains(memory.usersLiked, principalUser)}"
-               th:id="${memory.id}" class="fa fa-heart-o" th:onclick="${'chanceLikingStatus(' + memory.id +')'}"/>
+               th:id="${memory.id}" class="fa fa-heart-o greater_fa_icon"
+               th:onclick="${'chanceLikingStatus(' + memory.id +')'}" />
             <i th:if="${#lists.contains(memory.usersLiked, principalUser)}"
-               th:id="${memory.id}" class="fa fa-heart" style="color: red" th:onclick="${'chanceLikingStatus(' + memory.id +')'}"/>
-            by <a th:href="'/profile/' + ${memory.user.id}"> <span th:text="${memory.user.username}"></span> </a>
+               th:id="${memory.id}" class="fa fa-heart greater_fa_icon" style="color: red;"
+               th:onclick="${'chanceLikingStatus(' + memory.id +')'}" />
+            <span class="ml-auto">shared by <a th:href="'/profile/' + ${memory.user.id}"> <span th:text="${memory.user.username}" /> </a></span>
         </div>
     </div>
 </div>
 <div th:fragment="memory-list(memories, self, principalUser)">
     <div th:if="${#lists.isEmpty(memories)}" class="text-center">
         <span class="h4">No memory to be displayed</span>
-        <br />
-        <br />
+        <br/>
+        <br/>
         <p th:if="${self}">
             <span>How about sharing your memories... </span>
             <a href="/memories/add" class="btn btn-outline-primary">Share <i
@@ -121,13 +123,15 @@
                     <h3 class="card-text text-muted" th:text="${userItem.username}"></h3>
                 </li>
                 <!--<li th:if="${isFollowing}" class="list-inline-item">-->
-                    <!--<span class="btn btn-success ml-2">Follow</span>-->
+                <!--<span class="btn btn-success ml-2">Follow</span>-->
                 <!--</li>-->
-                <li th:id="${'li_followed_' + userItem.id}" th:if="${#lists.contains(userItem.followers, principalUser)}" class="list-inline-item mt-2">
-                    <i class="fa fa-check" style="color: green" />
+                <li th:id="${'li_followed_' + userItem.id}"
+                    th:if="${#lists.contains(userItem.followers, principalUser)}" class="list-inline-item mt-2">
+                    <i class="fa fa-check" style="color: green"/>
                     <span class="font-weight-light">Followed</span>
                 </li>
-                <li th:id="${'li_unfollow_button_' + userItem.id}" th:if="${#lists.contains(userItem.followers, principalUser)}" class="list-inline-item mt-2">
+                <li th:id="${'li_unfollow_button_' + userItem.id}"
+                    th:if="${#lists.contains(userItem.followers, principalUser)}" class="list-inline-item mt-2">
                     <button class="btn btn-danger" th:onclick="${'unfollow(' + userItem.id + ')'}">Unfollow</button>
                 </li>
                 <li th:id="${'li_unfollowed_desc_' + userItem.id}" class="list-inline-item invisible mt-2">
