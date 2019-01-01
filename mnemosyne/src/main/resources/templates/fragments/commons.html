@@ -114,20 +114,20 @@
 
 
 <div th:fragment="follow-thumbnail(userItem, isFollowing)">
-    <div class="card" style="margin-bottom: 20px;">
-        <div class="card-body">
-            <ul class="list-inline">
+    <div class="card align-middle" style="margin-bottom: 20px;">
+        <div class="card-body mt-3">
+            <ul class="list-inline d-flex align-items-center">
                 <li class="list-inline-item">
-                    <p class="card-text lead" th:text="${userItem.username}"></p>
+                    <h3 class="card-text text-muted" th:text="${userItem.username}"></h3>
                 </li>
                 <li th:if="${isFollowing}" class="list-inline-item">
-                    <span class="btn btn-success" >Follow</span>
+                    <span class="btn btn-success ml-2">Follow</span>
                 </li>
                 <li th:if="${isFollowing}" class="list-inline-item">
-                    <span class="btn btn-danger" >Unfollow</span>
+                    <span class="btn btn-danger ml-2">Unfollow</span>
                 </li>
                 <li class="list-inline-item">
-                    <a th:href="'/profile/' + ${userItem.id}" class="btn btn-outline-primary">Go to profile
+                    <a th:href="'/profile/' + ${userItem.id}" class="btn btn-outline-primary ml-2">Go to profile
                         <i class="fa fa-external-link"/></a>
                 </li>
             </ul>
@@ -144,11 +144,11 @@
     </div>
 </div>
 
-<div th:fragment="following-list(followings)">
-    <div th:if="${#lists.isEmpty(followings)}" class="text-center">
+<div th:fragment="following-list(followingUsers)">
+    <div th:if="${#lists.isEmpty(followingUsers)}" class="text-center mt-3">
         <span class="h4">No following user</span>
     </div>
-    <div th:if="${not #lists.isEmpty(followings)}" th:each="following: ${followings}">
+    <div th:if="${not #lists.isEmpty(followingUsers)}" th:each="following: ${followingUsers}">
         <div th:replace="fragments/commons :: follow-thumbnail(${following}, true)"/>
     </div>
 </div>

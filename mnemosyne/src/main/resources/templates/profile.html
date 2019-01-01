@@ -59,6 +59,12 @@
                                 Followers
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a id="followings" class="nav-link"
+                               data-toggle="tab" href="#followings-tab" role="tab">
+                                Followings
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -187,9 +193,15 @@
 
                 <!-- My followers -->
                 <div class="tab-pane" id="followers-tab" role="tabpanel">
-                    <div th:replace="fragments/commons :: follower-list(${followers})" />
+                    <div th:replace="fragments/commons :: follower-list(${user.followers})" />
                 </div>
                 <!-- End of My followers -->
+
+                <!-- My followings -->
+                <div class="tab-pane" id="followings-tab" role="tabpanel">
+                    <div th:replace="fragments/commons :: following-list(${user.followingUsers})" />
+                </div>
+                <!-- End of My followings -->
 
             </div>
         </div><!--/col-9-->

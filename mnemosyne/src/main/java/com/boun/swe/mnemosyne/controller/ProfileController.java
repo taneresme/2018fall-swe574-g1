@@ -55,7 +55,6 @@ public class ProfileController {
             List<Memory> memories = memoryService.getAllMemoriesByTypeAndUser(MemoryType.PUBLIC, userById.getId());
             model.addAttribute("user", userById);
             model.addAttribute("memories", memories);
-            model.addAttribute("followers", userById.getFollowers());
             model.addAttribute("followed", followed);
             model.addAttribute("unfollowed", !followed);
         } else {
@@ -64,7 +63,6 @@ public class ProfileController {
             model.addAttribute("self", true);
             model.addAttribute("user", user);
             model.addAttribute("memories", memories);
-            model.addAttribute("followers", user.getFollowers());
         }
         return "profile";
     }

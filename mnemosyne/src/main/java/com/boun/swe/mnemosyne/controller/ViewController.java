@@ -84,7 +84,7 @@ public class ViewController {
         User user = userService.findByUsername(principal.getName());
         model.addAttribute("principalUser", user);
 
-        model.addAttribute("followings", user.getFollowingUsers());
+        model.addAttribute("followingUsers", user.getFollowingUsers());
         return "followings";
     }
 
