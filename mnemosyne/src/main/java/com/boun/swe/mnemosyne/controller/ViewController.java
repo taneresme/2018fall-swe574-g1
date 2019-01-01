@@ -42,7 +42,7 @@ public class ViewController {
     }
 
     @GetMapping(value = "/home")
-    public String registration(Principal principal, final Model model) {
+    public String home(Principal principal, final Model model) {
         /* add authenticated user principle */
         model.addAttribute("principal", principal);
         User user = userService.findByUsername(principal.getName());
@@ -75,6 +75,17 @@ public class ViewController {
         Memory memory = memoryService.getMemoryById(memoryId);
         model.addAttribute("memory", memory);
         return "memory_view";
+    }
+
+    @GetMapping(value = "/followings")
+    public String followings(Principal principal, final Model model) {
+        /* add authenticated user principle */
+        model.addAttribute("principal", principal);
+        User user = userService.findByUsername(principal.getName());
+        model.addAttribute("principalUser", user);
+
+        model.addAttribute("followings", user.getFollowingUsers());
+        return "followings";
     }
 
 }

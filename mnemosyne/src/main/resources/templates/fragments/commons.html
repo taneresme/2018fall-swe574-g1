@@ -113,31 +113,44 @@
 </div>
 
 
-<div th:fragment="follower-thumbnail(follower)">
+<div th:fragment="follow-thumbnail(userItem, isFollowing)">
     <div class="card" style="margin-bottom: 20px;">
         <div class="card-body">
-
-            <div class="col-sm-3">
-                <span th:text="${follower.username}"></span>
-            </div>
-            <div class="col-sm-3 my-auto">
-                <span class="font-weight-light my-auto">Followed</span>
-                <a href="#" class="btn btn-danger btn-sm ml-3 my-auto">Unfollow</a>
-            </div>
-
-            <a th:href="'/profile/' + ${follower.id}" class="btn btn-outline-primary">Go to profile <i
-                    class="fa fa-external-link"/></a>
+            <ul class="list-inline">
+                <li class="list-inline-item">
+                    <p class="card-text lead" th:text="${userItem.username}"></p>
+                </li>
+                <li th:if="${isFollowing}" class="list-inline-item">
+                    <span class="btn btn-success" >Follow</span>
+                </li>
+                <li th:if="${isFollowing}" class="list-inline-item">
+                    <span class="btn btn-danger" >Unfollow</span>
+                </li>
+                <li class="list-inline-item">
+                    <a th:href="'/profile/' + ${userItem.id}" class="btn btn-outline-primary">Go to profile
+                        <i class="fa fa-external-link"/></a>
+                </li>
+            </ul>
         </div>
     </div>
 </div>
+
 <div th:fragment="follower-list(followers)">
     <div th:if="${#lists.isEmpty(followers)}" class="text-center">
         <span class="h4">No follower</span>
     </div>
     <div th:if="${not #lists.isEmpty(followers)}" th:each="follower: ${followers}">
-        <div th:replace="fragments/commons :: follower-thumbnail(${follower})"/>
+        <div th:replace="fragments/commons :: follow-thumbnail(${follower}, false)"/>
     </div>
 </div>
 
+<div th:fragment="following-list(followings)">
+    <div th:if="${#lists.isEmpty(followings)}" class="text-center">
+        <span class="h4">No following user</span>
+    </div>
+    <div th:if="${not #lists.isEmpty(followings)}" th:each="following: ${followings}">
+        <div th:replace="fragments/commons :: follow-thumbnail(${following}, true)"/>
+    </div>
+</div>
 
 </html>

@@ -54,7 +54,9 @@ public class UserService {
         }
         final User userToFollow = findByUserId(userId);
         user.getFollowingUsers().add(userToFollow);
+        userToFollow.getFollowers().add(user);
         userRepository.save(user);
+        userRepository.save(userToFollow);
         LOGGER.info("Successfully followed user with id: {}", userId);
         return true;
     }
@@ -66,7 +68,9 @@ public class UserService {
         }
         final User userToUnFollow = findByUserId(userId);
         user.getFollowingUsers().remove(userToUnFollow);
+        userToUnFollow.getFollowers().remove(user);
         userRepository.save(user);
+        userRepository.save(userToUnFollow);
         LOGGER.info("Successfully un-followed user with id: {}", userId);
         return false;
     }
