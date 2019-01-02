@@ -38,20 +38,44 @@ public class ViewController {
 
     @GetMapping(value = "/")
     public String index(Principal principal, final Model model) {
-        /* add authenticated user principle */
-        model.addAttribute("principal", principal);
 
         List<Memory> memories = memoryService.getAllMemories();
+        if (memories.size()> 9){
+            memories = memories.subList(0,9);
+        }
+
         List<Location> mapLocations = new ArrayList<>();
+        List<Long> memoryIds = new ArrayList<>();
+        List<String> memoryTitles = new ArrayList<>();
+        StringBuilder sb = new StringBuilder("[");
 
         for(int i = 0; i < memories.size(); i++){
             mapLocations.add(memories.get(0).getLocations().iterator().next());
+            memoryIds.add(memories.get(i).getId());
+            memoryTitles.add(memories.get(i).getTitle());
         }
 
-        LOGGER.info("Get memory request for all memories and return count");
+        for(int i = 0; i < mapLocations.size(); i++){
+            sb.append(mapLocations.get(i).toJsonString());
+            sb.append("\"memoryId\":");
+            sb.append("\"").append(memoryIds.get(i)).append("\"");
+            sb.append(",");
+            sb.append("\"memoryTitle\":");
+            sb.append("\"").append(memoryTitles.get(i)).append("\"");
+            sb.append("}");
+            if(i + 1 < mapLocations.size()) {
+                sb.append(",");
+            }
+        }
+        sb.append("]");
+
+        LOGGER.info("Get memory request for all memories");
+
+        /* add authenticated user principle */
+        model.addAttribute("principal", principal);
         model.addAttribute("totalMemories", memories.size());
         model.addAttribute("totalUsers", userService.getAllUsers().size());
-        model.addAttribute("mapLocations", mapLocations);
+        model.addAttribute("mapLocations", sb.toString());
 
         return "index";
     }
