@@ -9,6 +9,9 @@ import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -53,6 +56,21 @@ public class AnnotationServiceTest {
 
         // THEN
         verify(annotationRepositoryMock).findByAnnotationId(id);
+    }
+
+    @Test
+    public void shouldFindByCreator() {
+        // GIVEN
+        Annotation annotation = createAnnotation();
+        List<Annotation> list = new ArrayList<>();
+        list.add(annotation);
+        when(annotationRepositoryMock.findByCreator(any())).thenReturn(list);
+
+        // WHEN
+        annotationService.findAllByCreator(annotation.getBody().getCreator());
+
+        // THEN
+        verify(annotationRepositoryMock).findByCreator("blue");
     }
 
     private Annotation createAnnotation() {
