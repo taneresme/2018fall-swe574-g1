@@ -13,20 +13,22 @@ spring:
   datasource:
     url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=- 1;DB_CLOSE_ON_EXIT=FALSE
     driverClassName: org.h2.Driver
-
----
+    username: sa
+    password:
+--
+server:
+  port: 8090
 spring:
-  profiles: prod
+  thymeleaf:
+    cache: false
   jpa:
     show-sql: true
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgresPlusDialect
     hibernate:
       ddl-auto: update
-  messages:
-    basename: validation
   datasource:
     driverClassName: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/mnemosyne
-    database: POSTGRESQL
-    database-platform: org.hibernate.dialect.PostgresPlusDialect
     username: postgres
     password: admin
