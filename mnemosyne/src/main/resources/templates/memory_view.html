@@ -3,41 +3,42 @@
 <head th:replace="fragments/commons :: head"/>
 <link rel="stylesheet" type="text/css" th:href="@{/css/memory.css}"/>
 <link rel="stylesheet" type="text/css" th:href="@{/css/memory-view.css}"/>
-<link type="text/css" rel="stylesheet" href="http://annotorious.github.com/latest/annotorious.css" />
+<link type="text/css" rel="stylesheet" href="http://annotorious.github.com/latest/annotorious.css"/>
 <body>
 
 <div th:replace="fragments/header :: header"/>
 
 
-<div class="container bootstrap snippet align-text-center" style="margin-bottom: 100px; margin-top: 100px; max-width: 70%;">
-    <div class="row">
-        <span style="font-size: 26px;"><p th:text="${memory.title}" /></span>
-    </div>
-    <div class="row">
-        <span th:text="${memory.year} != null ? ${memory.year}" />
-        <span th:text="${memory.month} != null ? '/' + ${memory.month}" />
-        <span th:text="${memory.day} != null ? '/' + ${memory.day}" />
-        &nbsp;for&nbsp;<p th:text="${memory.duration}" />&nbsp;<p th:text="${memory.period}" />
-    </div>
-    <div class="row">
-        <div id="editor-view">
-            <pre>
-                <p th:utext="${memory.text}" />
-            </pre>
+<div class="container" style="margin-bottom: 100px; margin-top: 100px;">
+    <div class="card">
+        <div class="card-img">
+            <div id="map-container-google-1" class="z-depth-1-half map-container" style="height: 500px">
+                <div id="map"></div>
+            </div>
         </div>
-    </div>
-    <div class="row">
-        <div style="height: 400px; width: 900px" id="map"></div>
+        <div class="card-body">
+            <div th:replace="fragments/commons :: memory-publication-type(${memory})"/>
+            <h6 class="card-subtitle mb-2 text-muted">
+                <span th:if="${memory.year}" th:text="${memory.year}" />
+                <span th:if="${memory.month}" th:text="'/' + ${memory.month}" />
+                <span th:if="${memory.day}" th:text="'/' + ${memory.day}" />
+                for
+                <span th:text="${memory.duration}" />
+                <span th:text="${memory.period}"/>
+            </h6>
+            <p class="card-text lead" th:utext="${memory.text}"/>
+        </div>
+        <div th:replace="fragments/commons :: memory-card-footer(${memory}, ${principalUser})"/>
     </div>
 </div>
 
 <script th:inline="javascript">
 
-      /*<![CDATA[*/
+    /*<![CDATA[*/
 
-         var locations = /*[[${mapLocations}]]*/ 'Locations';
+    var locations = /*[[${mapLocations}]]*/ 'Locations';
 
-       /*]]>*/
+    /*]]>*/
 </script>
 <script th:src="@{/js/custom.js}"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBPPQdm70nzyqm7k-GAfYQq8swf0UAU6ss&amp;callback=initMap"
@@ -45,7 +46,7 @@
 <script type="text/javascript" src="http://annotorious.github.com/latest/annotorious.min.js"></script>
 <script th:src="@{/js/annotator.js}"></script>
 
-
 <th:block th:include="fragments/footer :: footer"/>
+
 </body>
 </html>

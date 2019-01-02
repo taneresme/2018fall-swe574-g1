@@ -122,6 +122,8 @@ public class ViewController {
         StringBuilder sb = memoryLocationStringBuilder(memories);
 
         LOGGER.info("Get memory request received for memoryId: {}", memoryId);
+        User user = userService.findByUsername(principal.getName());
+        model.addAttribute("principalUser", user);
         model.addAttribute("principal", principal);
         model.addAttribute("memory", memory);
         model.addAttribute("mapLocations", sb.toString());
