@@ -44,6 +44,20 @@ public class ViewController {
             memories = memories.subList(0,9);
         }
 
+        StringBuilder sb = memoryLocationStringBuilder(memories);
+
+        LOGGER.info("Get memory request for all memories");
+
+        /* add authenticated user principle */
+        model.addAttribute("principal", principal);
+        model.addAttribute("totalMemories", memories.size());
+        model.addAttribute("totalUsers", userService.getAllUsers().size());
+        model.addAttribute("mapLocations", sb.toString());
+
+        return "index";
+    }
+
+    private StringBuilder memoryLocationStringBuilder(List<Memory> memories) {
         List<Location> mapLocations = new ArrayList<>();
         List<Long> memoryIds = new ArrayList<>();
         List<String> memoryTitles = new ArrayList<>();
@@ -68,16 +82,7 @@ public class ViewController {
             }
         }
         sb.append("]");
-
-        LOGGER.info("Get memory request for all memories");
-
-        /* add authenticated user principle */
-        model.addAttribute("principal", principal);
-        model.addAttribute("totalMemories", memories.size());
-        model.addAttribute("totalUsers", userService.getAllUsers().size());
-        model.addAttribute("mapLocations", sb.toString());
-
-        return "index";
+        return sb;
     }
 
     @GetMapping(value = "/home")
@@ -109,10 +114,17 @@ public class ViewController {
     // TODO: this shouldn't be here, and handled by view side?
     @GetMapping(value = "/memories/{memoryId}")
     public String getMemoryById(@PathVariable("memoryId") final Long memoryId, final Principal principal, final Model model) {
+
+        Memory memory = memoryService.getMemoryById(memoryId);
+
+        List<Memory> memories = new ArrayList<>();
+        memories.add(memory);
+        StringBuilder sb = memoryLocationStringBuilder(memories);
+
         LOGGER.info("Get memory request received for memoryId: {}", memoryId);
         model.addAttribute("principal", principal);
-        Memory memory = memoryService.getMemoryById(memoryId);
         model.addAttribute("memory", memory);
+        model.addAttribute("mapLocations", sb.toString());
         return "memory_view";
     }
 
