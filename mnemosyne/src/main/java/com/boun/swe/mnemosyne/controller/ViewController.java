@@ -1,6 +1,7 @@
 package com.boun.swe.mnemosyne.controller;
 
 import com.boun.swe.mnemosyne.enums.MemoryType;
+import com.boun.swe.mnemosyne.model.Location;
 import com.boun.swe.mnemosyne.model.Memory;
 import com.boun.swe.mnemosyne.model.User;
 import com.boun.swe.mnemosyne.service.MemoryService;
@@ -8,13 +9,17 @@ import com.boun.swe.mnemosyne.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.json.JacksonJsonParser;
+import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Controller
@@ -35,9 +40,19 @@ public class ViewController {
     public String index(Principal principal, final Model model) {
         /* add authenticated user principle */
         model.addAttribute("principal", principal);
+
+        List<Memory> memories = memoryService.getAllMemories();
+        List<Location> mapLocations = new ArrayList<>();
+
+        for(int i = 0; i < memories.size(); i++){
+            mapLocations.add(memories.get(0).getLocations().iterator().next());
+        }
+
         LOGGER.info("Get memory request for all memories and return count");
-        model.addAttribute("totalMemories", memoryService.getAllMemories().size());
+        model.addAttribute("totalMemories", memories.size());
         model.addAttribute("totalUsers", userService.getAllUsers().size());
+        model.addAttribute("mapLocations", mapLocations);
+
         return "index";
     }
 

@@ -79,12 +79,19 @@
         </div>
     </div>
 </div>
-<script>
 
 
-</script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBPPQdm70nzyqm7k-GAfYQq8swf0UAU6ss&amp;callback=initMap"
         async="async" defer="defer"></script>
+
+<script th:inline="javascript">
+
+      /*<![CDATA[*/
+
+         var locations = /*[[${mapLocations}]]*/ 'User Name';
+
+       /*]]>*/
+</script>
 
 <script th:src="@{/js/custom.js}"></script>
 <th:block th:include="fragments/footer :: footer"/>
