@@ -64,6 +64,21 @@ public class Location {
         return sb.toString();
     }
 
+
+    public String toJsonString(){
+        final StringBuilder sb = new StringBuilder("{");
+        sb.append("\"locationName\":");
+        sb.append("\"").append(locationName).append("\"");
+        sb.append(",");
+        sb.append("\"latitude\":");
+        sb.append("\"").append(latitude).append("\"");
+        sb.append(",");
+        sb.append("\"longitude\":");
+        sb.append("\"").append(longitude).append("\"");
+        sb.append(",");
+        return sb.toString();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

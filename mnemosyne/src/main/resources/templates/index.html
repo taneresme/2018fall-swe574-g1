@@ -38,7 +38,7 @@
                 <i class="fas fa-bolt"></i>
             </div>
             <div style="color: blue; font-size: 48px;">
-                7.2M
+                <span th:text="${totalMemories}"></span>
             </div>
             <div>
                 MEMORIES SHARED
@@ -49,42 +49,27 @@
                 <i class="fas fa-bolt"></i>
             </div>
             <div style="color: blue; font-size: 48px;">
-                <span th:text="${totalMemories}"></span>
+                <span th:text="${totalUsers}"></span>
             </div>
             <div>
                 USERS REGISTERED
             </div>
         </div>
-        <div class="col" style="text-align: center;">
-            <div style="font-size: 48px;" >
-                <i class="fas fa-bolt"></i>
-            </div>
-            <div style="color: blue; font-size: 48px;">
-                <span th:text="${totalUsers}"></span>
-            </div>
-            <div>
-                DAILY VIEWS
-            </div>
-        </div>
-        <div class="col" style="text-align: center;">
-            <div style="font-size: 48px;" >
-                <i class="fas fa-bolt"></i>
-            </div>
-            <div style="color: blue; font-size: 48px;">
-                1.6M
-            </div>
-            <div>
-                ANNOTATIONS
-            </div>
-        </div>
     </div>
 </div>
-<script>
 
 
-</script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBPPQdm70nzyqm7k-GAfYQq8swf0UAU6ss&amp;callback=initMap"
         async="async" defer="defer"></script>
+
+<script th:inline="javascript">
+
+      /*<![CDATA[*/
+
+         var locations = /*[[${mapLocations}]]*/ 'Locations';
+
+       /*]]>*/
+</script>
 
 <script th:src="@{/js/custom.js}"></script>
 <th:block th:include="fragments/footer :: footer"/>

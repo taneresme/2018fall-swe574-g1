@@ -1,14 +1,14 @@
-if (!String.format) {
-  String.format = function(format) {
-    var args = Array.prototype.slice.call(arguments, 1);
-    return format.replace(/{(\d+)}/g, function(match, number) { 
-      return typeof $(args).get(number) != "undefined"
-        ? $(args).get(number)
-        : match
-      ;
-    });
-  };
-}
+    if (!String.format) {
+      String.format = function(format) {
+        var args = Array.prototype.slice.call(arguments, 1);
+        return format.replace(/{(\d+)}/g, function(match, number) {
+          return typeof $(args).get(number) != "undefined"
+            ? $(args).get(number)
+            : match
+          ;
+        });
+      };
+    }
 
 function chanceLikingStatus (id) {
     var i = $("#" + id);
@@ -76,21 +76,59 @@ function getRand(from, to, fixed) {
     // .toFixed() returns string, so ' * 1' is a trick to convert to number
 }
 var map;
+
+/*var loc = $.parseJSON(locations);
+
 function initMap() {
     console.log('init map');
+
     map = new google.maps.Map(document.getElementById('map'), {
         center: {lat: 39.397, lng: 34.644},
         zoom: 5
     });
 
-    for (i = 0; i < 12; i++ ) {
+    for (i = 0; i < loc.len; i++ ) {
         var marker = new google.maps.Marker({
-            position: {lat: getRand(37, 41, 3), lng: getRand(30, 41, 3)},
+            position: {lat: parseFloat(loc[i].latitude), lng: parseFloat(loc[i].longitude)},
             map: map,
             title: 'My unforgettable memory!'
         });
     }
+}*/
+
+
+var loc = $.parseJSON(locations);
+var markers = [];
+
+function initMap() {
+    console.log('init map');
+
+    map = new google.maps.Map(document.getElementById('map'), {
+        center: {lat: 39.397, lng: 34.644},
+        zoom: 5
+    });
+
+    for (i = 0; i < loc.length; i++ ) {
+        var marker = new google.maps.Marker({
+            position: {lat: parseFloat(loc[i].latitude), lng: parseFloat(loc[i].longitude)},
+            url: '/memories/' + loc[i].memoryId,
+            title: loc[i].memoryName,
+            animation:google.maps.Animation.DROP
+        });
+        markers.push(marker);
+    }
+
+    for (i = 0; i < markers.length; i++ ) {
+        markers[i].setMap(map);
+    }
+
+    google.maps.event.addDomListener(window, 'load', initMap);
+    for (i = 0; i < markers.length; i++ ) {
+        google.maps.event.addListener(markers[i], 'click', function() {window.location.href = marker.url;});
+    }
 }
+
+
 
 const URL = 'http://localhost:5100';
 
