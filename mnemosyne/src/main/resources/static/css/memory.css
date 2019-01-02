@@ -16,9 +16,9 @@ h1 {
   margin-bottom: 2.5%;
 }
 
-strong {
-    font-weight: bold;
-}
+/*strong {*/
+    /*font-weight: bold;*/
+/*}*/
 .ql-editor strong{
  font-weight:bold;
 }
