@@ -16,7 +16,7 @@
                 <div id="map"></div>
             </div>
         </div>
-        <div class="card-body">
+        <div class="card-body" id="editor-view">
             <div th:replace="fragments/commons :: memory-publication-type(${memory})"/>
             <h6 class="card-subtitle mb-2 text-muted">
                 <span th:if="${memory.year}" th:text="${memory.year}" />
@@ -35,18 +35,15 @@
 <script th:inline="javascript">
 
     /*<![CDATA[*/
-
+    var userName = [[${principalUser.username}]];
     var locations = /*[[${mapLocations}]]*/ 'Locations';
 
     /*]]>*/
 </script>
-<script th:src="@{/js/custom.js}"></script>
+<script th:src="@{/js/annotator.js}"></script>
+<script type="text/javascript" src="http://annotorious.github.com/latest/annotorious.min.js"></script>
+<th:block th:include="fragments/footer :: footer"/>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBPPQdm70nzyqm7k-GAfYQq8swf0UAU6ss&amp;callback=initMap"
         async="async" defer="defer"></script>
-<script type="text/javascript" src="http://annotorious.github.com/latest/annotorious.min.js"></script>
-<script th:src="@{/js/annotator.js}"></script>
-
-<th:block th:include="fragments/footer :: footer"/>
-
 </body>
 </html>

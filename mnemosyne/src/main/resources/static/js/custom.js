@@ -130,31 +130,25 @@ function initMap() {
 
 
 
-const URL = 'http://localhost:5100';
+var URL = 'https://annotatorconverter.tugcan.net';
 
 var app = new annotator.App();
 app.include(annotator.ui.main);
 app.include(annotator.storage.http, {
     prefix: URL,
     urls: {
-        create: '/create/' + window.location.href,
+        create: '/create/' + userName + '/' + window.location.href,
         search: '/search'
     }
 });
-app.include(customAnn);
-app.start();
+app.start()
+    .then(function () {
+        app.annotations.load();
+});
 
 anno.addHandler('onAnnotationCreated', function(annotation) {
     imageToW3C(annotation);
 });
-
-function customAnn() {
-    return {
-        annotationCreated: function (annotation) {
-            app.notify("Annotation is created");
-        }
-    };
-};
 
 setTimeout(() => {
     var memoryView = document.getElementById('editor-view');
@@ -162,57 +156,8 @@ setTimeout(() => {
     for (var i=0; i < images.length; i++) {
         anno.makeAnnotatable(images[i]);
     }
-
-
-    var tr = { "@context": "http://www.w3.org/ns/anno.jsonld",
-            "id": "file:///home/tugcan/scripts/html/index.html",
-            "type": "Annotation",
-            "body": {
-                "type": "TextualBody",
-                "value": "amina kodugumun projesi\n",
-                "ceator": "user1"
-            },
-            "target": {
-                "id": "http://ihg.scene7.com/is/image/ihg/holiday-inn-the-colony-4629618286-4x3#xywh=0.3,0.6104868913857678,0.17,0.19850187265917604",
-                "type": "Image",
-                "format": "image/jpeg",
-                "ceator": "user2"
-            }
-        };
-
-    W3CtoImage(tr);
 }, 2000);
 
-function annoToW3C(comment, quote, range) {
-    var ann = {
-        "@context": "http://www.w3.org/ns/anno.jsonld",
-        "id": "http://mayonez/memory/3",
-        "type": "Annotation",
-        "body": {
-            "type": "TextualBody",
-            "value": "This is the annotation comment",
-            "creator": "user"
-        },
-        "target": {
-            "type": "TextQuoteSelector",
-            "exact": "These are the words that",
-            "prefix": 0,
-            "suffix": 24,
-            "refinedBy": {
-            "type": "TextPositionSelector",
-            "start": "/p[1]",
-            "end": "/p[1]"
-            }
-        }
-    }
-    ann.body.value = comment;
-    ann.target.exact = quote;
-    ann.target.prefix = range.startOffset;
-    ann.target.suffix = range.endOffset;
-    ann.target.refinedBy.start = range.start;
-    ann.target.refinedBy.end = range.end;
-    console.log(ann);
-}
 
 function imageToW3C(annotation) {
     var ann = {
@@ -234,14 +179,23 @@ function imageToW3C(annotation) {
             "id": "https://imagessl.etstur.com/files/resources/images/otel/otelKategori/yurt_ici_otelleri.jpg#xywh=0.4,0.24344569288389514,0.2525,0.30711610486891383",
             "type": "Image",
             "format": "image/jpeg",
-            "ceator": "user2"
+            "creator": "user2"
         }
     };
     ann.body.value = annotation.text;
     rng = annotation.shapes[0].geometry;
     ann.id = annotation.context;
+    ann.generator.id = window.location.href;
     ann.target.id = annotation.src + '#xywh=' + rng.x + ',' + rng.y + ',' + rng.width + ',' + rng.height;
+    ann.target.creator = userName;
     console.log(ann);
+    axios.post('http://annotationserver.xtptzahyma.us-east-1.elasticbeanstalk.com/annotations', ann, {headers: {'Content-Type':'application/ld+json'}})
+    .then(response => {
+        console.log(response);
+    })
+    .catch(error => {
+        console.log(error);
+    })
 }
 
 function W3CtoImage(el) {
@@ -264,7 +218,30 @@ function W3CtoImage(el) {
 
     setTimeout(() => {
         anno.addAnnotation(w);
-        app.annotations.load();
     }, 500);
 }
 
+function divideData(data) {
+    data.forEach(el => {
+        if ( !('generator' in el) || !('target' in el) || !('body' in el) ) {
+        return;
+    }
+        if ( !('id' in el.generator) || el.target.type !== 'Image') {
+            return;
+        }
+        if (el.generator.id === window.location.href) {
+            W3CtoImage(el);
+        }
+    })
+}
+
+setTimeout(() => {
+    // axios.get('http://annotationserver.xtptzahyma.us-east-1.elasticbeanstalk.com/annotations')
+    axios.get('http://annotationserver.xtptzahyma.us-east-1.elasticbeanstalk.com/annotations')
+    .then(response => {
+        divideData(response.data);
+    })
+    .catch(error => {
+        console.log('Error ', error);
+    })
+    }, 2400);
