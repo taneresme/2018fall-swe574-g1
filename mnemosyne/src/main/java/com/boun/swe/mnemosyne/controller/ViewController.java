@@ -39,20 +39,22 @@ public class ViewController {
     @GetMapping(value = "/")
     public String index(Principal principal, final Model model) {
 
-        List<Memory> memories = memoryService.getAllMemories();
-        if (memories.size()> 9){
-            memories = memories.subList(0,9);
+        if (principal != null){
+            User user = userService.findByUsername(principal.getName());
+            model.addAttribute("principalUser", user);
         }
-
+        List<Memory> memories = memoryService.getLast10Memories();
         StringBuilder sb = memoryLocationStringBuilder(memories);
 
         LOGGER.info("Get memory request for all memories");
 
+
         /* add authenticated user principle */
         model.addAttribute("principal", principal);
-        model.addAttribute("totalMemories", memories.size());
+        model.addAttribute("totalMemories", memoryService.getAllMemories().size());
         model.addAttribute("totalUsers", userService.getAllUsers().size());
         model.addAttribute("mapLocations", sb.toString());
+        model.addAttribute("memories", memories);
 
         return "index";
     }
