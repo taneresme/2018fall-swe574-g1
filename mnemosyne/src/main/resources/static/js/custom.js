@@ -187,7 +187,7 @@ function imageToW3C(annotation) {
     ann.id = annotation.context;
     ann.generator.id = window.location.href;
     ann.target.id = annotation.src + '#xywh=' + rng.x + ',' + rng.y + ',' + rng.width + ',' + rng.height;
-    ann.target.creator = userName;
+    ann.body.creator = userName;
     console.log(ann);
     axios.post('http://annotationserver.xtptzahyma.us-east-1.elasticbeanstalk.com/annotations', ann, {headers: {'Content-Type':'application/ld+json'}})
     .then(response => {
