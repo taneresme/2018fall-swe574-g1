@@ -10,6 +10,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -45,6 +46,7 @@ public class Target {
     private Long id;
 
     @JsonProperty("id")
+    @Column(length = 2000)
     private String targetId;
 
     @JsonProperty("type")

@@ -15,18 +15,18 @@ spring:
     driverClassName: org.h2.Driver
 
 ---
+server:
+  port: 8090
 spring:
   profiles: prod
+  thymeleaf:
+    cache: false
   jpa:
     show-sql: true
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgresPlusDialect
     hibernate:
-      ddl-auto: update
-  messages:
-    basename: validation
+      ddl-auto: create-drop
   datasource:
     driverClassName: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/mnemosyne
-    database: POSTGRESQL
-    database-platform: org.hibernate.dialect.PostgresPlusDialect
-    username: postgres
-    password: admin
