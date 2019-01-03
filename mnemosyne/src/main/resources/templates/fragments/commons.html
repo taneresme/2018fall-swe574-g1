@@ -76,7 +76,7 @@
            th:onclick="${'chanceLikingStatus(' + memory.id +')'}" />
         <span class="ml-auto">shared by <a th:href="'/profile/' + ${memory.user.id}"> <span th:text="${memory.user.username}" /> </a></span>
     </div>
-    <div th:if="${principalUser != null}" class="card-footer text-muted d-flex">
+    <div th:if="${principalUser == null}" class="card-footer text-muted d-flex">
         <span class="ml-auto">shared by <a th:href="'/profile/' + ${memory.user.id}"> <span th:text="${memory.user.username}" /> </a></span>
     </div>
 </div>

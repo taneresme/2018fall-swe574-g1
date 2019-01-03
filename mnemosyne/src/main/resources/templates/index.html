@@ -57,7 +57,7 @@
     </div>
     <div class="row">
         <h1 class="display-4">Last 10 public memories shared...</h1>
-        <div th:replace="fragments/commons :: memory-list(${memories}, null, null)" />
+        <div th:replace="fragments/commons :: memory-list(${memories}, ${self}, ${principalUser})" />
     </div>
 </div>
 

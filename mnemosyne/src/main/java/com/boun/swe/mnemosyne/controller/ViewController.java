@@ -39,6 +39,10 @@ public class ViewController {
     @GetMapping(value = "/")
     public String index(Principal principal, final Model model) {
 
+        if (principal != null){
+            User user = userService.findByUsername(principal.getName());
+            model.addAttribute("principalUser", user);
+        }
         List<Memory> memories = memoryService.getLast10Memories();
         StringBuilder sb = memoryLocationStringBuilder(memories);
 
