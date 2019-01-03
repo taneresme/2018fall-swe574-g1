@@ -58,8 +58,8 @@ public class ViewController {
         model.addAttribute("memories", memories);
 
         /* Get annotations count */
-        List annotations = restTemplate.getForObject("http://annotationserver.xtptzahyma.us-east-1.elasticbeanstalk.com/annotations", List.class);
-        model.addAttribute("annotationCount", annotations.size());
+        Integer annoCount = restTemplate.getForObject("http://annotationserver.xtptzahyma.us-east-1.elasticbeanstalk.com/annotations/total", Integer.class);
+        model.addAttribute("annotationCount", annoCount);
 
         return "index";
     }
