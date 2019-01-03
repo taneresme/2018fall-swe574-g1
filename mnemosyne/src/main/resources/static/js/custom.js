@@ -104,7 +104,7 @@ function initMap() {
     console.log('init map');
 
     map = new google.maps.Map(document.getElementById('map'), {
-        center: {lat: 39.397, lng: 34.644},
+        center: {lat: parseFloat(loc[0].latitude), lng: parseFloat(loc[0].longitude)},
         zoom: 5
     });
 
