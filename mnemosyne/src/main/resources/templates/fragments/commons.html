@@ -99,7 +99,9 @@
     <div class="card search_target" style="margin-bottom: 20px;">
         <div class="card-body">
             <div th:replace="fragments/commons :: memory-publication-type(${memory})"/>
-            <!--<p class="card-text lead" th:text="${memory.text}"></p>-->
+            <div class="card-text lead">
+                <p th:utext="${memory.text}"></p>
+            </div>
             <a th:href="'/memories/' + ${memory.id}" class="btn btn-outline-primary">Read more <i
                     class="fa fa-external-link"/></a>
         </div>
