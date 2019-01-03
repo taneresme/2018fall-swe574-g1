@@ -54,6 +54,17 @@
                 Memories shared
             </li>
         </ul>
+        <ul class="list-inline d-flex align-items-center ml-3">
+            <li class="list-inline-item ml-3 mt-3">
+                <i class="fa fa-puzzle-piece" style="font-size: 56px;"></i>
+            </li>
+            <li class="list-inline-item ml-3">
+                <span class="display-3" style="color: blue;" th:text="${annotationCount}"></span>
+            </li>
+            <li class="list-inline-item ml-3 mt-2">
+                Annotations
+            </li>
+        </ul>
     </div>
     <div class="row">
         <h1 class="display-4">Last 10 public memories shared...</h1>
@@ -76,4 +87,5 @@
 <script th:src="@{/js/custom.js}"></script>
 <th:block th:include="fragments/footer :: footer"/>
 </body>
+
 </html>

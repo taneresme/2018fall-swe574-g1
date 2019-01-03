@@ -9,12 +9,11 @@ import com.boun.swe.mnemosyne.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.json.JacksonJsonParser;
-import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.client.RestTemplate;
 
 import java.security.Principal;
 import java.util.ArrayList;
@@ -29,11 +28,13 @@ public class ViewController {
 
     private final UserService userService;
     private final MemoryService memoryService;
+    private final  RestTemplate restTemplate;
 
     @Autowired
-    public ViewController(final UserService userService, MemoryService memoryService) {
+    public ViewController(final UserService userService, MemoryService memoryService, RestTemplate restTemplate) {
         this.userService = userService;
         this.memoryService = memoryService;
+        this.restTemplate = restTemplate;
     }
 
     @GetMapping(value = "/")
@@ -55,6 +56,10 @@ public class ViewController {
         model.addAttribute("totalUsers", userService.getAllUsers().size());
         model.addAttribute("mapLocations", sb.toString());
         model.addAttribute("memories", memories);
+
+        /* Get annotations count */
+        List annotations = restTemplate.getForObject("http://annotationserver.xtptzahyma.us-east-1.elasticbeanstalk.com/annotations", List.class);
+        model.addAttribute("annotationCount", annotations.size());
 
         return "index";
     }
