@@ -66,36 +66,46 @@
 </div>
 
 
+<div th:fragment="memory-card-footer(memory, principalUser)">
+    <div class="card-footer text-muted d-flex">
+        <i th:if="${not #lists.contains(memory.usersLiked, principalUser)}"
+           th:id="${memory.id}" class="fa fa-heart-o greater_fa_icon"
+           th:onclick="${'chanceLikingStatus(' + memory.id +')'}" />
+        <i th:if="${#lists.contains(memory.usersLiked, principalUser)}"
+           th:id="${memory.id}" class="fa fa-heart greater_fa_icon" style="color: red;"
+           th:onclick="${'chanceLikingStatus(' + memory.id +')'}" />
+        <span class="ml-auto">shared by <a th:href="'/profile/' + ${memory.user.id}"> <span th:text="${memory.user.username}" /> </a></span>
+    </div>
+</div>
+
+<div th:fragment="memory-publication-type(memory)">
+    <ul class="list-inline">
+        <li class="list-inline-item">
+            <h3 class="card-title" th:text="${memory.title}"/>
+        </li>
+        <li th:if="${#strings.toString(memory.type) == 'PRIVATE'}" class="list-inline-item">
+            <small class="text-muted"><em>Private</em></small>
+        </li>
+        <li th:if="${#strings.toString(memory.type) == 'SOCIAL'}" class="list-inline-item">
+            <small class="text-muted"><em>Social</em></small>
+        </li>
+        <li th:if="${#strings.toString(memory.type) == 'PUBLIC'}" class="list-inline-item">
+            <small class="text-muted"><em>Public</em></small>
+        </li>
+    </ul>
+</div>
+
 <div th:fragment="memory-thumbnail(memory, principalUser)">
     <div class="card search_target" style="margin-bottom: 20px;">
         <div class="card-body">
-            <ul class="list-inline">
-                <li class="list-inline-item">
-                    <h5 class="card-title" th:text="${memory.title}"/>
-                </li>
-                <li th:if="${#strings.toString(memory.type) == 'PRIVATE'}" class="list-inline-item">
-                    <small class="text-muted"><em>Private</em></small>
-                </li>
-                <li th:if="${#strings.toString(memory.type) == 'SOCIAL'}" class="list-inline-item">
-                    <small class="text-muted"><em>Social</em></small>
-                </li>
-                <li th:if="${#strings.toString(memory.type) == 'PUBLIC'}" class="list-inline-item">
-                    <small class="text-muted"><em>Public</em></small>
-                </li>
-            </ul>
-            <p class="card-text lead" th:text="${memory.text}"></p>
+            <div th:replace="fragments/commons :: memory-publication-type(${memory})"/>
+            <div class="card-text lead">
+                <p th:utext="${memory.text}"></p>
+            </div>
             <a th:href="'/memories/' + ${memory.id}" class="btn btn-outline-primary">Read more <i
                     class="fa fa-external-link"/></a>
         </div>
-        <div class="card-footer text-muted d-flex">
-            <i th:if="${not #lists.contains(memory.usersLiked, principalUser)}"
-               th:id="${memory.id}" class="fa fa-heart-o greater_fa_icon"
-               th:onclick="${'chanceLikingStatus(' + memory.id +')'}" />
-            <i th:if="${#lists.contains(memory.usersLiked, principalUser)}"
-               th:id="${memory.id}" class="fa fa-heart greater_fa_icon" style="color: red;"
-               th:onclick="${'chanceLikingStatus(' + memory.id +')'}" />
-            <span class="ml-auto">shared by <a th:href="'/profile/' + ${memory.user.id}"> <span th:text="${memory.user.username}" /> </a></span>
-        </div>
+        <div th:replace="fragments/commons :: memory-card-footer(${memory}, ${principalUser})"/>
     </div>
 </div>
 <div th:fragment="memory-list(memories, self, principalUser)">

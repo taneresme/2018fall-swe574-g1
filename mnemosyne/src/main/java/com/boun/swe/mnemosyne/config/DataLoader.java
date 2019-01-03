@@ -112,7 +112,7 @@ public class DataLoader {
         Memory teMemory = Memory.builder()
                 .id(1L)
                 .title("TE's memory")
-                .text("There was a wall and it was high. Then it went down. Am I not the best writer ever?")
+                .text("<p>There was a wall and it was high. Then it went down. Am I not the best writer ever?</p><p><img src=\"https://images.pexels.com/photos/207962/pexels-photo-207962.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500\" alt=\"https://images.pexels.com/photos/207962/pexels-photo-207962.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500\"></p>")
                 .year(2018)
                 .month(11)
                 .day(null)

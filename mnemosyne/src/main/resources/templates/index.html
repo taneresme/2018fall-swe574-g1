@@ -6,58 +6,56 @@
 
 <div th:replace="fragments/header :: header"/>
 
-<div style="padding-left: 10em; padding-right: 10em; margin-top: 5em; margin-bottom: 10em;" class="container-fluid">
-    <div class="row">
-        <div class="col-4">
-            <div style="font-size: 36px; color: blue; ">
-                Share memories
-            </div>
-            <div style="margin: 1em;">
-                "There are memories that time does not erase... Forever does not make loss forgettable, only bearable"
-            </div>
-            <div style="margin: 2em;">
-                <button type="button" class="btn btn-primary">READ MORE</button>
-            </div>
-        </div>
-        <div class="col-8">
-            <div style="height: 100%;" id="map"></div>
-        </div>
-    </div>
-    <div class="row align-items-center justify-content-center" style="padding: 3em; padding-right: 10em; padding-left: 10em;">
-        Mnemosyne is a memory sharing and storing hub for everybody on the planet. Never forget your memories again.
-        Share them with your beloved ones or even share them public for everybody to see.
-        Follow other's memories and annotate them.
-        Search through millions of memories and find people who shared common interests with you.
+<div class="container" style="margin-bottom: 100px; margin-top: 100px;">
+    <div class="row align-items-center justify-content-center">
+        <h1 class="display-4">Share memories...</h1>
     </div>
     <div class="row align-items-center justify-content-center">
-        STATISTICS
+        <p class="lead mb-4">
+            There are memories that time does not erase... Forever does not make loss forgettable, only bearable
+        </p>
     </div>
-    <div style="margin-top: 2em;" class="row">
-        <div class="col" style="text-align: center;">
-            <div style="font-size: 48px;">
-                <i class="fas fa-bolt"></i>
-            </div>
-            <div style="color: blue; font-size: 48px;">
-                <span th:text="${totalMemories}"></span>
-            </div>
-            <div>
-                MEMORIES SHARED
-            </div>
+    <div class="row">
+        <div id="map-container-google-1" class="col-12 z-depth-1-half map-container" style="height: 500px">
+            <div id="map"></div>
         </div>
-        <div class="col" style="text-align: center;">
-            <div style="font-size: 48px;" >
-                <i class="fas fa-bolt"></i>
-            </div>
-            <div style="color: blue; font-size: 48px;">
-                <span th:text="${totalUsers}"></span>
-            </div>
-            <div>
-                USERS REGISTERED
-            </div>
-        </div>
+    </div>
+    <div class="row">
+        <p class="lead mt-4 text-center">
+            Mnemosyne is a memory sharing and storing hub for everybody on the planet. Never forget your memories again.
+            Share them with your beloved ones or even share them public for everybody to see.
+            Follow other's memories and annotate them.
+            Search through millions of memories and find people who shared common interests with you.
+        </p>
+    </div>
+    <div class="row align-items-center justify-content-center">
+        <h1 class="display-3">Statistics</h1>
+    </div>
+    <div class="row mt-2 align-items-center justify-content-center">
+        <ul class="list-inline d-flex align-items-center ml-3">
+            <li class="list-inline-item ml-3">
+                <i class="fa fa-group" style="font-size: 56px;"></i>
+            </li>
+            <li class="list-inline-item ml-3">
+                <span class="display-3" style="color: blue;" th:text="${totalUsers}"></span>
+            </li>
+            <li class="list-inline-item ml-3 mt-2">
+                Users registered
+            </li>
+        </ul>
+        <ul class="list-inline d-flex align-items-center ml-3">
+            <li class="list-inline-item ml-3 mt-3">
+                <i class="fa fa-check-square-o" style="font-size: 56px;"></i>
+            </li>
+            <li class="list-inline-item ml-3">
+                <span class="display-3" style="color: blue;" th:text="${totalMemories}"></span>
+            </li>
+            <li class="list-inline-item ml-3 mt-2">
+                Memories shared
+            </li>
+        </ul>
     </div>
 </div>
-
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBPPQdm70nzyqm7k-GAfYQq8swf0UAU6ss&amp;callback=initMap"
         async="async" defer="defer"></script>
