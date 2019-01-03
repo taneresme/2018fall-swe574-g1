@@ -28,6 +28,7 @@ public class MemoryService {
 
     private List<Memory> trimUnnecessaryTags(List<Memory> memories){
         for (Memory memory:memories) {
+            if (memory.getText() == null) continue;
             /* remove <img> tags from the text */
             memory.setText(memory.getText().replaceAll("<img[^>]*>" ,""));
             /* Find first closing p tag */
