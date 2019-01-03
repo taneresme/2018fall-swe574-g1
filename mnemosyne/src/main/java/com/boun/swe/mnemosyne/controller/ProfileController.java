@@ -18,6 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -41,6 +42,7 @@ public class ProfileController {
         User user = userService.findByUsername(principal.getName());
         model.addAttribute("principalUser", user);
 
+        List<Memory> memories = new ArrayList<>();
         if (userId != null) {
             /* Get user */
             User userById = userService.findByUserId(userId);
@@ -52,18 +54,19 @@ public class ProfileController {
 
             Boolean followed = user.getFollowingUsers().contains(userById);
 
-            List<Memory> memories = memoryService.getAllMemoriesByTypeAndUser(MemoryType.PUBLIC, userById.getId());
+            memories = memoryService.getAllMemoriesByTypeAndUser(MemoryType.PUBLIC, userById.getId());
             model.addAttribute("user", userById);
-            model.addAttribute("memories", memories);
             model.addAttribute("followed", followed);
             model.addAttribute("unfollowed", !followed);
         } else {
             /* Self */
-            List<Memory> memories = memoryService.getAllMemoriesByUser(user.getId());
+            memories = memoryService.getAllMemoriesByUser(user.getId());
             model.addAttribute("self", true);
             model.addAttribute("user", user);
-            model.addAttribute("memories", memories);
         }
+
+        model.addAttribute("memories", memories);
+
         return "profile";
     }
 

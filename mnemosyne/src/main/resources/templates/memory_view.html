@@ -26,7 +26,9 @@
                 <span th:text="${memory.duration}" />
                 <span th:text="${memory.period}"/>
             </h6>
-            <p class="card-text lead" th:utext="${memory.text}"/>
+            <div class="card-text lead">
+                <p th:utext="${memory.text}"></p>
+            </div>
         </div>
         <div th:replace="fragments/commons :: memory-card-footer(${memory}, ${principalUser})"/>
     </div>
