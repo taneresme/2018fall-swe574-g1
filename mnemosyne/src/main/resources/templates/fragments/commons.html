@@ -67,13 +67,16 @@
 
 
 <div th:fragment="memory-card-footer(memory, principalUser)">
-    <div class="card-footer text-muted d-flex">
+    <div th:if="${principalUser}" class="card-footer text-muted d-flex">
         <i th:if="${not #lists.contains(memory.usersLiked, principalUser)}"
            th:id="${memory.id}" class="fa fa-heart-o greater_fa_icon"
            th:onclick="${'chanceLikingStatus(' + memory.id +')'}" />
         <i th:if="${#lists.contains(memory.usersLiked, principalUser)}"
            th:id="${memory.id}" class="fa fa-heart greater_fa_icon" style="color: red;"
            th:onclick="${'chanceLikingStatus(' + memory.id +')'}" />
+        <span class="ml-auto">shared by <a th:href="'/profile/' + ${memory.user.id}"> <span th:text="${memory.user.username}" /> </a></span>
+    </div>
+    <div th:if="${principalUser == null}" class="card-footer text-muted d-flex">
         <span class="ml-auto">shared by <a th:href="'/profile/' + ${memory.user.id}"> <span th:text="${memory.user.username}" /> </a></span>
     </div>
 </div>
