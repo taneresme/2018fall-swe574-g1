@@ -94,7 +94,7 @@ public class MemoryService {
 
     public List<Memory> getLast10Memories() {
         LOGGER.info("Retrieving last 5 memories");
-        return trimUnnecessaryTags(memoryRepository.findTop10ByOrderByIdDesc());
+        return trimUnnecessaryTags(memoryRepository.findTop10ByTypeAndIsPublishedTrueOrderByIdDesc(MemoryType.PUBLIC));
     }
 
     public Memory likeMemory(final Memory memory, final User user) {
