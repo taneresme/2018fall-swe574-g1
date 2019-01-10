@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head th:replace="fragments/commons :: head"/>
+<body>
+
+<div th:replace="fragments/header :: header"/>
+
+<div class="container bootstrap snippet" style="margin-bottom: 100px; margin-top: 100px;">
+    <div class="row">
+        <div class="col-sm-9">
+            <ul class="list-inline d-flex align-items-center">
+                <li class="list-inline-item">
+                    <h1 class="display-4" th:text="${user.username}"/>
+                </li>
+                <!-- unfollowing state -->
+                <li th:if="${unfollowed}" class="list-inline-item ml-3 mt-2">
+                    <form role="form" method="POST" th:action="'/profile/'+${user.id}+'/follow'">
+                        <button type="submit" class="btn btn-success">Follow</button>
+                    </form>
+                </li>
+                <!-- following state -->
+                <li th:if="${followed}" class="list-inline-item ml-3 mt-2">
+                    <form role="form" method="POST" th:action="'/profile/'+${user.id}+'/unfollow'">
+                        <i class="fa fa-check" style="color: green"/>
+                        <span class="font-weight-light">Followed</span>
+                        <button type="submit" class="btn btn-danger ml-3">Unfollow</button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+        <div class="col-sm-3">
+            <div th:replace="fragments/commons :: search_box" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-3"><!--left col-->
+            <div class="">
+                <div class="card">
+                    <ul class="nav nav-pills flex-column">
+                        <li class="nav-item" th:if="${self}">
+                            <a id="personal-information" class="nav-link"
+                               data-toggle="tab" href="#profile-information-tab" role="tab">
+                                Profile Information
+                            </a>
+                        </li>
+                        <!-- When each user is see their own profile -->
+                        <li class="nav-item" th:if="${self}">
+                            <a id="change-password" class="nav-link"
+                               data-toggle="tab" href="#change-password-tab" role="tab">
+                                Change Password
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a id="my-memories" class="nav-link active"
+                               data-toggle="tab" href="#my-memories-tab" role="tab">
+                                Shared Memories
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a id="followers" class="nav-link"
+                               data-toggle="tab" href="#followers-tab" role="tab">
+                                Followers
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a id="followings" class="nav-link"
+                               data-toggle="tab" href="#followings-tab" role="tab">
+                                Followings
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div><!--/col-3-->
+
+        <div class="col-sm-9">
+            <div id="tabs" class="tab-content">
+
+                <!-- Profile Information -->
+                <div class="col-md-9 tab-pane" id="profile-information-tab" role="tabpanel"
+                     th:if="${self}">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fa fa-user"></i></span>
+                                    </div>
+                                    <input type="text" name="username" class="form-control" id="username"
+                                           placeholder="Username" required="" readonly="" th:value="${user.username}"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fa fa-at"></i></span>
+                                    </div>
+                                    <input type="email" name="email" class="form-control" id="email"
+                                           placeholder="Email address" required="" th:value="${user.email}"/>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <!-- Error message -->
+                                <div id="profile-information-tab-error-alert" class="form-group col-md-12 d-none">
+                                    <div class="alert alert-danger mb-2" role="alert">
+                                        <i class="fa fa-close"> </i> <span
+                                            id="profile-information-tab-error-message"></span>
+                                    </div>
+                                </div>
+                                <!-- Success message -->
+                                <div id="profile-information-tab-success-alert" class="form-group col-md-12 d-none">
+                                    <div class="alert alert-success mb-2" role="alert">
+                                        <i class="fa fa-check"> </i> <span>Updated</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <button type="button" class="btn btn-success btn-block" onclick="update_profile_info()">
+                                    Update
+                                </button>
+                            </div>
+                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                        </div>
+                    </div>
+                </div>
+                <!-- End of Profile Information -->
+
+                <!-- Change Password -->
+                <div class="tab-pane col-md-9" id="change-password-tab" role="tabpanel"
+                     th:if="${self}">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fa fa-key"></i></span>
+                                    </div>
+                                    <input type="password" name="currentPassword" class="form-control"
+                                           id="currentPassword"
+                                           placeholder="Current Password" required=""/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fa fa-key"></i></span>
+                                    </div>
+                                    <input type="password" name="newPassword" class="form-control" id="newPassword"
+                                           placeholder="New Password" required=""/>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fa fa-key"></i></span>
+                                    </div>
+                                    <input type="password" name="newPasswordConfirm" class="form-control"
+                                           id="newPasswordConfirm"
+                                           placeholder="New Password (Confirm)" required=""/>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <!-- Error message -->
+                                <div id="change-password-tab-error-alert" class="form-group col-md-12 d-none">
+                                    <div class="alert alert-danger mb-2" role="alert">
+                                        <i class="fa fa-close"> </i> <span
+                                            id="change-password-tab-error-message"></span>
+                                    </div>
+                                </div>
+                                <!-- Success message -->
+                                <div id="change-password-tab-success-alert" class="form-group col-md-12 d-none">
+                                    <div class="alert alert-success mb-2" role="alert">
+                                        <i class="fa fa-check"> </i> <span>Updated</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <button type="button" class="btn btn-success btn-block" onclick="change_password()">
+                                    Change
+                                </button>
+                            </div>
+                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                        </div>
+                    </div>
+                </div>
+                <!-- End of Change Password  -->
+
+                <!-- My memories -->
+                <div class="tab-pane active show" id="my-memories-tab" role="tabpanel">
+                    <div th:replace="fragments/commons :: memory-list(${memories}, ${self}, ${principalUser})"/>
+                </div>
+                <!-- End of My memories -->
+
+                <!-- My followers -->
+                <div class="tab-pane" id="followers-tab" role="tabpanel">
+                    <div th:replace="fragments/commons :: follower-list(${user.followers})"/>
+                </div>
+                <!-- End of My followers -->
+
+                <!-- My followings -->
+                <div class="tab-pane" id="followings-tab" role="tabpanel">
+                    <div th:replace="fragments/commons :: following-list(${user.followingUsers})"/>
+                </div>
+                <!-- End of My followings -->
+
+            </div>
+        </div><!--/col-9-->
+
+    </div><!--/col-9-->
+</div><!--/row-->
+
+<th:block th:include="fragments/footer :: footer"/>
+
+<script type="text/javascript">
+    /* Removes the d-none class from the given alert message div */
+    function show(id) {
+        /* Invisible all alert divs */
+        $("#profile-information-tab-success-alert").removeClass("d-none").addClass("d-none");
+        $("#profile-information-tab-error-alert").removeClass("d-none").addClass("d-none");
+        $("#change-password-tab-success-alert").removeClass("d-none").addClass("d-none");
+        $("#change-password-tab-error-alert").removeClass("d-none").addClass("d-none");
+
+        /* Do visible */
+        $(id).removeClass("d-none");
+    }
+
+    /* Updates user's profile information */
+    function update_profile_info() {
+        var email = $("#email").val();
+        if (email == "") {
+            /* Set error and show the message */
+            $("#profile-information-tab-error-message").html("Fill in the blanks!");
+            show("#profile-information-tab-error-alert");
+            return;
+        }
+
+        var request = {
+            username: $("#username").val(),
+            email: email
+        };
+
+        console.log(request);
+
+        $.ajax({
+            type: "POST",
+            contentType: "application/json",
+            url: "/profile/update",
+            data: JSON.stringify(request),
+            dataType: 'json',
+            cache: false,
+            timeout: 20000,
+            success: function (result) {
+                console.log(result);
+
+                /* show success message */
+                show("#profile-information-tab-success-alert");
+            },
+            error: function (response, error) {
+                console.log(response);
+                console.log(error);
+
+                /* Set error and show the message */
+                $("#profile-information-tab-error-message").html(response.responseJSON.message);
+                show("#profile-information-tab-error-alert");
+            }
+        });
+    }
+
+    function change_password() {
+        /* Check confirm password field */
+        var password = $("#currentPassword").val();
+        var newPassword = $("#newPassword").val();
+        var confirmPassword = $("#newPasswordConfirm").val();
+        if (password == "" || newPassword == "" || confirmPassword == "") {
+            /* Set error and show the message */
+            $("#change-password-tab-error-message").html("Fill in the blanks!");
+            show("#change-password-tab-error-alert");
+            return;
+        }
+
+        if (newPassword != confirmPassword) {
+            /* Set error and show the message */
+            $("#change-password-tab-error-message").html("New password and confirmation is not matched!");
+            show("#change-password-tab-error-alert");
+            return;
+        }
+
+        /* Send the request to server */
+        var request = {
+            newPassword: newPassword,
+            oldPassword: password
+        };
+
+        console.log(request);
+
+        $.ajax({
+            type: "POST",
+            contentType: "application/json",
+            url: "/profile/changepassword",
+            data: JSON.stringify(request),
+            dataType: 'json',
+            cache: false,
+            timeout: 20000,
+            success: function (result) {
+                console.log(result);
+
+                /* show success message */
+                show("#change-password-tab-success-alert");
+            },
+            error: function (response, error) {
+                console.log(response);
+                console.log(error);
+
+                /* Set error and show the message */
+                $("#change-password-tab-error-message").html(response.responseJSON.message);
+                show("#change-password-tab-error-alert");
+            }
+        });
+    }
+
+</script>
+
+</body>
+</html>

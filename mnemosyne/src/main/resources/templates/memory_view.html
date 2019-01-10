@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/commons :: head"/>
+<link rel="stylesheet" type="text/css" th:href="@{/css/memory.css}"/>
+<link rel="stylesheet" type="text/css" th:href="@{/css/memory-view.css}"/>
+<link type="text/css" rel="stylesheet" href="http://annotorious.github.com/latest/annotorious.css"/>
+<body>
+
+<div th:replace="fragments/header :: header"/>
+
+
+<div class="container" style="margin-bottom: 100px; margin-top: 100px;">
+    <div class="card">
+        <div class="card-img">
+            <div id="map-container-google-1" class="z-depth-1-half map-container" style="height: 500px">
+                <div id="map"></div>
+            </div>
+        </div>
+        <div class="card-body" id="editor-view">
+            <div th:replace="fragments/commons :: memory-publication-type(${memory})"/>
+            <h6 class="card-subtitle mb-2 text-muted">
+                <span th:if="${memory.year}" th:text="${memory.year}" />
+                <span th:if="${memory.month}" th:text="'/' + ${memory.month}" />
+                <span th:if="${memory.day}" th:text="'/' + ${memory.day}" />
+                for
+                <span th:text="${memory.duration}" />
+                <span th:text="${memory.period}"/>
+            </h6>
+            <div class="card-text lead">
+                <p th:utext="${memory.text}"></p>
+            </div>
+        </div>
+        <div th:replace="fragments/commons :: memory-card-footer(${memory}, ${principalUser})"/>
+    </div>
+</div>
+
+<script th:inline="javascript">
+
+    /*<![CDATA[*/
+    var userName = [[${principalUser.username}]];
+    var locations = /*[[${mapLocations}]]*/ 'Locations';
+
+    /*]]>*/
+</script>
+<script th:src="@{/js/annotator.js}"></script>
+<script type="text/javascript" src="http://annotorious.github.com/latest/annotorious.min.js"></script>
+<th:block th:include="fragments/footer :: footer"/>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBPPQdm70nzyqm7k-GAfYQq8swf0UAU6ss&amp;callback=initMap"
+        async="async" defer="defer"></script>
+</body>
+</html>

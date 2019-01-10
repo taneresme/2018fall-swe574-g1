@@ -1,0 +1,189 @@
+package com.boun.swe.mnemosyne.controller;
+
+import com.boun.swe.mnemosyne.enums.MemoryType;
+import com.boun.swe.mnemosyne.exception.MemoryNotFoundException;
+import com.boun.swe.mnemosyne.exception.UserNotFoundException;
+import com.boun.swe.mnemosyne.model.Location;
+import com.boun.swe.mnemosyne.model.Memory;
+import com.boun.swe.mnemosyne.model.User;
+import com.boun.swe.mnemosyne.service.MemoryService;
+import com.boun.swe.mnemosyne.service.UserService;
+import org.hibernate.validator.constraints.NotBlank;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.HtmlUtils;
+
+import javax.validation.constraints.NotNull;
+import java.security.Principal;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+@Validated
+@RestController
+@RequestMapping("/api")
+public class MemoryController {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(MemoryController.class);
+
+    private final MemoryService memoryService;
+    private final UserService userService;
+
+    @Autowired
+    public MemoryController(MemoryService memoryService, UserService userService) {
+        this.memoryService = memoryService;
+        this.userService = userService;
+    }
+
+    @PostMapping(value = "/memories/{memoryId}/like", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Memory likeMemory(@PathVariable("memoryId") final Long memoryId, final Principal principal) {
+        LOGGER.info("Like memory request received with memory Id: {}", memoryId);
+        User user = userService.findByUsername(principal.getName());
+        if (user == null) {
+            throw new UserNotFoundException("User not found!");
+        }
+        Memory memory = memoryService.getMemoryById(memoryId);
+        if (memory.getUsersLiked().contains(user)){
+            memoryService.unlikeMemory(memory, user);
+        }
+        else{
+            memoryService.likeMemory(memory, user);
+        }
+        return memory;
+    }
+
+    @PostMapping(value = "/memories/create", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Memory createMemory(@RequestParam("title") @NotBlank final String title, final Principal principal) {
+        LOGGER.info("Create memory request received with memory title: {}", title);
+        User user = userService.findByUsername(principal.getName());
+        if (user == null) {
+            throw new UserNotFoundException("User not found!");
+        }
+        return memoryService.createMemory(Memory.builder().title(title).type(MemoryType.PRIVATE).user(user).build());
+    }
+
+    @PatchMapping(value = "/memories/update", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public void patchUpdateMemory(@RequestBody @NotNull final Memory memory, final Principal principal) {
+        LOGGER.info("Create memory request received with memory title: {}", memory.getTitle());
+        User user = userService.findByUsername(principal.getName());
+        if (user == null) {
+            throw new UserNotFoundException("User not found!");
+        }
+        if (!memoryService.isExistingMemory(memory.getId())) {
+            throw new MemoryNotFoundException("Memory with id: " + memory.getId() + " is not found");
+        }
+        memory.setUser(user);
+        memory.setText(HtmlUtils.htmlUnescape(memory.getText()));
+        memoryService.updateMemory(memory);
+    }
+
+    @GetMapping(value = "/memories", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Memory> getAllPublicMemories() {
+        LOGGER.info("Get all public memories request received");
+        return memoryService.getAllMemoriesByType(MemoryType.PUBLIC);
+    }
+
+    @GetMapping(value = "/memories/{memoryId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Memory getMemoryById(@PathVariable("memoryId") final Long memoryId, final Principal principal) {
+        LOGGER.info("Get memory request received for memoryId: {}", memoryId);
+        User user = userService.findByUsername(principal.getName());
+        if (user == null) {
+            throw new UserNotFoundException("User not found!");
+        }
+        Memory memory = memoryService.getMemoryById(memoryId);
+        return validateMemoryByUser(user, memory);
+    }
+
+    @GetMapping(value = "/user/{userId}/memories", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Memory> getMemoriesByUser(@PathVariable("userId") final Long userId, @RequestParam("memoryType") final String memoryType,
+                                          final Principal principal) {
+        LOGGER.info("Get memories request received by userId: {} with memoryType: {}", userId, memoryType);
+        User user = userService.findByUsername(principal.getName());
+        return findRequestedMemories(userId, memoryType, user);
+    }
+
+    @GetMapping(value = "/friendships/memories", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Memory> getFollowingsMemories(final Principal principal) {
+        User user = userService.findByUsername(principal.getName());
+        LOGGER.info("Get memories of followings request received for user: {}", user.getId());
+        final List<Memory> followingsMemories = new ArrayList<>();
+        user.getFollowingUsers().forEach(followingUser -> {
+            followingsMemories.addAll(memoryService.getAllMemoriesByTypeAndUser(MemoryType.PUBLIC, followingUser.getId()));
+            followingsMemories.addAll(memoryService.getAllMemoriesByTypeAndUser(MemoryType.SOCIAL, followingUser.getId()));
+        });
+        return followingsMemories;
+    }
+
+    @GetMapping(value = "/memories/locations")
+    public Set<Location> getLastLocations() {
+        LOGGER.info("Get last memories' locations request retrieved");
+        final Set<Location> lastLocations = new HashSet<>();
+        List<Memory> lastMemories = memoryService.getLast10Memories();
+        lastMemories.forEach(memory -> memory.getLocations().forEach(lastLocations::add));
+        return lastLocations;
+    }
+
+    private List<Memory> findRequestedMemories(Long userId, String memoryType, User userInRequest) {
+        List<Memory> memories;
+        if (userInRequest != null && userInRequest.getId() == userId) {
+            switch (memoryType) {
+                case "public":
+                    memories = memoryService.getAllMemoriesByTypeAndUser(MemoryType.PUBLIC, userId);
+                    break;
+                case "social":
+                    memories = memoryService.getAllMemoriesByTypeAndUser(MemoryType.SOCIAL, userId);
+                    break;
+                case "private":
+                    memories = memoryService.getAllMemoriesByTypeAndUser(MemoryType.PRIVATE, userId);
+                    break;
+                default:
+                    memories = memoryService.getAllMemoriesByUser(userId);
+                    break;
+            }
+        } else {
+            memories = memoryService.getAllMemoriesByTypeAndUser(MemoryType.PUBLIC, userId);
+        }
+        return memories;
+    }
+
+    private Memory validateMemoryByUser(User user, Memory memory) {
+
+        if (memory.getType().equals(MemoryType.PUBLIC)) {
+            return memory;
+        }
+
+        if (user == null) {
+            final String errorMsg =
+                    String.format("Memory: %s is not available to unregistered user", memory.getId());
+            throw new MemoryNotFoundException(errorMsg);
+        }
+
+        if (memory.getType().equals(MemoryType.PRIVATE)) {
+            if (user.equals(memory.getUser())) {
+                return memory;
+            }
+        }
+
+        if (memory.getType().equals(MemoryType.SOCIAL)) {
+            if (user.getFollowingUsers().contains(memory.getUser())) {
+                return memory;
+            }
+        }
+
+        final String errorMsg = String.format(
+                "User: %s has no access to memoryId: %s" + user.getUsername(), user.getId());
+        throw new MemoryNotFoundException(errorMsg);
+    }
+}

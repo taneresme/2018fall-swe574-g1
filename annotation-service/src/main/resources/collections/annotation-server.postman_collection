@@ -1,0 +1,122 @@
+{
+	"id": "77130014-d18c-999d-6cb8-29ab515e7fbb",
+	"name": "annotation-server",
+	"description": "",
+	"order": [
+		"a5bc3382-6feb-2b9c-dee5-23d87ed4e5fe",
+		"dc6b91ea-0939-fc71-cc42-f3832bd5b590",
+		"d42f470e-79ac-c98b-2944-ead6ef941579"
+	],
+	"folders": [],
+	"folders_order": [],
+	"timestamp": 1545730468186,
+	"owner": 0,
+	"public": false,
+	"requests": [
+		{
+			"id": "a5bc3382-6feb-2b9c-dee5-23d87ed4e5fe",
+			"headers": "Content-Type: application/ld+json;profile=\"http://www.w3.org/ns/anno.jsonld\"\nAuthorization: Basic Og==\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/ld+json;profile=\"http://www.w3.org/ns/anno.jsonld\"",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Authorization",
+					"value": "Basic Og==",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "localhost:8091/annotations",
+			"queryParams": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"preRequestScript": null,
+			"method": "POST",
+			"collectionId": "77130014-d18c-999d-6cb8-29ab515e7fbb",
+			"data": [],
+			"dataMode": "raw",
+			"name": "POST - create an image annotation",
+			"description": "POST a new annotation",
+			"descriptionFormat": "html",
+			"time": 1545730476373,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"rawModeData": "{\n  \"@context\": \"http://www.w3.org/ns/anno.jsonld\",\n  \"id\": \"http://example.org/anno4\",\n  \"type\": \"Annotation\",\n   \"generator\": {\n    \"id\": \"http://example.org/client1\",\n    \"type\": \"Human\",\n    \"name\": \"mnemosyne\",\n    \"homepage\": \"http://example.org/client1/homepage1\"\n  },\n  \"body\": \"http://example.org/description1\",\n  \"target\": {\n    \"id\": \"http://example.com/image1#xywh=100,100,300,300\",\n    \"type\": \"Image\",\n    \"format\": \"image/jpeg\"\n  }\n}"
+		},
+		{
+			"id": "d42f470e-79ac-c98b-2944-ead6ef941579",
+			"headers": "Content-Type: application/ld+json;profile=\"http://www.w3.org/ns/anno.jsonld\"\nAuthorization: Basic Og==\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/ld+json;profile=\"http://www.w3.org/ns/anno.jsonld\"",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Authorization",
+					"value": "Basic Og==",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "localhost:8091/annotations",
+			"queryParams": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"preRequestScript": null,
+			"method": "POST",
+			"collectionId": "77130014-d18c-999d-6cb8-29ab515e7fbb",
+			"data": [],
+			"dataMode": "raw",
+			"name": "POST - create a text annotation",
+			"description": "POST a new annotation",
+			"descriptionFormat": "html",
+			"time": 1545730724875,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"rawModeData": "{\n  \"@context\": \"http://www.w3.org/ns/anno.jsonld\",\n  \"id\": \"http://example.org/anno23\",\n  \"type\": \"Annotation\",\n  \"generator\": {\n    \"id\": \"http://example.org/client1\",\n    \"type\": \"Software\",\n    \"name\": \"Code v2.1\",\n    \"homepage\": \"http://example.org/client1/homepage1\"\n  },\n  \"body\": \"http://example.org/comment1\",\n  \"target\": {\n    \"source\": \"http://example.org/page1\",\n    \"selector\": {\n      \"type\": \"TextQuoteSelector\",\n      \"exact\": \"anotation\",\n      \"prefix\": \"this is an \",\n      \"suffix\": \" that has some\"\n    }\n  }\n}"
+		},
+		{
+			"id": "dc6b91ea-0939-fc71-cc42-f3832bd5b590",
+			"headers": "Content-Type: application/ld+json;profile=\"http://www.w3.org/ns/anno.jsonld\"\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/ld+json;profile=\"http://www.w3.org/ns/anno.jsonld\"",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "localhost:8091/annotations",
+			"queryParams": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"preRequestScript": null,
+			"method": "GET",
+			"collectionId": "77130014-d18c-999d-6cb8-29ab515e7fbb",
+			"data": [],
+			"dataMode": "raw",
+			"name": "GET - all annotations",
+			"description": "GET all",
+			"descriptionFormat": "html",
+			"time": 1545730560125,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"rawModeData": "{\n  \"@context\": \"http://www.w3.org/ns/anno.jsonld\",\n  \"id\": \"http://example.org/anno4\",\n  \"type\": \"Annotation\",\n   \"generator\": {\n    \"id\": \"http://example.org/client1\",\n    \"type\": \"Human\",\n    \"name\": \"mnemosyne\",\n    \"homepage\": \"http://example.org/client1/homepage1\"\n  },\n  \"body\": \"http://example.org/description1\",\n  \"target\": {\n    \"id\": \"http://example.com/image1#xywh=100,100,300,300\",\n    \"type\": \"Image\",\n    \"format\": \"image/jpeg\"\n  }\n}"
+		}
+	]
+}

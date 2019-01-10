@@ -1,0 +1,190 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head th:fragment="head">
+    <meta charset="utf-8"/>
+    <meta name="_csrf_parameter" content="_csrf"/>
+    <meta name="_csrf_header" content="X-CSRF-TOKEN"/>
+    <meta name="_csrf" content="97950459-f9aa-4b29-9179-d702228d33f0"/>
+
+    <title th:text="KUVETT"/>
+
+    <link rel="stylesheet" type="text/css"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.css"/>
+    <link rel="stylesheet" type="text/css"
+          href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap4.min.css"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/docs.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/font-awesome.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/custom.css}"/>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+            integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+            crossorigin="anonymous"></script>
+
+    <!--<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous" />-->
+    <script
+            src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+</head>
+
+<div th:fragment="loading">
+    <div class="mx-auto" style="width: 150px;">
+        <p class="lead">
+            <i class="fa fa-spinner fa-spin" style="font-size: 2em;"> </i>
+            Loading...
+        </p>
+    </div>
+</div>
+
+<div th:fragment="prompt-modal">
+    <div class="modal fade" tabindex="-1" role="dialog" id="modal-prompt">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Are you sure?</h5>
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p id="modal-prompt-model-message">Are you sure?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success"
+                            onclick="promptModalYesButtonClicked()">
+                        <i class="fa fa-check"/> Yes
+                    </button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">
+                        <i class="fa fa-close"/> No
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div th:fragment="memory-card-footer(memory, principalUser)">
+    <div th:if="${principalUser}" class="card-footer text-muted d-flex">
+        <i th:if="${not #lists.contains(memory.usersLiked, principalUser)}"
+           th:id="${memory.id}" class="fa fa-heart-o greater_fa_icon"
+           th:onclick="${'chanceLikingStatus(' + memory.id +')'}" />
+        <i th:if="${#lists.contains(memory.usersLiked, principalUser)}"
+           th:id="${memory.id}" class="fa fa-heart greater_fa_icon" style="color: red;"
+           th:onclick="${'chanceLikingStatus(' + memory.id +')'}" />
+        <span class="ml-auto">shared by <a th:href="'/profile/' + ${memory.user.id}"> <span th:text="${memory.user.username}" /> </a></span>
+    </div>
+    <div th:if="${principalUser == null}" class="card-footer text-muted d-flex">
+        <span class="ml-auto">shared by <a th:href="'/profile/' + ${memory.user.id}"> <span th:text="${memory.user.username}" /> </a></span>
+    </div>
+</div>
+
+<div th:fragment="memory-publication-type(memory)">
+    <ul class="list-inline">
+        <li class="list-inline-item">
+            <h3 class="card-title" th:text="${memory.title}"/>
+        </li>
+        <li th:if="${#strings.toString(memory.type) == 'PRIVATE'}" class="list-inline-item">
+            <small class="text-muted"><em>Private</em></small>
+        </li>
+        <li th:if="${#strings.toString(memory.type) == 'SOCIAL'}" class="list-inline-item">
+            <small class="text-muted"><em>Social</em></small>
+        </li>
+        <li th:if="${#strings.toString(memory.type) == 'PUBLIC'}" class="list-inline-item">
+            <small class="text-muted"><em>Public</em></small>
+        </li>
+    </ul>
+</div>
+
+<div th:fragment="memory-thumbnail(memory, principalUser)">
+    <div class="card search_target" style="margin-bottom: 20px;">
+        <div class="card-body">
+            <div th:replace="fragments/commons :: memory-publication-type(${memory})"/>
+            <div class="card-text lead">
+                <p th:utext="${memory.text}"></p>
+            </div>
+            <a th:href="'/memories/' + ${memory.id}" class="btn btn-outline-primary">Read more <i
+                    class="fa fa-external-link"/></a>
+        </div>
+        <div th:replace="fragments/commons :: memory-card-footer(${memory}, ${principalUser})"/>
+    </div>
+</div>
+<div th:fragment="memory-list(memories, self, principalUser)">
+    <div th:if="${#lists.isEmpty(memories)}" class="text-center">
+        <span class="h4">No memory to be displayed</span>
+        <br/>
+        <br/>
+        <p th:if="${self}">
+            <span>How about sharing your memories... </span>
+            <a href="/memories/add" class="btn btn-outline-primary">Share <i
+                    class="fa fa-external-link"/></a>
+        </p>
+    </div>
+    <div th:if="${not #lists.isEmpty(memories)}" th:each="memory: ${memories}">
+        <div th:replace="fragments/commons :: memory-thumbnail(${memory}, ${principalUser})"></div>
+    </div>
+</div>
+
+
+<div th:fragment="follow-thumbnail(userItem, isFollowing)">
+    <div class="card align-middle search_target" style="margin-bottom: 20px;">
+        <div class="card-body mt-3">
+            <ul class="list-inline d-flex align-items-center">
+                <li class="list-inline-item">
+                    <h3 class="card-text text-muted" th:text="${userItem.username}"></h3>
+                </li>
+                <!--<li th:if="${isFollowing}" class="list-inline-item">-->
+                <!--<span class="btn btn-success ml-2">Follow</span>-->
+                <!--</li>-->
+                <li th:id="${'li_followed_' + userItem.id}"
+                    th:if="${#lists.contains(userItem.followers, principalUser)}" class="list-inline-item mt-2">
+                    <i class="fa fa-check" style="color: green"/>
+                    <span class="font-weight-light">Followed</span>
+                </li>
+                <li th:id="${'li_unfollow_button_' + userItem.id}"
+                    th:if="${#lists.contains(userItem.followers, principalUser)}" class="list-inline-item mt-2">
+                    <button class="btn btn-danger" th:onclick="${'unfollow(' + userItem.id + ')'}">Unfollow</button>
+                </li>
+                <li th:id="${'li_unfollowed_desc_' + userItem.id}" class="list-inline-item invisible mt-2">
+                    <span class="font-weight-light">Unfollowed</span>
+                </li>
+                <li class="list-inline-item mt-2 ml-auto">
+                    <a th:href="'/profile/' + ${userItem.id}" class="btn btn-outline-primary ml-2">Go to profile
+                        <i class="fa fa-external-link"/></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div th:fragment="follower-list(followers)">
+    <div th:if="${#lists.isEmpty(followers)}" class="text-center">
+        <span class="h4">No follower</span>
+    </div>
+    <div th:if="${not #lists.isEmpty(followers)}" th:each="follower: ${followers}">
+        <div th:replace="fragments/commons :: follow-thumbnail(${follower}, false)"/>
+    </div>
+</div>
+
+<div th:fragment="following-list(followingUsers)">
+    <div th:if="${#lists.isEmpty(followingUsers)}" class="text-center mt-3">
+        <span class="h4">No following user</span>
+    </div>
+    <div th:if="${not #lists.isEmpty(followingUsers)}" th:each="following: ${followingUsers}">
+        <div th:replace="fragments/commons :: follow-thumbnail(${following}, true)"/>
+    </div>
+</div>
+
+
+<div th:fragment="search_box">
+    <form class="form-inline my-2 my-lg-4">
+        <div class="ml-auto">
+            <input id="search_box" class="form-control" type="search" placeholder="Type to search"
+                   aria-label="Search" onkeyup="searchInJs()"/>
+        </div>
+    </form>
+</div>
+
+</html>

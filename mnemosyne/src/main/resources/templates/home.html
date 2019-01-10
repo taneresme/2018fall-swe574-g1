@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<link type="text/css" rel="stylesheet" href="http://annotorious.github.com/latest/annotorious.css"/>
+<head th:replace="fragments/commons :: head"/>
+<body>
+
+<div th:replace="fragments/header :: header"/>
+<div class="container" style="margin-bottom: 100px; margin-top: 100px;">
+
+    <div th:replace="fragments/commons :: search_box" />
+
+    <h1 class="display-4">Memories posted by your friends...</h1>
+    <div th:replace="fragments/commons :: memory-list(${memories}, ${self}, ${principalUser})" />
+</div>
+
+<th:block th:include="fragments/footer :: footer"/>
+</body>
+<script th:src="@{/js/annotator.js}"></script>
+<script th:src="@{/js/custom.js}"></script>
+<script type="text/javascript" src="http://annotorious.github.com/latest/annotorious.min.js"></script>
+</html>
