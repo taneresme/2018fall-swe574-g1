@@ -3,6 +3,7 @@ package com.boun.swe.mnemosyne.controller;
 import com.boun.swe.mnemosyne.enums.MemoryType;
 import com.boun.swe.mnemosyne.exception.MemoryNotFoundException;
 import com.boun.swe.mnemosyne.exception.UserNotFoundException;
+import com.boun.swe.mnemosyne.model.Location;
 import com.boun.swe.mnemosyne.model.Memory;
 import com.boun.swe.mnemosyne.model.User;
 import com.boun.swe.mnemosyne.service.MemoryService;
@@ -26,7 +27,9 @@ import org.springframework.web.util.HtmlUtils;
 import javax.validation.constraints.NotNull;
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Validated
 @RestController
@@ -44,6 +47,22 @@ public class MemoryController {
         this.userService = userService;
     }
 
+    @PostMapping(value = "/memories/{memoryId}/like", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Memory likeMemory(@PathVariable("memoryId") final Long memoryId, final Principal principal) {
+        LOGGER.info("Like memory request received with memory Id: {}", memoryId);
+        User user = userService.findByUsername(principal.getName());
+        if (user == null) {
+            throw new UserNotFoundException("User not found!");
+        }
+        Memory memory = memoryService.getMemoryById(memoryId);
+        if (memory.getUsersLiked().contains(user)){
+            memoryService.unlikeMemory(memory, user);
+        }
+        else{
+            memoryService.likeMemory(memory, user);
+        }
+        return memory;
+    }
 
     @PostMapping(value = "/memories/create", produces = MediaType.APPLICATION_JSON_VALUE)
     public Memory createMemory(@RequestParam("title") @NotBlank final String title, final Principal principal) {
@@ -83,7 +102,8 @@ public class MemoryController {
         if (user == null) {
             throw new UserNotFoundException("User not found!");
         }
-        return memoryService.getMemoryById(memoryId);
+        Memory memory = memoryService.getMemoryById(memoryId);
+        return validateMemoryByUser(user, memory);
     }
 
     @GetMapping(value = "/user/{userId}/memories", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -104,6 +124,15 @@ public class MemoryController {
             followingsMemories.addAll(memoryService.getAllMemoriesByTypeAndUser(MemoryType.SOCIAL, followingUser.getId()));
         });
         return followingsMemories;
+    }
+
+    @GetMapping(value = "/memories/locations")
+    public Set<Location> getLastLocations() {
+        LOGGER.info("Get last memories' locations request retrieved");
+        final Set<Location> lastLocations = new HashSet<>();
+        List<Memory> lastMemories = memoryService.getLast10Memories();
+        lastMemories.forEach(memory -> memory.getLocations().forEach(lastLocations::add));
+        return lastLocations;
     }
 
     private List<Memory> findRequestedMemories(Long userId, String memoryType, User userInRequest) {

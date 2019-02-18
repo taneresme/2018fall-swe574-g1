@@ -51,10 +51,18 @@ public class DataLoader {
                 .role(Role.USER)
                 .username("blue")
                 .build();
+        User taner = User.builder()
+                .id(4L)
+                .email("taner@example.com")
+                .password("abcd")
+                .role(Role.ADMIN)
+                .username("taneresme")
+                .build();
 
         userService.save(admin);
         userService.save(user);
         userService.save(blue);
+        userService.save(taner);
 
         Memory privateMemory = Memory.builder()
                 .id(1L)
@@ -101,8 +109,24 @@ public class DataLoader {
                 .user(blue)
                 .build();
 
+        Memory teMemory = Memory.builder()
+                .id(1L)
+                .title("TE's memory")
+                .text("<p>There was a wall and it was high. Then it went down. Am I not the best writer ever?</p><p><img src=\"https://images.pexels.com/photos/207962/pexels-photo-207962.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500\" alt=\"https://images.pexels.com/photos/207962/pexels-photo-207962.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500\"></p>")
+                .year(2018)
+                .month(11)
+                .day(null)
+                .duration(1)
+                .period("Days")
+                .isPublished(true)
+                .locations(Collections.singleton(new Location(1L, "Berlin", 52.520008, 13.404954, Collections.emptySet())))
+                .type(MemoryType.PUBLIC)
+                .user(taner)
+                .build();
+
         memoryRepository.save(privateMemory);
         memoryRepository.save(publicMemory);
         memoryRepository.save(examMemory);
+        memoryRepository.save(teMemory);
     }
 }

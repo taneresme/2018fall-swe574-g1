@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserService {
     private static final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
@@ -52,9 +54,11 @@ public class UserService {
         }
         final User userToFollow = findByUserId(userId);
         user.getFollowingUsers().add(userToFollow);
+        userToFollow.getFollowers().add(user);
         userRepository.save(user);
+        userRepository.save(userToFollow);
         LOGGER.info("Successfully followed user with id: {}", userId);
-        return false;
+        return true;
     }
 
     public boolean unFollowUser(final User user, final Long userId) {
@@ -64,8 +68,15 @@ public class UserService {
         }
         final User userToUnFollow = findByUserId(userId);
         user.getFollowingUsers().remove(userToUnFollow);
+        userToUnFollow.getFollowers().remove(user);
         userRepository.save(user);
+        userRepository.save(userToUnFollow);
         LOGGER.info("Successfully un-followed user with id: {}", userId);
-        return false;
+        return true;
+    }
+
+    public List<User> getAllUsers() {
+        LOGGER.info("Retrieving all users");
+        return userRepository.findAll();
     }
 }

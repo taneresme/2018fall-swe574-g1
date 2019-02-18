@@ -9,6 +9,7 @@ import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -18,21 +19,20 @@ import javax.persistence.Id;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
         "type",
-        "exact",
-        "prefix",
-        "suffix"
+        "start",
+        "end"
 })
-@Entity(name = "selector")
+@Entity(name = "refined_by")
 @GenericGenerator(
         name = "sequenceGenerator",
         strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
         parameters = {
-                @Parameter(name = "sequence_name", value = "SELECTOR_SEQUENCE"),
+                @Parameter(name = "sequence_name", value = "REFINED_BY_SEQUENCE"),
                 @Parameter(name = "initial_value", value = "1"),
                 @Parameter(name = "increment_size", value = "1")
         }
 )
-public class Selector {
+public class RefinedBy {
 
     @Id
     @GeneratedValue(generator = "sequenceGenerator")
@@ -42,12 +42,11 @@ public class Selector {
     @JsonProperty("type")
     private String type;
 
-    @JsonProperty("exact")
-    private String exact;
+    @Column(name = "r_start")
+    @JsonProperty("start")
+    private String start;
 
-    @JsonProperty("prefix")
-    private String prefix;
-
-    @JsonProperty("suffix")
-    private String suffix;
+    @Column(name = "r_end")
+    @JsonProperty("end")
+    private String end;
 }

@@ -1,6 +1,8 @@
 server:
   port: 8091
 spring:
+  thymeleaf:
+    cache: false
   jpa:
     show-sql: true
   messages:
@@ -13,18 +15,20 @@ spring:
     driverClassName: org.h2.Driver
 
 ---
+server:
+  port: 8091
 spring:
   profiles: prod
+  thymeleaf:
+    cache: false
   jpa:
     show-sql: true
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgresPlusDialect
     hibernate:
-      ddl-auto: update
-  messages:
-    basename: validation
+      ddl-auto: create-drop
   datasource:
     driverClassName: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/annotations
-    database: POSTGRESQL
-    database-platform: org.hibernate.dialect.PostgresPlusDialect
-    username: postgres
-    password: admin
+deployment:
+  url: http://annotationserver.xtptzahyma.us-east-1.elasticbeanstalk.com
